@@ -39,7 +39,7 @@ export const Invite = () => {
         Copy invite link
       </button>
       <p>
-        startapp: {startParam?? "N/A"}
+        startapp: {startParam ? startParam : "N/A"}
       </p>
     </>
   );
