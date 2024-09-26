@@ -11,7 +11,7 @@ export const Invite = () => {
 
   const copyInviteLink = () => {
     console.log("Invite link copied");
-    navigator.clipboard.writeText(`https://t.me/botvjp1/join?startapp=${123}`);
+    navigator.clipboard.writeText(`https://t.me/botvjp1_bot/join?startapp=${123}`);
   };
   
   useEffect(() => {
