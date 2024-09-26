@@ -8,6 +8,7 @@ import { Button, FlexBoxCol, FlexBoxRow } from "./components/styled/styled";
 import { useTonConnect } from "./hooks/useTonConnect";
 import { CHAIN } from "@tonconnect/protocol";
 import "@twa-dev/sdk";
+import { Invite } from "./components/Invite/Invite";
 
 const StyledApp = styled.div`
   background-color: #e8e8e8;
@@ -28,13 +29,11 @@ const AppContainer = styled.div`
 
 function App() {
   const { network } = useTonConnect();
-
   return (
     <StyledApp>
       <AppContainer>
         <FlexBoxCol>
-          <FlexBoxRow>
-            <TonConnectButton />
+          <TonConnectButton />
             <Button>
               {network
                 ? network === CHAIN.MAINNET
@@ -42,10 +41,9 @@ function App() {
                   : "testnet"
                 : "N/A"}
             </Button>
-          </FlexBoxRow>
-          <Counter />
-          <TransferTon />
-          <Jetton />
+        </FlexBoxCol>
+        <FlexBoxCol>
+          <Invite />
         </FlexBoxCol>
       </AppContainer>
     </StyledApp>
