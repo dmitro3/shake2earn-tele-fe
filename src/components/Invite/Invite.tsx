@@ -30,7 +30,7 @@ export const Invite = () => {
         
         // Parse the initData to get the 'startapp' parameter
         const urlParams = new URLSearchParams(tg.initData);
-        setStartParam(urlParams.get('startapp'));
+        setStartParam(urlParams.get('start_param'));
         
         console.log('StartApp Parameter:', startParam);
         
