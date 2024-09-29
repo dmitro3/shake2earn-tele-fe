@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-
 declare global {
   interface Window {
     Telegram: any;
@@ -12,8 +10,7 @@ export const Invite = () => {
     navigator.clipboard.writeText(`https://t.me/botvjp1_bot/join?startapp=${123}`);
   };
   
-  const urlParams = new URLSearchParams(window.location.search);
-  const startParam = urlParams.get('startapp');
+  let startParam = window.Telegram.WebApp.initDataUnsafe.start_param;
   
   return (
     <>
