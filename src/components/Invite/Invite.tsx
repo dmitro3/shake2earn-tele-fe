@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import WebApp from '@twa-dev/sdk';
 
 // Declare the Telegram WebApp object so TypeScript doesn't complain
 declare global {
@@ -16,34 +17,9 @@ export const Invite = () => {
   const [startParam, setStartParam] = React.useState<string | null>(null);
   
   useEffect(() => {
-    // Dynamically load the Telegram WebApp SDK
-    const script = document.createElement('script');
-    script.src = 'https://telegram.org/js/telegram-web-app.js';
-    script.async = true;
-
-    script.onload = () => {
-      if (window.Telegram?.WebApp) {
-        const tg = window.Telegram.WebApp;
-        
-        // Example: initialize and use Telegram WebApp SDK
-        tg.ready();
-        
-        // Parse the initData to get the 'startapp' parameter
-        const urlParams = new URLSearchParams(tg.initData);
-        setStartParam(urlParams.get('start_param'));
-        
-        console.log('StartApp Parameter:', startParam);
-        
-        // Any other Telegram WebApp operations you need
-      }
-    };
-
-    document.body.appendChild(script);
-
-    return () => {
-      // Cleanup the script when the component is unmounted
-      document.body.removeChild(script);
-    };
+    if (WebApp.initDataUnsafe && WebApp.initDataUnsafe.start_param) {
+      setStartParam(WebApp.initDataUnsafe.start_param);
+    }
   }, []);
   
   return (
