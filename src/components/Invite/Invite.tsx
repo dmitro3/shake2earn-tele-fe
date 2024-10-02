@@ -9,16 +9,21 @@ declare global {
 }
 
 export const Invite = () => {
+  const [startParam, setStartParam] = React.useState<string | null>(null);
+  const [userId, setUserId] = React.useState<number | undefined>(undefined);
+
   const copyInviteLink = () => {
     console.log("Invite link copied");
     navigator.clipboard.writeText(`https://t.me/botvjp1_bot/join?startapp=${123}`);
   };
 
-  const [startParam, setStartParam] = React.useState<string | null>(null);
   
   useEffect(() => {
     if (WebApp.initDataUnsafe && WebApp.initDataUnsafe.start_param) {
       setStartParam(WebApp.initDataUnsafe.start_param);
+    }
+    if (WebApp.initDataUnsafe) {
+      setUserId(WebApp.initDataUnsafe.user?.id);
     }
   }, []);
   
@@ -31,6 +36,9 @@ export const Invite = () => {
       </button>
       <p>
         startapp: {startParam ? startParam : "N/A"}
+      </p>
+      <p>
+        user id: {userId ? userId : "N/A"}
       </p>
     </>
   );
