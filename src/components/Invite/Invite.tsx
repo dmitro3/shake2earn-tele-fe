@@ -33,7 +33,7 @@ export const Invite = () => {
     }
   }, []);
 
-  const { data: user, error, isFetched } = useQuery(
+  const { data: user, error } = useQuery(
     [queryKey.getUser, userId],
     () => getUser(userId?.toString() || ''),
     {
@@ -55,14 +55,10 @@ export const Invite = () => {
   );
   
   useEffect(() => {
-    if (error && (error as any).response?.status === 404 && isFetched) {
+    if (error && (error as any).response?.status === 404) {
       createUserMutation.mutate({ id: userId?.toString() || '', startParam });
     }
-  }, [error, isFetched, userId]);
-  
-
-  console.log("user", user);
-  // console.log("createUser", newUser);
+  }, [error, userId]);
   
   return (
     <>
