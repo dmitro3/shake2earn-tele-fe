@@ -24,6 +24,15 @@ export const Invite = () => {
   const referBy = searchParams.get('id'); // Get the value of 'myParam'
   console.log("referBy", referBy);
 
+  useEffect(() => {
+    if (WebApp.initDataUnsafe && WebApp.initDataUnsafe.start_param) {
+      setStartParam(WebApp.initDataUnsafe.start_param);
+    }
+    if (WebApp.initDataUnsafe) {
+      setUserId(WebApp.initDataUnsafe.user?.id);
+    }
+  }, []);
+
   const { data: user, error, isFetched } = useQuery(
     [queryKey.getUser, userId],
     () => getUser(userId?.toString() || ''),
@@ -49,20 +58,11 @@ export const Invite = () => {
     if (error && (error as any).response?.status === 404 && isFetched) {
       createUserMutation.mutate({ id: userId?.toString() || '', startParam });
     }
-  }, [error, isFetched]);
+  }, [error, isFetched, userId]);
   
 
   console.log("user", user);
   // console.log("createUser", newUser);
-  
-  useEffect(() => {
-    if (WebApp.initDataUnsafe && WebApp.initDataUnsafe.start_param) {
-      setStartParam(WebApp.initDataUnsafe.start_param);
-    }
-    if (WebApp.initDataUnsafe) {
-      setUserId(WebApp.initDataUnsafe.user?.id);
-    }
-  }, []);
   
   return (
     <>
