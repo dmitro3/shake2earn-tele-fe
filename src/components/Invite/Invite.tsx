@@ -17,24 +17,24 @@ export const Invite = () => {
 
   const copyInviteLink = () => {
     console.log("Invite link copied");
-    navigator.clipboard.writeText(`https://t.me/botvjp1_bot/join?startapp=${123}`);
+    navigator.clipboard.writeText(`https://t.me/botvjp1_bot/join?startapp=${userId}`);
   };
-  const id = '1';
+  // const id = '1';
   const searchParams = new URLSearchParams(window.location.search);
   const referBy = searchParams.get('id'); // Get the value of 'myParam'
   console.log("referBy", referBy);
 
   const { data: user, error, isFetched } = useQuery(
-    [queryKey.getUser, id],
-    () => getUser(id),
+    [queryKey.getUser, userId],
+    () => getUser(userId?.toString() || ''),
     {
-      enabled: !!id,
+      enabled: !!userId,
       retry: false, // Prevent auto-retry on error
     }
   );
   
   const createUserMutation = useMutation(
-    (variables: { id: string; referBy: string | null }) => createUser(variables.id, variables.referBy),
+    (variables: { id: string; startParam: string | null }) => createUser(variables.id, variables.startParam),
     {
       onSuccess: (data) => {
         console.log('User created successfully:', data);
@@ -47,7 +47,7 @@ export const Invite = () => {
   
   useEffect(() => {
     if (error && (error as any).response?.status === 404 && isFetched) {
-      createUserMutation.mutate({ id, referBy });
+      createUserMutation.mutate({ id: userId?.toString() || '', startParam });
     }
   }, [error, isFetched]);
   
