@@ -13,7 +13,7 @@ declare global {
 
 export const Invite = () => {
   const [startParam, setStartParam] = React.useState<string | null>(null);
-  const [userId, setUserId] = React.useState<number | undefined>(undefined);
+  const [userId, setUserId] = React.useState<number | undefined>(10);
 
   const copyInviteLink = () => {
     console.log("Invite link copied");
@@ -41,7 +41,7 @@ export const Invite = () => {
       retry: false, // Prevent auto-retry on error
     }
   );
-  
+  console.log("error", error);
   const createUserMutation = useMutation(
     (variables: { id: string; startParam: string | null }) => createUser(variables.id, variables.startParam),
     {
@@ -51,7 +51,7 @@ export const Invite = () => {
       onError: (error) => {
         console.error('Error creating user:', error);
       }
-    }
+    },
   );
   
   useEffect(() => {
