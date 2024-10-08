@@ -74,7 +74,7 @@ export const Invite = () => {
         user id: {userId ? userId : "N/A"}
       </p>
       <p>
-        point: {user?.point}
+        point: {user? user.point : "0"}
       </p>
     </>
   );
