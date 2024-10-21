@@ -4,5 +4,4 @@ export default {
     'autoprefixer': {},
     'tailwindcss': {},
   },
-  content: ['./src/**/*.{html,js,jsx,ts,tsx}'],
 };
