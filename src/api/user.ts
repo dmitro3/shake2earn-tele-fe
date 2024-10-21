@@ -12,15 +12,21 @@ export const getUser = async (id: string) => {
   return response.data;
 };
 
-export const createUser = async (telegramId: string, referBy: string | null) => {
-  await userApi.post('/', {
-    telegramId,
-    referBy,
-  }).then((response) => {
-    console.log(response.data);
-    return response.data;
-  }).catch((error) => {
-    console.error(error);
-    return error;
-  });  
+export const createUser = async (
+  telegramId: string,
+  referBy: string | null,
+) => {
+  await userApi
+    .post('/', {
+      telegramId,
+      referBy,
+    })
+    .then((response) => {
+      console.log(response.data);
+      return response.data;
+    })
+    .catch((error) => {
+      console.error(error);
+      return error;
+    });
 };

@@ -1,12 +1,12 @@
 import {
+  Address,
+  Cell,
   Contract,
   ContractProvider,
   Sender,
-  Address,
-  Cell,
-  contractAddress,
   beginCell,
-} from "ton-core";
+  contractAddress,
+} from 'ton-core';
 
 export default class Counter implements Contract {
   static createForDeploy(code: Cell, initialCounterValue: number): Counter {
@@ -18,13 +18,13 @@ export default class Counter implements Contract {
 
   async sendDeploy(provider: ContractProvider, via: Sender) {
     await provider.internal(via, {
-      value: "0.01", // send 0.01 TON to contract for rent
+      value: '0.01', // send 0.01 TON to contract for rent
       bounce: false,
     });
   }
 
   async getCounter(provider: ContractProvider) {
-    const { stack } = await provider.get("counter", []);
+    const { stack } = await provider.get('counter', []);
     return stack.readBigNumber();
   }
 
@@ -34,13 +34,13 @@ export default class Counter implements Contract {
       .storeUint(0, 64) // query id
       .endCell();
     await provider.internal(via, {
-      value: "0.002", // send 0.002 TON for gas
+      value: '0.002', // send 0.002 TON for gas
       body: messageBody,
     });
   }
 
   constructor(
     readonly address: Address,
-    readonly init?: { code: Cell; data: Cell }
+    readonly init?: { code: Cell; data: Cell },
   ) {}
 }

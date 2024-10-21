@@ -1,4 +1,4 @@
 export const queryKey = {
-  getUser: "getUser",
-  createUser: "createUser",
+  getUser: 'getUser',
+  createUser: 'createUser',
 };
