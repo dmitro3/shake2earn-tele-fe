@@ -19,7 +19,7 @@ export type ShakeOptions = {
   duration: number;
 };
 
-const defaultOptions: ShakeOptions = { threshold: 15, duration: 500 };
+const defaultOptions: ShakeOptions = { threshold: 5, duration: 500 };
 
 function createEvent<Type extends string, Detail>(
   type: Type,
@@ -59,7 +59,6 @@ export class Shake extends EventTarget {
   #handleDeviceMotion = (event: DeviceMotionEvent): void => {
     const diff = event.timeStamp - this.#timeStamp;
     const accel = getMaxAcceleration(event);
-    alert(`${event.timeStamp} | ${this.#timeStamp} | ${accel}`);
     if (diff < this.#duration) return;
     if (accel < this.#threshold) return;
     this.#timeStamp = event.timeStamp;
