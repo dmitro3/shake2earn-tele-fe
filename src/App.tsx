@@ -9,6 +9,8 @@ import { useTonConnect } from "./hooks/useTonConnect";
 import { CHAIN } from "@tonconnect/protocol";
 import "@twa-dev/sdk";
 import { Invite } from "./components/Invite/Invite";
+import Home from "./components/Home";
+import OceanBackgroundImg from './assets/app/ocean-background.png'
 
 const StyledApp = styled.div`
   background-color: #e8e8e8;
@@ -18,36 +20,23 @@ const StyledApp = styled.div`
     background-color: #222;
     color: white;
   }
-  min-height: 100vh;
-  padding: 20px 20px;
 `;
 
 const AppContainer = styled.div`
-  max-width: 900px;
+  max-width: 768px;
   margin: 0 auto;
+  min-height: 100vh;
 `;
 
 function App() {
-  const { network } = useTonConnect();
   return (
     <StyledApp>
       <AppContainer>
-        <FlexBoxCol>
-          <TonConnectButton />
-            <Button>
-              {network
-                ? network === CHAIN.MAINNET
-                  ? "mainnet"
-                  : "testnet"
-                : "N/A"}
-            </Button>
-        </FlexBoxCol>
-        <FlexBoxCol>
-          <Invite />
-        </FlexBoxCol>
+        <Home />
       </AppContainer>
     </StyledApp>
   );
 }
+
 
 export default App;
