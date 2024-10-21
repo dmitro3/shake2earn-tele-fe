@@ -10,7 +10,7 @@ interface UseShakeProps extends Partial<ShakeOptions> {
 export default function useShake({
   threshold,
   duration,
-  timeout,
+  timeout = 1000,
   onShake,
 }: UseShakeProps = {}) {
   const shakeTimeoutRef = useRef<NodeJS.Timeout>();

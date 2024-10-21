@@ -19,7 +19,7 @@ export type ShakeOptions = {
   duration: number;
 };
 
-const defaultOptions: ShakeOptions = { threshold: 5, duration: 500 };
+const defaultOptions: ShakeOptions = { threshold: 10, duration: 250 };
 
 function createEvent<Type extends string, Detail>(
   type: Type,
