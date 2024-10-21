@@ -3,9 +3,9 @@ import FaucetJetton from 'contracts/faucetJetton';
 import FaucetJettonWallet from 'contracts/faucetJettonWallet';
 import { Address, OpenedContract } from 'ton-core';
 
-import { useAsyncInitialize } from '../useAsyncInitialize';
 import { useTonClient } from '../ton/useTonClient';
 import { useTonConnect } from '../ton/useTonConnect';
+import { useAsyncInitialize } from '../useAsyncInitialize';
 
 export function useFaucetJettonContract() {
   const { wallet, sender } = useTonConnect();

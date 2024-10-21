@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { CHAIN } from '@tonconnect/protocol';
 import Counter from 'contracts/counter';
-import { useState } from 'react';
 import { Address, OpenedContract } from 'ton-core';
 
 import { useTonClient } from '../ton/useTonClient';

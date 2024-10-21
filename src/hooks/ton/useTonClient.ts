@@ -1,6 +1,5 @@
 import { getHttpEndpoint } from '@orbs-network/ton-access';
 import { CHAIN } from '@tonconnect/protocol';
-import { useState } from 'react';
 import { TonClient } from 'ton';
 
 import { useAsyncInitialize } from '../useAsyncInitialize';

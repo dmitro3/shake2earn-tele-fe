@@ -1,14 +1,5 @@
 import { fromNano } from 'ton';
-import {
-  Address,
-  Cell,
-  Contract,
-  ContractProvider,
-  Sender,
-  beginCell,
-  contractAddress,
-  toNano,
-} from 'ton-core';
+import { Address, Cell, Contract, ContractProvider } from 'ton-core';
 
 export default class FaucetJettonWallet implements Contract {
   async getBalance(provider: ContractProvider) {

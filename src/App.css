@@ -3,3 +3,14 @@
   --tg-theme-button-color: #2eaddc;
   --tg-theme-button-text-color: white;
 }
+
+body {
+  margin: 0px;
+  background-color: #e8e8e8;
+  color: black;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: #222;
+    color: white;
+  }
+}

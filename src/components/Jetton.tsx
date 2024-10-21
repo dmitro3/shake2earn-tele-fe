@@ -1,5 +1,3 @@
-import { Address, Cell, beginCell, fromNano, toNano } from 'ton';
-
 import { useFaucetJettonContract } from 'hooks/contract/useFaucetJettonContract';
 import { useTonConnect } from 'hooks/ton/useTonConnect';
 
