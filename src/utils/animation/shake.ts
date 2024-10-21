@@ -57,10 +57,10 @@ export class Shake extends EventTarget {
   }
 
   #handleDeviceMotion = (event: DeviceMotionEvent): void => {
-    alert('shake' + JSON.stringify(event));
     const diff = event.timeStamp - this.#timeStamp;
-    if (diff < this.#duration) return;
     const accel = getMaxAcceleration(event);
+    alert(`${event.timeStamp} | ${this.#timeStamp} | ${accel}`);
+    if (diff < this.#duration) return;
     if (accel < this.#threshold) return;
     this.#timeStamp = event.timeStamp;
     this.#runListeners(event);
