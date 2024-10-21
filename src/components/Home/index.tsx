@@ -2,6 +2,7 @@ import { CHAIN } from '@tonconnect/protocol';
 import { TonConnectButton } from '@tonconnect/ui-react';
 import '@twa-dev/sdk';
 import clsx from 'clsx';
+import { useEffect } from 'react';
 
 import { Invite } from 'components/Invite/Invite';
 import { Button, FlexBoxCol } from 'components/styled/styled';
@@ -12,7 +13,15 @@ import TreasureChest from './TreasureChest';
 
 export default function Home() {
   const { network } = useTonConnect();
-  const { isDeviceSupport, isShaking } = useShake();
+  const { isDeviceSupport, isShaking, onStartListenShake, onStopListenShake } =
+    useShake();
+
+  useEffect(() => {
+    onStartListenShake();
+    return () => {
+      onStopListenShake();
+    };
+  }, [onStartListenShake, onStopListenShake]);
 
   return (
     <>
