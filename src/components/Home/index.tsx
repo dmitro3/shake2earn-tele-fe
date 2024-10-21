@@ -4,7 +4,7 @@ import '@twa-dev/sdk';
 
 import { Invite } from 'components/Invite/Invite';
 import { Button, FlexBoxCol } from 'components/styled/styled';
-import { useTonConnect } from 'hooks/useTonConnect';
+import { useTonConnect } from 'hooks/ton/useTonConnect';
 
 export default function Home() {
   const { network } = useTonConnect();

@@ -11,15 +11,13 @@ import { Invite } from './components/Invite/Invite';
 import { Jetton } from './components/Jetton';
 import { TransferTon } from './components/TransferTon';
 import { Button, FlexBoxCol, FlexBoxRow } from './components/styled/styled';
-import { useTonConnect } from './hooks/useTonConnect';
+import { useTonConnect } from './hooks/ton/useTonConnect';
 
 const StyledApp = styled.div`
   background-color: #e8e8e8;
-  color: black;
 
   @media (prefers-color-scheme: dark) {
     background-color: #222;
-    color: white;
   }
 `;
 

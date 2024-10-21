@@ -2,7 +2,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { Address, toNano } from 'ton';
 
-import { useTonConnect } from 'hooks/useTonConnect';
+import { useTonConnect } from 'hooks/ton/useTonConnect';
 
 import { Button, Card, FlexBoxCol, FlexBoxRow, Input } from './styled/styled';
 

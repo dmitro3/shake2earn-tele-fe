@@ -1,7 +1,7 @@
 import { TonConnectButton } from '@tonconnect/ui-react';
 
-import { useCounterContract } from 'hooks/useCounterContract';
-import { useTonConnect } from 'hooks/useTonConnect';
+import { useCounterContract } from 'hooks/contract/useCounterContract';
+import { useTonConnect } from 'hooks/ton/useTonConnect';
 
 import {
   Button,

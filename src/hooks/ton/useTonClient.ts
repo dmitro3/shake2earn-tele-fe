@@ -3,7 +3,7 @@ import { CHAIN } from '@tonconnect/protocol';
 import { useState } from 'react';
 import { TonClient } from 'ton';
 
-import { useAsyncInitialize } from './useAsyncInitialize';
+import { useAsyncInitialize } from '../useAsyncInitialize';
 import { useTonConnect } from './useTonConnect';
 
 export function useTonClient() {

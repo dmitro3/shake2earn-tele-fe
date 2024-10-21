@@ -4,9 +4,9 @@ import Counter from 'contracts/counter';
 import { useState } from 'react';
 import { Address, OpenedContract } from 'ton-core';
 
-import { useAsyncInitialize } from './useAsyncInitialize';
-import { useTonClient } from './useTonClient';
-import { useTonConnect } from './useTonConnect';
+import { useTonClient } from '../ton/useTonClient';
+import { useTonConnect } from '../ton/useTonConnect';
+import { useAsyncInitialize } from '../useAsyncInitialize';
 
 export function useCounterContract() {
   const { client } = useTonClient();
