@@ -90,7 +90,7 @@ export class Shake extends EventTarget {
         'requestPermission' in DeviceMotionEvent &&
         typeof DeviceMotionEvent.requestPermission === 'function'
       ) {
-        const permissionState = DeviceMotionEvent.requestPermission();
+        const permissionState = await DeviceMotionEvent.requestPermission();
         this.#approved = permissionState === 'granted';
       } else {
         this.#approved = true;
