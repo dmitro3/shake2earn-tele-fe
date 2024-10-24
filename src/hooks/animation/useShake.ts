@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-import { Shake, ShakeEvent, ShakeOptions } from 'utils/animation/shake';
+import { Shake, ShakeOptions } from 'utils/animation/shake';
 
 interface UseShakeProps extends Partial<ShakeOptions> {
   timeout?: number; // stop if user don't shake after timeout
-  onShake?: (shaking: boolean, event?: ShakeEvent) => void;
+  onShake?: (data: { shaking: boolean; event?: DeviceMotionEvent }) => void;
 }
 
 export default function useShake({
@@ -22,17 +22,17 @@ export default function useShake({
       return;
     }
 
-    const shakeListener = (event: ShakeEvent) => {
+    const shakeListener = (event: DeviceMotionEvent) => {
       if (shakeTimeoutRef.current) {
         clearTimeout(shakeTimeoutRef.current);
       }
 
       setIsShaking(true);
-      onShake?.(true, event);
+      onShake?.({ shaking: true, event });
 
       shakeTimeoutRef.current = setTimeout(() => {
         setIsShaking(false);
-        onShake?.(false);
+        onShake?.({ shaking: false });
       }, timeout);
     };
     const shakeInstance = shakeRef.current;
@@ -46,11 +46,18 @@ export default function useShake({
     };
   }, [onShake, timeout]);
 
+  useEffect(() => {
+    const shakeInstance = shakeRef.current;
+    return () => {
+      shakeInstance.stop();
+    };
+  }, []);
+
   const onStartListenShake = useCallback(() => {
     if (!shakeRef.current.isDeviceSupported) {
       return;
     }
-    shakeRef.current.start();
+    return shakeRef.current.start();
   }, []);
 
   const onStopListenShake = useCallback(() => {
@@ -60,6 +67,7 @@ export default function useShake({
   const isDeviceSupport = shakeRef.current.isDeviceSupported;
 
   return {
+    shakeRef,
     isDeviceSupport,
     isShaking,
     onStartListenShake,

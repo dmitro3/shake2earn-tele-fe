@@ -1,34 +1,12 @@
 // Ref: https://stackoverflow.com/questions/70544832/detect-shake-event-with-javascript-with-all-major-browsers-devices-ios-androi
 
-export type ShakeEventData = DeviceMotionEvent;
-export type ShakeEvent = CustomEvent<ShakeEventData> & { type: 'shake' };
-export type ShakeEventListener = (event: ShakeEvent) => void;
-
+export type ShakeEventListener = (event: DeviceMotionEvent) => void;
 export type ShakeOptions = {
-  /**
-   * Minimum acceleration needed to dispatch an event:
-   * meters per second squared (m/s²).
-   *
-   * https://developer.mozilla.org/en-US/docs/Web/API/DeviceMotionEvent/acceleration
-   */
   threshold: number;
-  /**
-   * After a shake event is dispatched, subsequent events will not be dispatched
-   * until after a duration greater than or equal to this value (milliseconds).
-   */
   duration: number;
 };
 
 const defaultOptions: ShakeOptions = { threshold: 10, duration: 250 };
-
-function createEvent<Type extends string, Detail>(
-  type: Type,
-  detail: Detail,
-): CustomEvent<Detail> & { type: Type } {
-  return new CustomEvent(type, { detail }) as CustomEvent<Detail> & {
-    type: Type;
-  };
-}
 
 function getMaxAcceleration(event: DeviceMotionEvent): number {
   let max = 0;
@@ -42,9 +20,9 @@ function getMaxAcceleration(event: DeviceMotionEvent): number {
 }
 
 export class Shake extends EventTarget {
-  #approved?: boolean;
   #threshold: ShakeOptions['threshold'];
   #duration: ShakeOptions['duration'];
+  #approved?: boolean;
   #timeStamp: number;
   #listeners: ShakeEventListener[] = [];
 
@@ -66,13 +44,15 @@ export class Shake extends EventTarget {
   };
 
   #runListeners(event: DeviceMotionEvent): void {
-    const shakeEvent = createEvent('shake', event);
-    this.dispatchEvent(shakeEvent);
-    this.#listeners.forEach((listener) => listener(shakeEvent));
+    this.#listeners.forEach((listener) => listener(event));
   }
 
   get isDeviceSupported(): boolean {
     return 'DeviceMotionEvent' in window;
+  }
+
+  get isPermissionRequired(): boolean {
+    return this.isDeviceSupported && 'requestPermission' in DeviceMotionEvent;
   }
 
   async approve(): Promise<boolean> {
