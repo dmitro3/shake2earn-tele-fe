@@ -16,11 +16,10 @@ export default function Main() {
   const [isOpening, setIsOpening] = useState(false);
   const [point, setPoint] = useState(0);
   const shakingTimestampRef = useRef<number | null>(null);
-  const [showReward, setShowReward] = useState(false);
 
   const onShakingTreasureChest = useCallback(
     ({ shaking }: { shaking: boolean }) => {
-      if (!shaking || showReward) {
+      if (!shaking || isOpening) {
         shakingTimestampRef.current = null;
       } else if (!shakingTimestampRef.current) {
         shakingTimestampRef.current = Date.now();
@@ -35,7 +34,7 @@ export default function Main() {
         }
       }
     },
-    [showReward],
+    [isOpening],
   );
 
   const { isShaking, onStartListenShake, onStopListenShake } = useShake({
@@ -71,9 +70,9 @@ export default function Main() {
             className="p-4 max-w-[512px]"
           />
           <RewardDialog
-            open={showReward}
+            open={isOpening}
             point={REWARD_POINT}
-            onClose={() => setShowReward(false)}
+            onClose={() => setIsOpening(false)}
           />
         </Box>
       </Box>
