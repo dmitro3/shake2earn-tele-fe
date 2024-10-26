@@ -18,6 +18,8 @@ const AppContainer = styled.div`
   max-width: 768px;
   margin: 0 auto;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 
   background: url(${OceanBackgroundImage});
   object-fit: fill;
@@ -26,8 +28,7 @@ const AppContainer = styled.div`
 function App() {
   return (
     <StyledApp>
-      <AppContainer className="relative flex flex-col">
-        <div className="text-gray-1 font-medium">Pirest chest bot</div>
+      <AppContainer>
         <Home />
       </AppContainer>
     </StyledApp>
