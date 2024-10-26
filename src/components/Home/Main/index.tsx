@@ -14,6 +14,8 @@ const REWARD_POINT = 1;
 
 export default function Main() {
   const [isOpening, setIsOpening] = useState(false);
+  const [showReward, setShowReward] = useState(false);
+
   const [point, setPoint] = useState(0);
   const shakingTimestampRef = useRef<number | null>(null);
 
@@ -30,8 +32,11 @@ export default function Main() {
           SHAKING_DURATION_THRESHOLD
         ) {
           setIsOpening(true);
-          setPoint((prev) => prev + REWARD_POINT);
-          shakingTimestampRef.current = null;
+          setTimeout(() => {
+            setPoint((prev) => prev + REWARD_POINT);
+            setShowReward(true);
+            shakingTimestampRef.current = null;
+          }, 500);
         }
       }
     },
@@ -66,14 +71,17 @@ export default function Main() {
 
         <Box className="flex justify-center w-full mt-8">
           <TreasureChest
-            isShaking={!isOpening && isShaking}
+            isShaking={isOpening ? false : isShaking}
             isOpening={isOpening}
             className="p-4 max-w-[512px]"
           />
           <RewardDialog
-            open={isOpening}
+            open={showReward}
             point={REWARD_POINT}
-            onClose={() => setIsOpening(false)}
+            onClose={() => {
+              setIsOpening(false);
+              setShowReward(false);
+            }}
           />
         </Box>
       </Box>
