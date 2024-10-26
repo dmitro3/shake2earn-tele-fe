@@ -19,10 +19,11 @@ export default function Main() {
 
   const onShakingTreasureChest = useCallback(
     ({ shaking }: { shaking: boolean }) => {
-      if (!shaking || isOpening) {
-        shakingTimestampRef.current = null;
-      } else if (!shakingTimestampRef.current) {
-        shakingTimestampRef.current = Date.now();
+      if (isOpening) {
+        return;
+      }
+      if (!shakingTimestampRef.current) {
+        shakingTimestampRef.current = shaking ? Date.now() : null;
       } else {
         if (
           Date.now() - shakingTimestampRef.current >
@@ -65,7 +66,7 @@ export default function Main() {
 
         <Box className="flex justify-center w-full mt-8">
           <TreasureChest
-            isShaking={isShaking}
+            isShaking={!isOpening && isShaking}
             isOpening={isOpening}
             className="p-4 max-w-[512px]"
           />
