@@ -44,7 +44,6 @@ export default function Main() {
 
   useEffect(() => {
     onStartListenShake();
-
     return () => {
       onStopListenShake();
     };

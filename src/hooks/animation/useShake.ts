@@ -12,7 +12,7 @@ export default function useShake({
   deviceMotion,
   threshold,
   duration,
-  timeout = 100,
+  timeout = 500,
   onShake,
 }: UseShakeProps = {}) {
   const shakeTimeoutRef = useRef<NodeJS.Timeout>();
