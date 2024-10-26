@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { motion, useAnimation } from 'framer-motion';
 import { useEffect, useMemo } from 'react';
 
@@ -10,8 +11,23 @@ import {
   generateRandomShakeVariants,
 } from './utils';
 
+enum TreasureChestStatus {
+  OPENED = 'opened',
+  CLOSED = 'closed',
+}
+
+const TreasureChestSizeMap = {
+  [TreasureChestStatus.OPENED]: {},
+  [TreasureChestStatus.CLOSED]: { padding: '5%' },
+};
+
+const TreasureChestImgSrc = {
+  [TreasureChestStatus.OPENED]: TreasureChestOpened,
+  [TreasureChestStatus.CLOSED]: TreasureChestClosed,
+};
+
 interface TreasureChestProps
-  extends Partial<Omit<typeof motion.div, 'children'>> {
+  extends Partial<Omit<React.ComponentProps<typeof motion.div>, 'children'>> {
   isOpening?: boolean;
   isShaking?: boolean;
 }
@@ -51,23 +67,9 @@ export default function TreasureChest({
     }
   }, [isShaking, controls]);
 
-  const renderChest = () => {
-    if (isOpening) {
-      return (
-        <img
-          src={TreasureChestOpened}
-          alt="opened treasure chest"
-        />
-      );
-    }
-
-    return (
-      <img
-        src={TreasureChestClosed}
-        alt="closed treasure chest"
-      />
-    );
-  };
+  const chestStatus = isOpening
+    ? TreasureChestStatus.OPENED
+    : TreasureChestStatus.CLOSED;
 
   return (
     <motion.div
@@ -75,7 +77,11 @@ export default function TreasureChest({
       animate={controls}
       {...props}
     >
-      {renderChest()}
+      <img
+        src={TreasureChestImgSrc[chestStatus]}
+        alt={`{chestStatus closed treasure chest`}
+        style={{ ...TreasureChestSizeMap[chestStatus] }}
+      />
     </motion.div>
   );
 }

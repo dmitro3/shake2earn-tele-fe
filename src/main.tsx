@@ -3,7 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { TonConnectUIProvider } from '@tonconnect/ui-react';
 import ReactDOM from 'react-dom/client';
 
-import { GameContextProvider } from 'context/game';
+import { AppContextProvider } from 'context/app';
 
 import App from './App';
 import './index.css';
@@ -20,9 +20,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <TonConnectUIProvider manifestUrl={manifestUrl}>
     <QueryClientProvider client={queryClient}>
       <Theme>
-        <GameContextProvider>
+        <AppContextProvider>
           <App />
-        </GameContextProvider>
+        </AppContextProvider>
       </Theme>
     </QueryClientProvider>
   </TonConnectUIProvider>,

@@ -1,51 +1,74 @@
-import { CHAIN } from '@tonconnect/protocol';
-import { TonConnectButton } from '@tonconnect/ui-react';
+import { InfoCircledIcon } from '@radix-ui/react-icons';
+import { Box, Callout, Heading } from '@radix-ui/themes';
 import '@twa-dev/sdk';
-import clsx from 'clsx';
 
-import { Invite } from 'components/Invite/Invite';
-import { Button, FlexBoxCol } from 'components/styled/styled';
-import { useGameContext } from 'context/game';
-import { useTonConnect } from 'hooks/ton/useTonConnect';
+import PageContainer from 'components/Common/PageContainer';
+import { Button } from 'components/styled/styled';
+import { useAppContext } from 'context/app';
 
-import TreasureChest from './TreasureChest';
+import Main from './Main';
 
 export default function Home() {
-  const { network } = useTonConnect();
-  const { error, started, onStart, starting, isShaking } = useGameContext();
+  const { error, onStart, started, starting, deviceSupported } =
+    useAppContext();
 
-  if (!started) {
+  if (!deviceSupported) {
     return (
-      <>
-        <Button
-          onClick={onStart}
-          disabled={starting}
-        >
-          {!starting ? 'Start' : 'Loading...'}
-        </Button>
-        {error && <p className="text-red-5">{error}</p>}
-      </>
+      <PageContainer>
+        <Box className="p-16 m-auto">
+          <Callout.Root
+            color="yellow"
+            className="w-full bg-yellow-3 mt-4"
+            size="1"
+          >
+            <Callout.Icon>
+              <InfoCircledIcon />
+            </Callout.Icon>
+            <Callout.Text>{`Your device doesn't support motion. Please use TON app or using another device.`}</Callout.Text>
+          </Callout.Root>
+        </Box>
+      </PageContainer>
     );
   }
 
-  return (
-    <>
-      <FlexBoxCol>
-        <TonConnectButton />
-        <Button>
-          {!network && 'N/A'}
-          {network && (network === CHAIN.MAINNET ? 'mainnet' : 'testnet')}
-        </Button>
-      </FlexBoxCol>
-      <div className={clsx('p2', isShaking ? 'bg-blue-4' : 'bg-gray-4')}>
-        {isShaking ? 'shaking' : 'not shaking'}
-      </div>
-      <FlexBoxCol>
-        <TreasureChest isShaking={isShaking} />
-      </FlexBoxCol>
-      <FlexBoxCol>
-        <Invite />
-      </FlexBoxCol>
-    </>
-  );
+  if (!started) {
+    return (
+      <PageContainer>
+        <Box className="flex flex-col content-center flex-grow">
+          <Heading
+            as="h1"
+            size="8"
+            className="text-whiteA-12 text-center mt-32"
+          >
+            PIRESET CHEST
+          </Heading>
+        </Box>
+
+        <Box className="p-16 flex flex-col items-center">
+          <Button
+            onClick={onStart}
+            disabled={starting}
+            className="w-full h-12"
+          >
+            {!starting ? 'Start' : 'Starting...'}
+          </Button>
+
+          {error && (
+            <Callout.Root
+              color="yellow"
+              className="w-full bg-yellow-3 mt-4"
+              size="1"
+            >
+              <Callout.Icon>
+                <InfoCircledIcon />
+              </Callout.Icon>
+              <Callout.Text>{error}</Callout.Text>
+            </Callout.Root>
+          )}
+        </Box>
+      </PageContainer>
+    );
+  }
+
+  return <Main />;
 }
