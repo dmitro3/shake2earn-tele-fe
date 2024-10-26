@@ -1,4 +1,5 @@
 import '@twa-dev/sdk';
+import Div100vh from 'react-div-100vh';
 import styled from 'styled-components';
 
 import OceanBackgroundImage from 'assets/app/ocean-background.png';
@@ -14,7 +15,7 @@ const StyledApp = styled.div`
   }
 `;
 
-const AppContainer = styled.div`
+const AppContainer = styled(Div100vh)`
   max-width: 768px;
   margin: 0 auto;
   min-height: 100vh;

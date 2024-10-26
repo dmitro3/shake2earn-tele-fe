@@ -1,3 +1,4 @@
+import { Box } from '@radix-ui/themes';
 import clsx from 'clsx';
 
 interface PageContainerProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -11,12 +12,12 @@ export default function PageContainer({
   ...props
 }: PageContainerProps) {
   return (
-    <div
-      className={clsx('px-4', 'flex flex-col flex-grow', className)}
+    <Box
+      className={clsx('p-4 flex flex-col flex-grow', className)}
       style={style}
       {...props}
     >
       {children}
-    </div>
+    </Box>
   );
 }
