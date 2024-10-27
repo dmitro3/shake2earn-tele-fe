@@ -50,18 +50,13 @@ export default function useShake({
     shakeInstance.addListener(shakeListener);
 
     return () => {
+      setIsShaking(false);
       if (shakeTimeoutRef.current) {
         clearTimeout(shakeTimeoutRef.current);
       }
       shakeInstance.removeListener(shakeListener);
     };
   }, [onShaked, onResetShaking, timeout]);
-
-  useEffect(() => {
-    if (isShaking && !shakeTimeoutRef.current) {
-      shakeTimeoutRef.current = setTimeout(onResetShaking, timeout);
-    }
-  }, [isShaking, onResetShaking, timeout]);
 
   const onStartListenShake = useCallback(() => {
     if (!DeviceMotion.isDeviceSupported) {
