@@ -9,7 +9,8 @@ import useShake from 'hooks/animation/useShake';
 import RewardDialog from './Chest/RewardDialog';
 import TreasureChest from './TreasureChest';
 
-const SHAKING_DURATION_THRESHOLD = 2000;
+const SHAKING_DURATION_THRESHOLD = 1500;
+const SHOW_REWARD_DURATION = 1000;
 const REWARD_POINT = 1;
 
 export default function Main() {
@@ -36,7 +37,7 @@ export default function Main() {
         setTimeout(() => {
           setPoint((prev) => prev + REWARD_POINT);
           setShowReward(true);
-        }, 500);
+        }, SHOW_REWARD_DURATION);
         shakingTimeoutRef.current = null;
       }, SHAKING_DURATION_THRESHOLD);
     },
@@ -45,7 +46,7 @@ export default function Main() {
 
   const { isShaking, onStartListenShake, onStopListenShake } = useShake({
     onShake: onShakingTreasureChest,
-    timeout: 500,
+    timeout: 250,
   });
 
   useEffect(() => {

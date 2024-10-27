@@ -21,6 +21,19 @@ export default function useShake({
   );
   const [isShaking, setIsShaking] = useState(false);
 
+  const onShaked = useCallback(
+    (event: DeviceMotionEvent) => {
+      setIsShaking(true);
+      onShake?.({ shaking: true, event });
+    },
+    [onShake],
+  );
+
+  const onResetShaking = useCallback(() => {
+    setIsShaking(false);
+    onShake?.({ shaking: false });
+  }, [onShake]);
+
   useEffect(() => {
     if (!DeviceMotion.isDeviceSupported) {
       return;
@@ -30,14 +43,8 @@ export default function useShake({
       if (shakeTimeoutRef.current) {
         clearTimeout(shakeTimeoutRef.current);
       }
-
-      setIsShaking(true);
-      onShake?.({ shaking: true, event });
-
-      shakeTimeoutRef.current = setTimeout(() => {
-        setIsShaking(false);
-        onShake?.({ shaking: false });
-      }, timeout);
+      onShaked(event);
+      shakeTimeoutRef.current = setTimeout(onResetShaking, timeout);
     };
     const shakeInstance = shakeRef.current;
     shakeInstance.addListener(shakeListener);
@@ -48,7 +55,13 @@ export default function useShake({
       }
       shakeInstance.removeListener(shakeListener);
     };
-  }, [onShake, timeout]);
+  }, [onShaked, onResetShaking, timeout]);
+
+  useEffect(() => {
+    if (isShaking && !shakeTimeoutRef.current) {
+      shakeTimeoutRef.current = setTimeout(onResetShaking, timeout);
+    }
+  }, [isShaking, onResetShaking, timeout]);
 
   const onStartListenShake = useCallback(() => {
     if (!DeviceMotion.isDeviceSupported) {
