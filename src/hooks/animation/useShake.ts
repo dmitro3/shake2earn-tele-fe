@@ -49,6 +49,10 @@ export default function useShake({
     };
   }, [onShake, timeout]);
 
+  useEffect(() => {
+    setIsShaking(false);
+  }, [onShake, timeout]);
+
   const onStartListenShake = useCallback(() => {
     if (!DeviceMotion.isDeviceSupported) {
       return;
