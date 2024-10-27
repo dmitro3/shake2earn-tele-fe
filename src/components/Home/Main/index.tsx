@@ -28,6 +28,9 @@ export default function Main() {
         shakingTimeoutRef.current = null;
         return;
       }
+      if (shakingTimeoutRef.current) {
+        return;
+      }
       shakingTimeoutRef.current = setTimeout(() => {
         setIsOpening(true);
         setTimeout(() => {
