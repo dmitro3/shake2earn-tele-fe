@@ -49,7 +49,6 @@ export default function Main() {
 
   const { isShaking, onStartListenShake, onStopListenShake } = useShake({
     onShake: onShakingTreasureChest,
-    timeout: 250,
   });
 
   useEffect(() => {
