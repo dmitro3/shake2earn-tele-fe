@@ -32,6 +32,7 @@ export default function useShake({
       }
       setIsShaking(true);
       onShake?.({ shaking: true, event });
+
       shakeTimeoutRef.current = setTimeout(() => {
         setIsShaking(false);
         onShake?.({ shaking: false });
@@ -46,10 +47,6 @@ export default function useShake({
       }
       shakeInstance.removeListener(shakeListener);
     };
-  }, [onShake, timeout]);
-
-  useEffect(() => {
-    setIsShaking(false);
   }, [onShake, timeout]);
 
   const onStartListenShake = useCallback(() => {
