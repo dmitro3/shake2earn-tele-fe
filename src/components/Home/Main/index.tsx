@@ -22,13 +22,21 @@ export default function Main() {
 
   const onShakingTreasureChest = useCallback(
     ({ shaking }: { shaking: boolean }) => {
-      if (!shaking || isOpening) {
-        if (shakingTimeoutRef.current) {
-          clearTimeout(shakingTimeoutRef.current);
-        }
-        shakingTimeoutRef.current = null;
+      // Opening: skip
+      if (isOpening) {
         return;
       }
+
+      // not shakng: reset timeout
+      if (!shaking) {
+        if (shakingTimeoutRef.current) {
+          clearTimeout(shakingTimeoutRef.current);
+          shakingTimeoutRef.current = null;
+        }
+        return;
+      }
+
+      // shaking: start timeout
       if (shakingTimeoutRef.current) {
         return;
       }
