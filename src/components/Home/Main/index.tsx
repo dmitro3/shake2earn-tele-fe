@@ -24,20 +24,24 @@ export default function Main() {
       if (isOpening) {
         return;
       }
+      if (!shaking) {
+        shakingTimestampRef.current = null;
+        return;
+      }
       if (!shakingTimestampRef.current) {
         shakingTimestampRef.current = shaking ? Date.now() : null;
-      } else {
-        if (
-          Date.now() - shakingTimestampRef.current >
-          SHAKING_DURATION_THRESHOLD
-        ) {
-          setIsOpening(true);
-          setTimeout(() => {
-            setPoint((prev) => prev + REWARD_POINT);
-            setShowReward(true);
-            shakingTimestampRef.current = null;
-          }, 500);
-        }
+        return;
+      }
+      if (
+        Date.now() - shakingTimestampRef.current >
+        SHAKING_DURATION_THRESHOLD
+      ) {
+        setIsOpening(true);
+        setTimeout(() => {
+          setPoint((prev) => prev + REWARD_POINT);
+          setShowReward(true);
+          shakingTimestampRef.current = null;
+        }, 500);
       }
     },
     [isOpening],
@@ -45,6 +49,7 @@ export default function Main() {
 
   const { isShaking, onStartListenShake, onStopListenShake } = useShake({
     onShake: onShakingTreasureChest,
+    timeout: 250,
   });
 
   useEffect(() => {

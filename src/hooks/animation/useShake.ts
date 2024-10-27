@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useLatest } from 'react-use';
 
 import { DeviceMotion, DeviceMotionOptions } from 'utils/device/DeviceMotion';
 
@@ -21,6 +22,8 @@ export default function useShake({
   );
   const [isShaking, setIsShaking] = useState(false);
 
+  const onShakeRef = useLatest(onShake);
+
   useEffect(() => {
     if (!DeviceMotion.isDeviceSupported) {
       return;
@@ -32,11 +35,11 @@ export default function useShake({
       }
 
       setIsShaking(true);
-      onShake?.({ shaking: true, event });
+      onShakeRef.current?.({ shaking: true, event });
 
       shakeTimeoutRef.current = setTimeout(() => {
         setIsShaking(false);
-        onShake?.({ shaking: false });
+        onShakeRef.current?.({ shaking: false });
       }, timeout);
     };
     const shakeInstance = shakeRef.current;
@@ -48,7 +51,7 @@ export default function useShake({
       }
       shakeInstance.removeListener(shakeListener);
     };
-  }, [onShake, timeout]);
+  }, [onShakeRef, timeout]);
 
   const onStartListenShake = useCallback(() => {
     if (!DeviceMotion.isDeviceSupported) {
