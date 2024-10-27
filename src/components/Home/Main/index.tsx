@@ -17,32 +17,25 @@ export default function Main() {
   const [showReward, setShowReward] = useState(false);
 
   const [point, setPoint] = useState(0);
-  const shakingTimestampRef = useRef<number | null>(null);
+  const shakingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const onShakingTreasureChest = useCallback(
     ({ shaking }: { shaking: boolean }) => {
-      if (isOpening) {
+      if (!shaking || isOpening) {
+        if (shakingTimeoutRef.current) {
+          clearTimeout(shakingTimeoutRef.current);
+        }
+        shakingTimeoutRef.current = null;
         return;
       }
-      if (!shaking) {
-        shakingTimestampRef.current = null;
-        return;
-      }
-      if (!shakingTimestampRef.current) {
-        shakingTimestampRef.current = shaking ? Date.now() : null;
-        return;
-      }
-      if (
-        Date.now() - shakingTimestampRef.current >
-        SHAKING_DURATION_THRESHOLD
-      ) {
+      shakingTimeoutRef.current = setTimeout(() => {
         setIsOpening(true);
         setTimeout(() => {
           setPoint((prev) => prev + REWARD_POINT);
           setShowReward(true);
-          shakingTimestampRef.current = null;
         }, 500);
-      }
+        shakingTimeoutRef.current = null;
+      }, SHAKING_DURATION_THRESHOLD);
     },
     [isOpening],
   );
