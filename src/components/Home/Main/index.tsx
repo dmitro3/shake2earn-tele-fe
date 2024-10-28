@@ -5,6 +5,7 @@ import PageContainer from 'components/Common/PageContainer';
 import TonWallet from 'components/Common/Wallet/TonWallet';
 import { Invite } from 'components/Invite/Invite';
 import useShake from 'hooks/animation/useShake';
+import soundtrackFile from 'assets/music/soundtrack.mp3';
 
 import RewardDialog from './Chest/RewardDialog';
 import TreasureChest from './TreasureChest';
@@ -14,8 +15,23 @@ const SHOW_REWARD_DURATION = 1000;
 const REWARD_POINT = 1;
 
 export default function Main() {
+  const soundtrackRef = useRef(new Audio(soundtrackFile));
   const [isOpening, setIsOpening] = useState(false);
   const [showReward, setShowReward] = useState(false);
+  const [playMusic, setPlayMusic] = useState(true);
+
+  useEffect(() => {
+    const soundtrack = soundtrackRef.current;
+    soundtrack.loop = true;
+    if (playMusic) {
+      soundtrack.play();
+    } else {
+      soundtrack.pause();
+    }
+    return () => {
+      soundtrack.pause(); // Pause audio on component unmount
+    };
+  }, [playMusic]);
 
   const [point, setPoint] = useState(0);
   const shakingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -107,7 +123,12 @@ export default function Main() {
 
       <Box className="flex justify-between items-center mt-16">
         <Card>3 turns</Card>
-        <Button>🎵</Button>
+        <Button
+          onClick={() => setPlayMusic((prev) => !prev)}
+          className="mr-4"
+        >
+          🎵
+        </Button>
       </Box>
 
       <Box className="flex justify-end mt-4">
