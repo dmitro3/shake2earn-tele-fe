@@ -1,4 +1,4 @@
-import { Box, Heading } from '@radix-ui/themes';
+import { Box, Button, Card, Flex, Heading } from '@radix-ui/themes';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import PageContainer from 'components/Common/PageContainer';
@@ -66,10 +66,15 @@ export default function Main() {
 
   return (
     <PageContainer>
-      <TonWallet />
-
+      {/* <TonWallet /> */}
+      <Heading
+        as="h2"
+        size="6"
+      >
+        Pirate Chest
+      </Heading>
       <Box>
-        <Box className="flex justify-center mt-16">
+        <Box className="flex justify-center mt-10">
           <Heading
             as="h1"
             size="8"
@@ -79,7 +84,7 @@ export default function Main() {
           </Heading>
         </Box>
 
-        <Box className="flex justify-center w-full mt-8">
+        <Box className="flex justify-center w-full mt-2">
           <TreasureChest
             isShaking={isOpening ? false : isShaking}
             isOpening={isOpening}
@@ -94,9 +99,22 @@ export default function Main() {
             }}
           />
         </Box>
+
+        <Box className="flex justify-center w-full mt-4">
+          <Card>2:18</Card>
+        </Box>
       </Box>
-      <Box>Testing id: 1</Box>
-      <Invite />
+
+      <Box className="flex justify-between items-center mt-16">
+        <Card>3 turns</Card>
+        <Button>🎵</Button>
+      </Box>
+
+      <Box className="flex justify-end mt-4">
+        <Button>Explore</Button>
+      </Box>
+      {/* <Box>Testing id: 1</Box> */}
+      {/* <Invite /> */}
     </PageContainer>
   );
 }
