@@ -84,12 +84,25 @@ export default function Main() {
   return (
     <PageContainer>
       {/* <TonWallet /> */}
-      <Heading
-        as="h2"
-        size="6"
-      >
-        Pirate Chest
-      </Heading>
+      <Box className="flex justify-between">
+        <Heading
+          as="h2"
+          size="5"
+          color="amber"
+        >
+          Pirate Chest
+        </Heading>
+        <Box className="flex flex-col">
+          <Heading
+            as="h2"
+            size="3"
+            color="amber"
+          >
+            Bob
+          </Heading>
+          <span className=" text-1 text-amber-9">ID: 123456789</span>
+        </Box>
+      </Box>
       <Box>
         <Box className="flex justify-center mt-10">
           <Heading
