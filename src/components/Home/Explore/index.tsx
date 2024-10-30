@@ -8,19 +8,28 @@ export default function Explore() {
       <Heading
         as="h2"
         size="6"
+        color="amber"
       >
         Pirate Chest
       </Heading>
       <Box>
         <Box className="flex justify-center mt-10">
-          <Card>
-            user_info
+          <Card className=" flex space-x-4">
+            <Box className="flex flex-col">
+              <Heading
+                as="h2"
+                size="3"
+              >
+                Bob
+              </Heading>
+              <span className=" text-1">ID: 123456789</span>
+            </Box>
             <Button>Copy</Button>
           </Card>
         </Box>
       </Box>
 
-      <Box className="mt-10">
+      <Box className="mt-10 space-y-8">
         <Card className=" space-y-4">
           <Flex
             justify="between"
@@ -29,6 +38,8 @@ export default function Explore() {
             <p>Daily checkin</p>
             <Button>Claim</Button>
           </Flex>
+        </Card>
+        <Card>
           <Flex
             justify="between"
             align="center"
