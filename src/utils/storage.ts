@@ -1,6 +1,6 @@
-import { StorageKeyPrefix } from 'constants/storage';
+import { StorageKeyPrefix } from 'const/storage';
 
-export class LocalStorage {
+export class Storage {
   prefix: string;
 
   constructor(prefix: string) {
@@ -42,5 +42,5 @@ export class LocalStorage {
   }
 }
 
-const ls = new LocalStorage(StorageKeyPrefix);
-export default ls;
+const storage = new Storage(StorageKeyPrefix);
+export default storage;
