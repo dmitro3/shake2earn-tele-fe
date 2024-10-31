@@ -12,7 +12,7 @@ export default function Explore() {
       >
         Pirate Treasure
       </Heading>
-      <Box>
+      <Box className="text-left">
         <Box className="flex justify-center mt-10">
           <Card className=" flex space-x-4">
             <Box className="flex flex-col">
@@ -30,7 +30,7 @@ export default function Explore() {
       </Box>
 
       <Box className="mt-10 space-y-8">
-        <Card className=" space-y-4">
+        <Card>
           <Flex
             justify="between"
             align="center"
@@ -45,7 +45,16 @@ export default function Explore() {
             align="center"
           >
             <p>Invite friends</p>
-            <Button>Claim</Button>
+            <Button disabled>Claim</Button>
+          </Flex>
+        </Card>
+        <Card>
+          <Flex
+            justify="between"
+            align="center"
+          >
+            <p>Join Telegram Chanel</p>
+            <Button disabled>Claim</Button>
           </Flex>
         </Card>
       </Box>
