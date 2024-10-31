@@ -40,7 +40,7 @@ export default function Home() {
             size="8"
             className="text-whiteA-12 text-center mt-32"
           >
-            PIRESET CHEST
+            PIRATE TREASURE
           </Heading>
         </Box>
 

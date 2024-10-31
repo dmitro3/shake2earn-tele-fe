@@ -1,1 +1,1 @@
-export const StorageKeyPrefix = 'pirest-chest';
+export const StorageKeyPrefix = 'pirate-treasure';

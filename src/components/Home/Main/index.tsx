@@ -90,7 +90,7 @@ export default function Main() {
           size="5"
           color="amber"
         >
-          Pirate Chest
+          Pirate Treasure
         </Heading>
         <Box className="flex flex-col">
           <Heading

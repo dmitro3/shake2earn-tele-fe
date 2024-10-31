@@ -10,7 +10,7 @@ export default function Explore() {
         size="6"
         color="amber"
       >
-        Pirate Chest
+        Pirate Treasure
       </Heading>
       <Box>
         <Box className="flex justify-center mt-10">
