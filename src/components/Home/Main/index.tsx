@@ -14,6 +14,7 @@ import TreasureChest from './TreasureChest';
 const SHAKING_DURATION_THRESHOLD = 1500;
 const SHOW_REWARD_DURATION = 1000;
 const REWARD_POINT = 1;
+const INITIAL_TIME = 180; // 3 minutes
 
 export default function Main() {
   const soundtrackRef = useRef(new Audio(soundtrackFile));
@@ -23,6 +24,7 @@ export default function Main() {
 
   const [point, setPoint] = useState(0);
   const shakingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const [timeLeft, setTimeLeft] = useState(INITIAL_TIME);
 
   const onShakingTreasureChest = useCallback(
     ({ shaking }: { shaking: boolean }) => {
@@ -81,6 +83,24 @@ export default function Main() {
     };
   }, [playMusic]);
 
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  const formatTime = (seconds: number) => {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+  };
+
+  const resetTimer = () => {
+    setTimeLeft(INITIAL_TIME);
+  };
+
   return (
     <PageContainer>
       {/* <TonWallet /> */}
@@ -131,13 +151,14 @@ export default function Main() {
         </Box>
 
         <Box className="flex justify-center w-full mt-4">
-          <Card>2:18</Card>
+          <Card>{formatTime(timeLeft)}</Card>
+          <Button onClick={resetTimer}>Reset</Button>
         </Box>
       </Box>
 
       <Box className="flex justify-between items-center mt-8">
         <Box className="flex flex-col justify-between items-center">
-          <Card className=" mb-4">3 turns</Card>
+          <Card className=" mb-4">3🎫</Card>
           <Button onClick={() => setPlayMusic((prev) => !prev)}>🎵</Button>
         </Box>
         <Box className="flex">
