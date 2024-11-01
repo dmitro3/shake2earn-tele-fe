@@ -7,12 +7,12 @@ export default function TonWallet() {
   const { network } = useTonConnect();
 
   return (
-    <Box>
+    <Box className=" w-full flex justify-center">
       <TonConnectButton />
-      <Button>
+      {/* <Button>
         {!network && 'N/A'}
         {network && (network === CHAIN.MAINNET ? 'mainnet' : 'testnet')}
-      </Button>
+      </Button> */}
     </Box>
   );
 }
