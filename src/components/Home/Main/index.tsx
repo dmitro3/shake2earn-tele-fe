@@ -150,9 +150,21 @@ export default function Main() {
           />
         </Box>
 
-        <Box className="flex justify-center w-full mt-4">
-          <Card>{formatTime(timeLeft)}</Card>
-          <Button onClick={resetTimer}>Reset</Button>
+        <Box className="flex justify-center">
+          <Flex
+            direction="column"
+            align="center"
+            className="space-y-4"
+          >
+            <Button
+              size="4"
+              onClick={resetTimer}
+              className=" font-bold"
+            >
+              SHAKE NOW
+            </Button>
+            <Card className=" text-4">{formatTime(timeLeft)}</Card>
+          </Flex>
         </Box>
       </Box>
 
