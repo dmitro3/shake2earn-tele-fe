@@ -1,4 +1,5 @@
 import { Box, Button, Card, Flex, Heading, Progress } from '@radix-ui/themes';
+import WebApp from '@twa-dev/sdk';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import PageContainer from 'components/Common/PageContainer';
@@ -17,8 +18,11 @@ const REWARD_POINT = 1;
 const INITIAL_TIME = 180; // 3 minutes
 
 export default function Main() {
+  const [user, setUser] = useState<any>();
+
   const soundtrackRef = useRef(new Audio(soundtrackFile));
   const [playMusic, setPlayMusic] = useState(true);
+
   const [isOpening, setIsOpening] = useState(false);
   const [showReward, setShowReward] = useState(false);
 
@@ -64,6 +68,12 @@ export default function Main() {
     onShake: onShakingTreasureChest,
     timeout: 500,
   });
+
+  useEffect(() => {
+    if (WebApp.initDataUnsafe) {
+      setUser(WebApp.initDataUnsafe.user);
+    }
+  }, []);
 
   useEffect(() => {
     onStartListenShake();
@@ -129,9 +139,11 @@ export default function Main() {
             size="3"
             color="amber"
           >
-            Bob
+            {user?.username || 'Bob'}
           </Heading>
-          <span className=" text-1 text-amber-9">ID: 123456789</span>
+          <span className=" text-1 text-amber-9">
+            ID: {user?.id || '123456'}
+          </span>
         </Box>
       </Box>
       <Box>
