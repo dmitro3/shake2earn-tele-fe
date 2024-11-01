@@ -1,4 +1,4 @@
-import { Box, Button, Card, Flex, Heading } from '@radix-ui/themes';
+import { Box, Button, Card, Flex, Heading, Progress } from '@radix-ui/themes';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import PageContainer from 'components/Common/PageContainer';
@@ -18,13 +18,15 @@ const INITIAL_TIME = 180; // 3 minutes
 
 export default function Main() {
   const soundtrackRef = useRef(new Audio(soundtrackFile));
+  const [playMusic, setPlayMusic] = useState(true);
   const [isOpening, setIsOpening] = useState(false);
   const [showReward, setShowReward] = useState(false);
-  const [playMusic, setPlayMusic] = useState(true);
 
   const [point, setPoint] = useState(0);
   const shakingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [timeLeft, setTimeLeft] = useState(INITIAL_TIME);
+  const [ticket, setTicket] = useState(3);
+  const [timerActive, setTimerActive] = useState(false);
 
   const onShakingTreasureChest = useCallback(
     ({ shaking }: { shaking: boolean }) => {
@@ -84,12 +86,15 @@ export default function Main() {
   }, [playMusic]);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
-    }, 1000);
+    let timer: NodeJS.Timeout;
+    if (timerActive) {
+      timer = setInterval(() => {
+        setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
+      }, 1000);
+    }
 
     return () => clearInterval(timer);
-  }, []);
+  }, [timerActive]);
 
   const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
@@ -97,8 +102,14 @@ export default function Main() {
     return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
   };
 
-  const resetTimer = () => {
+  const calculateProgress = () => {
+    return (timeLeft / INITIAL_TIME) * 100;
+  };
+
+  const resetShake = () => {
+    setTicket((prev) => prev - 1);
     setTimeLeft(INITIAL_TIME);
+    setTimerActive(true);
   };
 
   return (
@@ -158,19 +169,23 @@ export default function Main() {
           >
             <Button
               size="4"
-              onClick={resetTimer}
+              disabled={ticket === 0}
+              onClick={resetShake}
               className=" font-bold"
             >
               SHAKE NOW
             </Button>
-            <Card className=" text-4">{formatTime(timeLeft)}</Card>
+            <Progress
+              value={calculateProgress()}
+              className="w-full"
+            />
           </Flex>
         </Box>
       </Box>
 
       <Box className="flex justify-between items-center mt-8">
         <Box className="flex flex-col justify-between items-center">
-          <Card className=" mb-4">3🎫</Card>
+          <Card className=" mb-4">{ticket}🎫</Card>
           <Button onClick={() => setPlayMusic((prev) => !prev)}>🎵</Button>
         </Box>
         <Box className="flex">
