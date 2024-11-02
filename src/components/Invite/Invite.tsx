@@ -61,7 +61,7 @@ export const Invite = () => {
     if (error && (error as any).response?.status === 404) {
       createUserMutation.mutate({ id: userId?.toString() || '', startParam });
     }
-  }, [error, userId]);
+  }, [createUserMutation, error, startParam, userId]);
 
   return (
     <>

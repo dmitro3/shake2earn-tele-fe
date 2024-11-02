@@ -1,14 +1,22 @@
 import { Box, Button, Dialog, Heading } from '@radix-ui/themes';
 
+import { ChestRewardData, ChestRewardName } from 'types/chest';
+
+interface RewardDialogProps {
+  open?: boolean;
+  reward?: ChestRewardData | null;
+  onClose?: () => void;
+}
+
 export default function RewardDialog({
   open,
-  point,
+  reward,
   onClose,
-}: {
-  open?: boolean;
-  point: number;
-  onClose?: () => void;
-}) {
+}: RewardDialogProps) {
+  if (!reward) {
+    return null;
+  }
+
   return (
     <Dialog.Root open={open}>
       <Dialog.Content
@@ -22,7 +30,8 @@ export default function RewardDialog({
           mb="4"
         >
           <Box className="flex gap-2 py-4 justify-center">
-            <Heading size="9">{point ?? 0}</Heading>
+            <Heading size="9">{reward.value}</Heading>
+            <Heading size="9">{ChestRewardName[reward.type]}</Heading>
           </Box>
         </Dialog.Description>
 
