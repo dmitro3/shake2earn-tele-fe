@@ -1,4 +1,11 @@
-import { Box, Button, Flex, Heading, Progress, Text } from '@radix-ui/themes';
+import {
+  Button,
+  Flex,
+  FlexProps,
+  Heading,
+  Progress,
+  Text,
+} from '@radix-ui/themes';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import useShake from 'hooks/animation/useShake';
@@ -16,16 +23,17 @@ const ShakeConfig = {
   SHOW_REWARD_DELAY: 1500,
 };
 
-interface ShakechestProps {
+type ShakechestProps = FlexProps & {
   userData: UserShakeData;
   onUpdatePoint?: (point: number) => void;
   onUpdateTurn?: (turn: number) => void;
-}
+};
 
 export default function ShakeChest({
   userData,
   onUpdatePoint,
   onUpdateTurn,
+  ...props
 }: ShakechestProps) {
   const [shakeTurnTimeLeft, setShakeTurnTimeLeft] = useState<number>(0);
 
@@ -122,7 +130,7 @@ export default function ShakeChest({
   }, [onStartListenShake, onStopListenShake]);
 
   const renderSharkTurnAction = () => {
-    if (!isInShakeTurn) {
+    if (isInShakeTurn) {
       const disabledShakeButton = userData.turn === 0;
       return (
         <Button
@@ -148,28 +156,39 @@ export default function ShakeChest({
   };
 
   return (
-    <Box>
-      <Box className="flex justify-center mt-10">
+    <Flex
+      direction="column"
+      align="center"
+      {...props}
+    >
+      <Flex
+        justify="center"
+        mt="6"
+      >
         <Heading
           as="h1"
-          size="8"
+          size="9"
           className="text-center text-whiteA-12"
         >
           {userData.point}
         </Heading>
-      </Box>
+      </Flex>
 
-      <TreasureChest
-        isShaking={isChestOpened ? false : isShaking}
-        isOpening={isChestOpened}
-        className="p-4 max-w-[512px]"
-      />
-      <Box className="flex justify-center">{renderSharkTurnAction()}</Box>
+      <Flex
+        maxWidth="480px"
+        maxHeight="480px"
+      >
+        <TreasureChest
+          isShaking={isChestOpened ? false : isShaking}
+          isOpening={isChestOpened}
+        />
+      </Flex>
+      <Flex direction="column">{renderSharkTurnAction()}</Flex>
 
       <RewardDialog
         reward={chestReward}
         onClose={onCloseRewardDialog}
       />
-    </Box>
+    </Flex>
   );
 }

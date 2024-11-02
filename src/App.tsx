@@ -2,12 +2,10 @@ import '@twa-dev/sdk';
 import Div100vh from 'react-div-100vh';
 import styled from 'styled-components';
 
-import OceanBackgroundImage from 'assets/app/ocean-background.png';
-
 import './App.css';
 import Home from './components/Home';
 
-const StyledApp = styled.div`
+const AppContainer = styled.div`
   background-color: #e8e8e8;
 
   @media (prefers-color-scheme: dark) {
@@ -15,24 +13,21 @@ const StyledApp = styled.div`
   }
 `;
 
-const AppContainer = styled(Div100vh)`
+const AppContent = styled(Div100vh)`
   max-width: 768px;
-  margin: 0 auto;
+  margin: 0 auto; /* center content on large screen */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-
-  background: url(${OceanBackgroundImage});
-  object-fit: fill;
 `;
 
 function App() {
   return (
-    <StyledApp>
-      <AppContainer>
+    <AppContainer>
+      <AppContent>
         <Home />
-      </AppContainer>
-    </StyledApp>
+      </AppContent>
+    </AppContainer>
   );
 }
 

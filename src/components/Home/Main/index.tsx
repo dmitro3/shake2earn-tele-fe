@@ -2,7 +2,7 @@ import { Box, Button, Heading } from '@radix-ui/themes';
 import WebApp from '@twa-dev/sdk';
 import { useEffect, useState } from 'react';
 
-import PageContainer from 'components/Common/PageContainer';
+import AppPageContainer from 'components/Common/Page/AppPageContainer';
 
 // TODO: user info
 // import TonWallet from 'components/Common/Wallet/TonWallet';
@@ -20,7 +20,7 @@ export default function Main() {
   }, []);
 
   return (
-    <PageContainer>
+    <AppPageContainer>
       {/* <TonWallet /> */}
       <Box className="flex justify-between">
         <Heading
@@ -66,6 +66,6 @@ export default function Main() {
 
       {/* <Box>Testing id: 1</Box> */}
       {/* <Invite /> */}
-    </PageContainer>
+    </AppPageContainer>
   );
 }
