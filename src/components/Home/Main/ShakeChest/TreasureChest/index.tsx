@@ -1,5 +1,3 @@
-import { Box } from '@radix-ui/themes';
-import clsx from 'clsx';
 import { motion, useAnimation } from 'framer-motion';
 import { useEffect, useMemo } from 'react';
 

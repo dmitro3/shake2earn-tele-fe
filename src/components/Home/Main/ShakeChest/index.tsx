@@ -10,7 +10,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import useShake from 'hooks/animation/useShake';
 import { ChestRewardData, ChestRewardType, UserShakeData } from 'types/chest';
-import { formatTime } from 'utils/time';
+import { formatTime } from 'utils/format/time';
 
 import RewardDialog from './RewardDialog';
 import TreasureChest from './TreasureChest';
@@ -29,16 +29,41 @@ export default function ShakeChest({
   onUpdateTurn,
   ...props
 }: ShakechestProps) {
-  const [shakeTurnTimeLeft, setShakeTurnTimeLeft] = useState<number>(0);
+  const [shakeTurnTimeLeft, setShakeTurnTimeLeft] = useState(0);
+  const [nextShakeTurnTimeLeft, setNextShakeTurnTimeLeft] = useState(0);
 
   const [isChestOpened, setIsChestOpened] = useState(false);
   const [chestReward, setChestReward] = useState<ChestRewardData | null>(null);
 
   const shakingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const turnTimeLeftInterval = useRef<NodeJS.Timeout | null>(null);
+  const nextTurnTimeLeftInterval = useRef<NodeJS.Timeout | null>(null);
 
-  // Shake turn
   const isInShakeTurn = shakeTurnTimeLeft > 0;
+  const isShakeTurnCooldown = nextShakeTurnTimeLeft > 0;
+  const isShakeAvailable = isInShakeTurn && !isShakeTurnCooldown;
+
+  const onCooldownShakeTurn = useCallback(() => {
+    if (nextTurnTimeLeftInterval.current) {
+      return;
+    }
+
+    setNextShakeTurnTimeLeft(ShakeConfig.TURN_COOLDOWN_S);
+
+    nextTurnTimeLeftInterval.current = setInterval(() => {
+      setNextShakeTurnTimeLeft((timeLeft) => {
+        const newTimeLeft = timeLeft - 1;
+        if (newTimeLeft > 0) {
+          return newTimeLeft;
+        }
+        if (nextTurnTimeLeftInterval.current) {
+          clearInterval(nextTurnTimeLeftInterval.current);
+          nextTurnTimeLeftInterval.current = null;
+        }
+        return newTimeLeft;
+      });
+    }, 1000);
+  }, []);
 
   const onStartShakeTurn = useCallback(() => {
     if (turnTimeLeftInterval.current) {
@@ -57,10 +82,11 @@ export default function ShakeChest({
           clearInterval(turnTimeLeftInterval.current);
           turnTimeLeftInterval.current = null;
         }
+        onCooldownShakeTurn();
         return newTimeLeft;
       });
     }, 1000);
-  }, []);
+  }, [onCooldownShakeTurn]);
 
   // Shake chest
   const onShakedSuccess = useCallback(
@@ -109,7 +135,7 @@ export default function ShakeChest({
   );
 
   const { isShaking, onStartListenShake, onStopListenShake } = useShake({
-    onShake: isInShakeTurn ? onShakingTreasureChest : undefined,
+    onShake: isShakeAvailable ? onShakingTreasureChest : undefined,
     timeout: 500,
   });
 
@@ -127,9 +153,12 @@ export default function ShakeChest({
 
   const renderSharkTurnAction = () => {
     if (!isInShakeTurn) {
-      const disabledShakeButton = userData.turn === 0;
+      const disabledShakeButton = userData.turn === 0 || isShakeTurnCooldown;
       return (
-        <Flex justify="center">
+        <Flex
+          direction="column"
+          align="center"
+        >
           <Button
             size="4"
             className="font-bold uppercase"
@@ -138,6 +167,23 @@ export default function ShakeChest({
           >
             Shake now
           </Button>
+
+          {isShakeTurnCooldown && (
+            <Flex
+              mt="2"
+              width="100%"
+              justify="center"
+              className="text-whiteA-12"
+            >
+              <Text size="4">Next turn:</Text>&nbsp;
+              <Text
+                size="4"
+                weight="bold"
+              >
+                {formatTime(nextShakeTurnTimeLeft)}
+              </Text>
+            </Flex>
+          )}
         </Flex>
       );
     }
@@ -177,10 +223,7 @@ export default function ShakeChest({
       align="center"
       {...props}
     >
-      <Flex
-        justify="center"
-        mt="6"
-      >
+      <Flex justify="center">
         <Heading
           as="h1"
           size="9"
@@ -191,8 +234,8 @@ export default function ShakeChest({
       </Flex>
 
       <Flex
-        maxWidth="460px"
-        maxHeight="460px"
+        maxWidth="360px"
+        maxHeight="360px"
         width="100%"
       >
         <Flex
@@ -210,7 +253,7 @@ export default function ShakeChest({
       <Flex
         direction="column"
         width="50%"
-        height="48px"
+        height="82px"
         mt="2"
       >
         {renderSharkTurnAction()}
