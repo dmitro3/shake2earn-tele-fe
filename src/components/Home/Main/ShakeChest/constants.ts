@@ -16,7 +16,7 @@ export const chestRewardConfigs: RewardConfig<ChestRewardType, number>[] = [
 ];
 
 export const ShakeConfig = {
-  SHAKE_DURATION: 1500,
-  TURN_DURATION: 10,
-  SHOW_REWARD_DELAY: 1500,
+  SHAKE_DURATION_MS: 2500,
+  TURN_DURATION_S: 30,
+  SHOW_REWARD_DELAY_MS: 1500,
 };

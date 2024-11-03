@@ -45,7 +45,7 @@ export default function ShakeChest({
       return;
     }
 
-    setShakeTurnTimeLeft(ShakeConfig.TURN_DURATION);
+    setShakeTurnTimeLeft(ShakeConfig.TURN_DURATION_S);
 
     turnTimeLeftInterval.current = setInterval(() => {
       setShakeTurnTimeLeft((timeLeft) => {
@@ -97,15 +97,15 @@ export default function ShakeChest({
         // Open chest and vibrate device
         setIsChestOpened(true);
         if ('vibrate' in navigator) {
-          navigator.vibrate(ShakeConfig.SHOW_REWARD_DELAY);
+          navigator.vibrate(ShakeConfig.SHOW_REWARD_DELAY_MS);
         }
         // Show reward
         shakingTimeoutRef.current = null;
         setTimeout(() => {
           const reward = getRandomReward(chestRewardConfigs);
           onShakedSuccess(reward);
-        }, ShakeConfig.SHOW_REWARD_DELAY);
-      }, ShakeConfig.SHAKE_DURATION);
+        }, ShakeConfig.SHOW_REWARD_DELAY_MS);
+      }, ShakeConfig.SHAKE_DURATION_MS);
     },
     [isChestOpened, onShakedSuccess],
   );
@@ -150,7 +150,7 @@ export default function ShakeChest({
         width="100%"
       >
         <Progress
-          value={(shakeTurnTimeLeft * 100) / ShakeConfig.TURN_DURATION}
+          value={(shakeTurnTimeLeft * 100) / ShakeConfig.TURN_DURATION_S}
           color="amber"
           className="h-4 bg-whiteA-12"
         />
@@ -210,6 +210,7 @@ export default function ShakeChest({
       </Flex>
 
       <RewardDialog
+        open={!!chestReward}
         reward={chestReward}
         onClose={onCloseRewardDialog}
       />

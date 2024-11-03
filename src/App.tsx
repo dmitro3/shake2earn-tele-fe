@@ -15,7 +15,7 @@ const AppContainer = styled.div`
 
 const AppContent = styled(Div100vh)`
   max-width: 768px;
-  margin: 0 auto; /* center content on large screen */
+  margin: 0 auto; /* center content on large screen  */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
