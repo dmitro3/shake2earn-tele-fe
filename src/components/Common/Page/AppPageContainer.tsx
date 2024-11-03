@@ -1,4 +1,4 @@
-import { useAppContext } from 'context/app';
+import BackgroundImg from 'assets/app/ocean-background.png';
 
 import PageContainer from './PageContainer';
 
@@ -7,8 +7,8 @@ export default function AppPageContainer({
 }: {
   children: React.ReactNode;
 }) {
-  const { backgroundAssets } = useAppContext();
-  const imgSrc = backgroundAssets.imgRef.current?.src ?? '';
+  // const imgSrc = backgroundAssets.imgRef.current?.src ?? '';
+  const imgSrc = BackgroundImg;
 
   return (
     <PageContainer

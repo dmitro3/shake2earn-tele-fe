@@ -3,9 +3,7 @@ import { useCallback, useMemo, useRef, useState } from 'react';
 import createContext from 'utils/common/context';
 import { DeviceMotion } from 'utils/device/DeviceMotion';
 
-import useBackgroundAssets, {
-  BackgroundAssetsValue,
-} from './app/useBackgroundAssest';
+// import useBackgroundAssets from './app/useBackgroundAssest';
 
 interface AppContextType {
   initialized: boolean;
@@ -17,7 +15,10 @@ interface AppContextType {
   device: {
     motionRef: React.RefObject<DeviceMotion>;
   };
-  backgroundAssets: BackgroundAssetsValue;
+  // backgroundAssets: {
+  //   imgRef: React.RefObject<HTMLImageElement>;
+  //   audioRef: React.RefObject<HTMLAudioElement>;
+  // };
 }
 
 export const [useAppContext, AppContext] = createContext<
@@ -34,11 +35,15 @@ export const AppContextProvider = ({
   const [error, setError] = useState<string | null>(null);
 
   const deviceMotionRef = useRef<DeviceMotion>(new DeviceMotion());
-  const backgroundAssets = useBackgroundAssets();
+  // const {
+  //   data: backgroundAssets,
+  //   state: { imgLoaded, audioLoaded },
+  // } = useBackgroundAssets();
 
   const initialized = useMemo(() => {
-    return backgroundAssets.imgLoaded && backgroundAssets.audioLoaded;
-  }, [backgroundAssets]);
+    // TODO: fetch user data
+    return true;
+  }, []);
   const deviceSupported = DeviceMotion.isDeviceSupported;
 
   const requestHardwarePermissions = useCallback(async () => {
@@ -82,17 +87,8 @@ export const AppContextProvider = ({
       device: {
         motionRef: deviceMotionRef,
       },
-      backgroundAssets,
     }),
-    [
-      deviceSupported,
-      error,
-      initialized,
-      onStart,
-      started,
-      starting,
-      backgroundAssets,
-    ],
+    [deviceSupported, initialized, onStart, started, starting, error],
   );
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

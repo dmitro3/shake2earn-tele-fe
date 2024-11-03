@@ -50,8 +50,12 @@ export default function Main() {
             point: 0,
             turn: 3,
           }}
-          onUpdatePoint={() => {}}
-          onUpdateTurn={() => {}}
+          onUpdatePoint={() => {
+            // dothing
+          }}
+          onUpdateTurn={() => {
+            // dothing
+          }}
         />
       </Box>
 

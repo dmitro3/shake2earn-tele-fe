@@ -1,16 +1,20 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import BackgroundImg from 'assets/app/ocean-background.png';
 import BackgroundAudio from 'assets/music/soundtrack.mp3';
 
-export interface BackgroundAssetsValue {
-  imgRef: React.RefObject<HTMLImageElement>;
-  audioRef: React.RefObject<HTMLAudioElement>;
-  imgLoaded: boolean;
-  audioLoaded: boolean;
+export interface UseBackgroundAssetsValue {
+  data: {
+    imgRef: React.RefObject<HTMLImageElement>;
+    audioRef: React.RefObject<HTMLAudioElement>;
+  };
+  state: {
+    imgLoaded: boolean;
+    audioLoaded: boolean;
+  };
 }
 
-export default function useBackgroundAssets(): BackgroundAssetsValue {
+export default function useBackgroundAssets(): UseBackgroundAssetsValue {
   const imgRef = useRef<HTMLImageElement | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -32,10 +36,11 @@ export default function useBackgroundAssets(): BackgroundAssetsValue {
     audioRef.current = audio;
   }, []);
 
-  return {
-    imgRef,
-    audioRef,
-    imgLoaded,
-    audioLoaded,
-  };
+  const value = useMemo(() => {
+    const data = { imgRef, audioRef };
+    const state = { imgLoaded, audioLoaded };
+    return { data, state };
+  }, [audioLoaded, imgLoaded]);
+
+  return value;
 }
