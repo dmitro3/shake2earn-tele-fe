@@ -96,9 +96,7 @@ export default function ShakeChest({
       shakingTimeoutRef.current = setTimeout(() => {
         // Open chest and vibrate device
         setIsChestOpened(true);
-        if ('vibrate' in navigator) {
-          navigator.vibrate(ShakeConfig.SHOW_REWARD_DELAY);
-        }
+        navigator.vibrate(ShakeConfig.SHOW_REWARD_DELAY);
         // Show reward
         shakingTimeoutRef.current = null;
         setTimeout(() => {
