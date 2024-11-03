@@ -1,13 +1,11 @@
-import { Box, Button, Heading } from '@radix-ui/themes';
+import { Flex } from '@radix-ui/themes';
 import WebApp from '@twa-dev/sdk';
 import { useEffect, useState } from 'react';
 
 import AppPageContainer from 'components/Common/Page/AppPageContainer';
 
-// TODO: user info
-// import TonWallet from 'components/Common/Wallet/TonWallet';
-// import { Invite } from 'components/Invite/Invite';
-import BackgroundSound from './BackgroundSound';
+import BottomActions from './BottomActions';
+import Header from './Header';
 import ShakeChest from './ShakeChest';
 
 export default function Main() {
@@ -21,30 +19,16 @@ export default function Main() {
 
   return (
     <AppPageContainer>
-      {/* <TonWallet /> */}
-      <Box className="flex justify-between">
-        <Heading
-          as="h2"
-          size="5"
-          color="amber"
-        >
-          Pirate Treasure
-        </Heading>
-        <Box className="flex flex-col">
-          <Heading
-            as="h2"
-            size="3"
-            color="amber"
-          >
-            {user?.username || 'Bob'}
-          </Heading>
-          <span className=" text-1 text-amber-9">
-            ID: {user?.id || '123456'}
-          </span>
-        </Box>
-      </Box>
-
-      <Box>
+      <Header
+        flexShrink="0"
+        user={user}
+      />
+      <Flex
+        direction="column"
+        flexGrow="1"
+        justify="center"
+        height="100%"
+      >
         <ShakeChest
           userData={{
             point: 0,
@@ -57,19 +41,8 @@ export default function Main() {
             // dothing
           }}
         />
-      </Box>
-
-      <Box className="flex justify-between items-center mt-8">
-        <Box className="flex flex-col justify-between items-center">
-          <BackgroundSound />
-        </Box>
-        <Box className="flex">
-          <Button>Explore</Button>
-        </Box>
-      </Box>
-
-      {/* <Box>Testing id: 1</Box> */}
-      {/* <Invite /> */}
+      </Flex>
+      <BottomActions />
     </AppPageContainer>
   );
 }

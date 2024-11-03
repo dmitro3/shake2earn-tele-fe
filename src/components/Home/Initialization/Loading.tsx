@@ -1,9 +1,8 @@
-import { Flex } from '@radix-ui/themes';
 import { motion } from 'framer-motion';
 
 import PageContainer from 'components/Common/Page/PageContainer';
 
-import PirateChestLogo from 'assets/trease-logo.png';
+import PirateChestLogo from 'assets/logo.png';
 
 export default function Welcome() {
   const logoAnimation: React.ComponentProps<typeof motion.div> = {
@@ -21,7 +20,7 @@ export default function Welcome() {
         <img
           src={PirateChestLogo}
           alt="pirate chest logo"
-          style={{ maxWidth: 240, maxHeight: 240 }}
+          className="max-w-60 max-h-60"
         />
       </motion.div>
     </PageContainer>

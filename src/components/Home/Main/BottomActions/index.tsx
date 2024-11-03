@@ -1,0 +1,44 @@
+import { Button, Flex, FlexProps } from '@radix-ui/themes';
+
+import BackgroundSound from './BackgroundSound';
+
+type BottomActionsProps = FlexProps;
+
+export default function BottomActions({ ...props }: BottomActionsProps) {
+  const renderLeftActions = () => {
+    return (
+      <Flex
+        direction="column"
+        justify="between"
+        align="center"
+      >
+        <BackgroundSound />
+      </Flex>
+    );
+  };
+
+  const renderRightActions = () => {
+    return (
+      <Flex
+        direction="column"
+        justify="between"
+        align="center"
+      >
+        {/* TODO: explorer + invite */}
+        <Button>Explore</Button>
+        {/* <Invite /> */}
+      </Flex>
+    );
+  };
+
+  return (
+    <Flex
+      justify="between"
+      py="4"
+      {...props}
+    >
+      {renderLeftActions()}
+      {renderRightActions()}
+    </Flex>
+  );
+}

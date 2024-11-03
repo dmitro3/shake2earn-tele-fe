@@ -130,27 +130,47 @@ export default function ShakeChest({
   }, [onStartListenShake, onStopListenShake]);
 
   const renderSharkTurnAction = () => {
-    if (isInShakeTurn) {
+    if (!isInShakeTurn) {
       const disabledShakeButton = userData.turn === 0;
       return (
-        <Button
-          size="4"
-          className="font-bold uppercase"
-          disabled={disabledShakeButton}
-          onClick={onStartShakeTurn}
-        >
-          Shake now
-        </Button>
+        <Flex justify="center">
+          <Button
+            size="4"
+            className="font-bold uppercase"
+            disabled={disabledShakeButton}
+            onClick={onStartShakeTurn}
+          >
+            Shake now
+          </Button>
+        </Flex>
       );
     }
 
     return (
-      <Flex direction="column">
+      <Flex
+        direction="column"
+        width="100%"
+      >
         <Progress
-          className="w-full"
           value={(shakeTurnTimeLeft * 100) / ShakeConfig.TURN_DURATION}
+          color="amber"
+          className="h-4 bg-whiteA-12"
         />
-        <Text>Time left: {formatTime(shakeTurnTimeLeft)}</Text>
+
+        <Flex
+          mt="2"
+          width="100%"
+          justify="center"
+          className="text-whiteA-12"
+        >
+          <Text size="4">Time left:</Text>&nbsp;
+          <Text
+            size="4"
+            weight="bold"
+          >
+            {formatTime(shakeTurnTimeLeft)}
+          </Text>
+        </Flex>
       </Flex>
     );
   };
@@ -183,7 +203,13 @@ export default function ShakeChest({
           isOpening={isChestOpened}
         />
       </Flex>
-      <Flex direction="column">{renderSharkTurnAction()}</Flex>
+      <Flex
+        direction="column"
+        width="50%"
+        height="48px"
+      >
+        {renderSharkTurnAction()}
+      </Flex>
 
       <RewardDialog
         reward={chestReward}

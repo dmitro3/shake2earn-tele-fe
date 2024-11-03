@@ -17,7 +17,7 @@ export default function Welcome({ onStart, starting, error }: WelcomeProps) {
         <Heading
           as="h1"
           size="8"
-          className="text-whiteA-12 text-center mt-32"
+          className="text-amber-5 text-center mt-32"
         >
           Pirate Chest
         </Heading>
@@ -35,8 +35,8 @@ export default function Welcome({ onStart, starting, error }: WelcomeProps) {
 
         {error && (
           <Callout.Root
-            color="yellow"
-            className="w-full bg-yellow-3 mt-4"
+            color="amber"
+            className="w-full bg-amber-3 mt-4"
             size="1"
           >
             <Callout.Icon>

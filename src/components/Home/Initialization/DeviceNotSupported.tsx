@@ -12,8 +12,8 @@ export default function DeviceNotSupported() {
     <PageContainer>
       <Box m="auto">
         <Callout.Root
-          color="yellow"
-          className="bg-yellow-3"
+          color="amber"
+          className="bg-amber-3"
         >
           <Callout.Icon>
             <InfoCircledIcon />
