@@ -19,7 +19,7 @@ export default function Welcome() {
       <motion.div {...logoAnimation}>
         <img
           src={PirateChestLogo}
-          alt="pirate chest logo"
+          alt="pirate treasure logo"
           className="max-w-60 max-h-60"
         />
       </motion.div>
