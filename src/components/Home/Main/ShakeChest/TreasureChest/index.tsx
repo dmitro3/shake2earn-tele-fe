@@ -1,3 +1,4 @@
+import { Box } from '@radix-ui/themes';
 import clsx from 'clsx';
 import { motion, useAnimation } from 'framer-motion';
 import { useEffect, useMemo } from 'react';
@@ -73,9 +74,9 @@ export default function TreasureChest({
 
   return (
     <motion.div
+      {...props}
       variants={variants}
       animate={controls}
-      {...props}
     >
       <img
         src={TreasureChestImgSrc[chestStatus]}

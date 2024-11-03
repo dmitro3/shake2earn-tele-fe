@@ -193,18 +193,26 @@ export default function ShakeChest({
       </Flex>
 
       <Flex
-        maxWidth="480px"
-        maxHeight="480px"
+        maxWidth="460px"
+        maxHeight="460px"
       >
-        <TreasureChest
-          isShaking={isChestOpened ? false : isShaking}
-          isOpening={isChestOpened}
-        />
+        <Flex
+          position="relative"
+          height="0"
+          pb="100%"
+        >
+          <Flex className="absolute w-full h-full" />
+          <TreasureChest
+            isShaking={isChestOpened ? false : isShaking}
+            isOpening={isChestOpened}
+          />
+        </Flex>
       </Flex>
       <Flex
         direction="column"
         width="50%"
         height="48px"
+        mt="2"
       >
         {renderSharkTurnAction()}
       </Flex>
