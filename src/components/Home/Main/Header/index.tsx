@@ -52,7 +52,7 @@ export default function Header({ user, ...props }: HeaderProps) {
         size="4"
         className="h-[38px] text-amber-4"
       >
-        Pirate Chest
+        Pirate Treasure
       </Heading>
       {renderUserDropdown()}
     </Flex>
