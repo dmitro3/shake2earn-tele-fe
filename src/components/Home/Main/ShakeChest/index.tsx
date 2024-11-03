@@ -12,8 +12,8 @@ import useShake from 'hooks/animation/useShake';
 import { ChestRewardData, ChestRewardType, UserShakeData } from 'types/chest';
 import { formatTime } from 'utils/time';
 
-import RewardDialog from './Chest/RewardDialog';
-import TreasureChest from './Chest/TreasureChest';
+import RewardDialog from './RewardDialog';
+import TreasureChest from './TreasureChest';
 import { ShakeConfig, chestRewardConfigs } from './constants';
 import { getRandomReward } from './utils';
 
