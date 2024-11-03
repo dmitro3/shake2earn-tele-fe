@@ -1,10 +1,14 @@
 import { Button, Flex, FlexProps } from '@radix-ui/themes';
 
+import { useAppContext } from 'context/app';
+
 import BackgroundSound from './BackgroundSound';
 
-type BottomActionsProps = FlexProps;
+
 
 export default function BottomActions({ ...props }: BottomActionsProps) {
+  const { onUIChange } = useAppContext();
+
   const renderLeftActions = () => {
     return (
       <Flex
@@ -25,7 +29,7 @@ export default function BottomActions({ ...props }: BottomActionsProps) {
         align="center"
       >
         {/* TODO: explorer + invite */}
-        <Button>Explore</Button>
+        <Button onClick={() => onUIChange('explore')}>Explore</Button>
         {/* <Invite /> */}
       </Flex>
     );

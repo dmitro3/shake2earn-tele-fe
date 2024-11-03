@@ -1,10 +1,16 @@
 import { Box, Button, Card, Flex, Heading } from '@radix-ui/themes';
 
-import PageContainer from 'components/Common/Page/PageContainer';
+// import PageContainer from 'components/Common/Page/PageContainer';
+import AppPageContainer from 'components/Common/Page/AppPageContainer';
+import { useAppContext } from 'context/app';
+
+import Quest from './Quest';
 
 export default function Explore() {
+  const { onUIChange } = useAppContext();
+
   return (
-    <PageContainer>
+    <AppPageContainer>
       <Heading
         as="h2"
         size="6"
@@ -12,6 +18,7 @@ export default function Explore() {
       >
         Pirate Treasure
       </Heading>
+      <Button onClick={() => onUIChange('home')}>Back</Button>
       <Box className="text-left">
         <Box className="flex justify-center mt-10">
           <Card className=" flex space-x-4">
@@ -29,35 +36,7 @@ export default function Explore() {
         </Box>
       </Box>
 
-      <Box className="mt-10 space-y-8">
-        <Card>
-          <Flex
-            justify="between"
-            align="center"
-          >
-            <p>Daily checkin</p>
-            <Button>Claim</Button>
-          </Flex>
-        </Card>
-        <Card>
-          <Flex
-            justify="between"
-            align="center"
-          >
-            <p>Invite friends</p>
-            <Button disabled>Claim</Button>
-          </Flex>
-        </Card>
-        <Card>
-          <Flex
-            justify="between"
-            align="center"
-          >
-            <p>Join Telegram Chanel</p>
-            <Button disabled>Claim</Button>
-          </Flex>
-        </Card>
-      </Box>
-    </PageContainer>
+      <Quest />
+    </AppPageContainer>
   );
 }

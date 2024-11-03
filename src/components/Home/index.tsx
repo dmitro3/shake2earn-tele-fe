@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 
 import { useAppContext } from 'context/app';
 
+import Explore from './Explore';
 import DeviceNotSupported from './Initialization/DeviceNotSupported';
 import Loading from './Initialization/Loading';
 import Welcome from './Initialization/Welcome';
@@ -11,8 +12,15 @@ import Main from './Main';
 const WELCOME_SCREEN_DELAY = 1000;
 
 export default function Home() {
-  const { initialized, deviceSupported, error, onStart, started, starting } =
-    useAppContext();
+  const {
+    initialized,
+    deviceSupported,
+    error,
+    onStart,
+    started,
+    starting,
+    curUI,
+  } = useAppContext();
   const [showWelcomeScreen, setShowWelcomeScreen] = useState(true);
 
   useEffect(() => {
@@ -37,5 +45,11 @@ export default function Home() {
     );
   }
 
-  return <Main />;
+  if (curUI === 'home') {
+    return <Main />;
+  }
+
+  if (curUI === 'explore') {
+    return <Explore />;
+  }
 }
