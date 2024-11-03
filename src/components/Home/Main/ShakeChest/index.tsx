@@ -195,6 +195,7 @@ export default function ShakeChest({
       <Flex
         maxWidth="460px"
         maxHeight="460px"
+        width="100%"
       >
         <Flex
           position="relative"
