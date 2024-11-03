@@ -8,7 +8,7 @@ import Loading from './Initialization/Loading';
 import Welcome from './Initialization/Welcome';
 import Main from './Main';
 
-const WELCOME_SCREEN_DELAY = 1000;
+const WELCOME_SCREEN_DELAY_MS = 1250;
 
 export default function Home() {
   const { initialized, deviceSupported, error, onStart, started, starting } =
@@ -16,7 +16,7 @@ export default function Home() {
   const [showWelcomeScreen, setShowWelcomeScreen] = useState(true);
 
   useEffect(() => {
-    setTimeout(() => setShowWelcomeScreen(false), WELCOME_SCREEN_DELAY);
+    setTimeout(() => setShowWelcomeScreen(false), WELCOME_SCREEN_DELAY_MS);
   }, []);
 
   if (!deviceSupported) {

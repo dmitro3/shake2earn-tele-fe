@@ -6,17 +6,12 @@ import './App.css';
 import Home from './components/Home';
 
 const AppContainer = styled.div`
-  background-color: #e8e8e8;
-
-  @media (prefers-color-scheme: dark) {
-    background-color: #222;
-  }
+  background-color: #222;
 `;
 
 const AppContent = styled(Div100vh)`
   max-width: 768px;
   margin: 0 auto; /* center content on large screen  */
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
 `;
