@@ -1,6 +1,6 @@
 import { Box, Button, Card, Flex, Heading } from '@radix-ui/themes';
 
-import PageContainer from 'components/Common/PageContainer';
+import PageContainer from 'components/Common/Page/PageContainer';
 
 export default function Explore() {
   return (
