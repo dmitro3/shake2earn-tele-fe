@@ -15,6 +15,8 @@ interface AppContextType {
   device: {
     motionRef: React.RefObject<DeviceMotion>;
   };
+  curUI: string;
+  onUIChange: (newUI: string) => void;
   // backgroundAssets: {
   //   imgRef: React.RefObject<HTMLImageElement>;
   //   audioRef: React.RefObject<HTMLAudioElement>;
@@ -33,6 +35,7 @@ export const AppContextProvider = ({
   const [started, setStarted] = useState(false);
   const [starting, setStarting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [curUI, setCurUI] = useState<string>('home');
 
   const deviceMotionRef = useRef<DeviceMotion>(new DeviceMotion());
   // const {
@@ -76,6 +79,10 @@ export const AppContextProvider = ({
     setStarted(true);
   }, [deviceSupported, requestHardwarePermissions]);
 
+  const onUIChange = (newUI: string) => {
+    setCurUI(newUI);
+  };
+
   const value = useMemo(
     () => ({
       initialized,
@@ -87,8 +94,10 @@ export const AppContextProvider = ({
       device: {
         motionRef: deviceMotionRef,
       },
+      curUI,
+      onUIChange,
     }),
-    [deviceSupported, initialized, onStart, started, starting, error],
+    [deviceSupported, initialized, onStart, started, starting, error, curUI],
   );
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
