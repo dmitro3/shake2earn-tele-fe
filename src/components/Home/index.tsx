@@ -45,11 +45,9 @@ export default function Home() {
     );
   }
 
-  if (curUI === 'home') {
-    return <Main />;
-  }
-
   if (curUI === 'explore') {
     return <Explore />;
   }
+
+  return <Main />;
 }
