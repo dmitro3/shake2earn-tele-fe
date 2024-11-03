@@ -4,7 +4,7 @@ import { useAppContext } from 'context/app';
 
 import BackgroundSound from './BackgroundSound';
 
-
+type BottomActionsProps = FlexProps;
 
 export default function BottomActions({ ...props }: BottomActionsProps) {
   const { onUIChange } = useAppContext();
