@@ -14,14 +14,8 @@ import { formatTime } from 'utils/time';
 
 import RewardDialog from './Chest/RewardDialog';
 import TreasureChest from './Chest/TreasureChest';
-import { chestRewardConfigs } from './constants';
+import { ShakeConfig, chestRewardConfigs } from './constants';
 import { getRandomReward } from './utils';
-
-const ShakeConfig = {
-  SHAKE_DURATION: 1500,
-  TURN_DURATION: 10,
-  SHOW_REWARD_DELAY: 1500,
-};
 
 type ShakechestProps = FlexProps & {
   userData: UserShakeData;
@@ -100,9 +94,11 @@ export default function ShakeChest({
         return;
       }
       shakingTimeoutRef.current = setTimeout(() => {
+        // Open chest and vibrate device
         setIsChestOpened(true);
+        navigator.vibrate(ShakeConfig.SHOW_REWARD_DELAY);
+        // Show reward
         shakingTimeoutRef.current = null;
-
         setTimeout(() => {
           const reward = getRandomReward(chestRewardConfigs);
           onShakedSuccess(reward);
