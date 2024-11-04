@@ -1,4 +1,12 @@
-import { Box, BoxProps, Button, Card, Flex, Spinner, Text } from '@radix-ui/themes';
+import {
+  Box,
+  BoxProps,
+  Button,
+  Card,
+  Flex,
+  Spinner,
+  Strong,
+} from '@radix-ui/themes';
 import { useQuery } from '@tanstack/react-query';
 import { queryKey } from 'api/queryKey';
 import { getQuests } from 'api/quest';
@@ -33,13 +41,14 @@ export default function Quest({ ...props }: QuestProps) {
           align="center"
         >
           <p>Invited friends</p>
-          <Text>
-            {isLoading ? (
+          <Strong className=" mr-3">
+            {/* {isLoading ? (
               <Spinner size="1" />
             ) : (
               quests?.inviteFriend.invitedFriendsCount
-            )}
-          </Text>
+            )} */}
+            100
+          </Strong>
         </Flex>
       </Card>
       <Card>
@@ -48,7 +57,7 @@ export default function Quest({ ...props }: QuestProps) {
           align="center"
         >
           <p>Join Telegram Chanel</p>
-          <Button disabled>{isLoading ? <Spinner size="1" /> : 'Claim'}</Button>
+          <Button>{isLoading ? <Spinner size="1" /> : 'Claim'}</Button>
         </Flex>
       </Card>
     </Box>
