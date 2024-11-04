@@ -1,9 +1,10 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
 
+import useLoadAssets, { AssetData } from 'hooks/common/useLoadAssets';
 import createContext from 'utils/common/context';
 import { DeviceMotion } from 'utils/device/DeviceMotion';
 
-// import useBackgroundAssets from './app/useBackgroundAssest';
+import { AppAssets } from './constants';
 
 interface AppContextType {
   initialized: boolean;
@@ -17,10 +18,7 @@ interface AppContextType {
   };
   curUI: string;
   onUIChange: (newUI: string) => void;
-  // backgroundAssets: {
-  //   imgRef: React.RefObject<HTMLImageElement>;
-  //   audioRef: React.RefObject<HTMLAudioElement>;
-  // };
+  assetsRef: React.RefObject<AssetData[]>;
 }
 
 export const [useAppContext, AppContext] = createContext<
@@ -38,15 +36,12 @@ export const AppContextProvider = ({
   const [curUI, setCurUI] = useState<string>('home');
 
   const deviceMotionRef = useRef<DeviceMotion>(new DeviceMotion());
-  // const {
-  //   data: backgroundAssets,
-  //   state: { imgLoaded, audioLoaded },
-  // } = useBackgroundAssets();
+  const { loaded: assetsLoaded, assetsRef } = useLoadAssets(AppAssets);
 
   const initialized = useMemo(() => {
     // TODO: fetch user data
-    return true;
-  }, []);
+    return assetsLoaded;
+  }, [assetsLoaded]);
   const deviceSupported = DeviceMotion.isDeviceSupported;
 
   const requestHardwarePermissions = useCallback(async () => {
@@ -96,8 +91,18 @@ export const AppContextProvider = ({
       },
       curUI,
       onUIChange,
+      assetsRef,
     }),
-    [deviceSupported, initialized, onStart, started, starting, error, curUI],
+    [
+      assetsRef,
+      curUI,
+      deviceSupported,
+      error,
+      initialized,
+      onStart,
+      started,
+      starting,
+    ],
   );
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

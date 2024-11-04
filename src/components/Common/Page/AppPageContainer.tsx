@@ -1,6 +1,6 @@
 import { FlexProps } from '@radix-ui/themes';
 
-import BackgroundImg from 'assets/app/ocean-background.png';
+import { getAppAssetSrc } from 'context/app/utils';
 
 import PageContainer from './PageContainer';
 
@@ -8,13 +8,12 @@ type AppPageContainerProps = FlexProps & {
   children: React.ReactNode;
 };
 
+const imgSrc = getAppAssetSrc('background');
+
 export default function AppPageContainer({
   children,
   ...props
 }: AppPageContainerProps) {
-  // const imgSrc = backgroundAssets.imgRef.current?.src ?? '';
-  const imgSrc = BackgroundImg;
-
   return (
     <PageContainer
       style={{ background: imgSrc ? `url(${imgSrc})` : undefined }}

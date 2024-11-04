@@ -1,6 +1,5 @@
 import { InfoCircledIcon } from '@radix-ui/react-icons';
 import { Box, Button, Callout, Heading } from '@radix-ui/themes';
-import React from 'react';
 
 import AppPageContainer from 'components/Common/Page/AppPageContainer';
 
