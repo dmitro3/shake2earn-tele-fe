@@ -1,8 +1,7 @@
 import { motion, useAnimation } from 'framer-motion';
 import { useEffect, useMemo } from 'react';
 
-import TreasureChestClosed from 'assets/app/chest-closed.png';
-import TreasureChestOpened from 'assets/app/chest-opened.png';
+import { getAppAssets } from 'context/app/utils';
 
 import {
   generateRandomDelay,
@@ -21,8 +20,8 @@ const TreasureChestSizeMap = {
 };
 
 const TreasureChestImgSrc = {
-  [TreasureChestStatus.OPENED]: TreasureChestOpened,
-  [TreasureChestStatus.CLOSED]: TreasureChestClosed,
+  [TreasureChestStatus.OPENED]: getAppAssets('chest-opened'),
+  [TreasureChestStatus.CLOSED]: getAppAssets('chest-closed'),
 };
 
 interface TreasureChestProps

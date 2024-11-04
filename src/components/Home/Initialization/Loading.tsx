@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 
 import PageContainer from 'components/Common/Page/PageContainer';
 
-import PirateChestLogo from 'assets/logo.png';
+const logoSrc = '/assets/logo.png';
 
 export default function Welcome() {
   const logoAnimation: React.ComponentProps<typeof motion.div> = {
@@ -18,7 +18,7 @@ export default function Welcome() {
     >
       <motion.div {...logoAnimation}>
         <img
-          src={PirateChestLogo}
+          src={logoSrc}
           alt="pirate treasure logo"
           className="max-w-60 max-h-60"
         />
