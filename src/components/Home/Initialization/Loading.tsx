@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 
 import PageContainer from 'components/Common/Page/PageContainer';
 
-const logoSrc = '/assets/logo.png';
+const logoSrc = '/media/logo.png';
 
 export default function Welcome() {
   const logoAnimation: React.ComponentProps<typeof motion.div> = {
