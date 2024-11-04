@@ -22,4 +22,4 @@ export const AppAssets: AssetConfig[] = [
     name: 'soundtrack',
     src: '/assets/music/soundtrack.mp3',
   },
-] as const;
+];
