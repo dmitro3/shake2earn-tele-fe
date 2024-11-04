@@ -2,9 +2,9 @@ import { SpeakerLoudIcon, SpeakerOffIcon } from '@radix-ui/react-icons';
 import { IconButton, IconButtonProps } from '@radix-ui/themes';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-import { getAppAssets } from 'context/app/utils';
+import { getAppAssetSrc } from 'context/app/utils';
 
-const soundSrc = getAppAssets('soundtrack');
+const soundSrc = getAppAssetSrc('soundtrack');
 
 type BackgroundSoundProps = IconButtonProps & {
   defaultPlay?: boolean;
