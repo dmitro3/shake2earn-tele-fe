@@ -1,10 +1,12 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { getUser } from 'api/user';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import useLoadAssets, { AssetData } from 'hooks/common/useLoadAssets';
+import { User } from 'types/user';
 import createContext from 'utils/common/context';
 import { DeviceMotion } from 'utils/device/DeviceMotion';
 
 import { AppAssets } from './constants';
+import { loadAppAssets, storeTelegramUserId } from './utils';
 
 interface AppContextType {
   initialized: boolean;
@@ -18,7 +20,7 @@ interface AppContextType {
   };
   curUI: string;
   onUIChange: (newUI: string) => void;
-  assetsRef: React.RefObject<AssetData[]>;
+  userData: User | null;
 }
 
 export const [useAppContext, AppContext] = createContext<
@@ -30,19 +32,42 @@ export const AppContextProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
+  const [initialized, setInitialized] = useState(false);
   const [started, setStarted] = useState(false);
   const [starting, setStarting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [curUI, setCurUI] = useState<string>('home');
 
-  const deviceMotionRef = useRef<DeviceMotion>(new DeviceMotion());
-  const { loaded: assetsLoaded, assetsRef } = useLoadAssets(AppAssets);
+  const [userData, setUserData] = useState<User | null>(null);
 
-  const initialized = useMemo(() => {
-    // TODO: fetch user data
-    return assetsLoaded;
-  }, [assetsLoaded]);
+  const deviceMotionRef = useRef<DeviceMotion>(new DeviceMotion());
+
   const deviceSupported = DeviceMotion.isDeviceSupported;
+
+  const fetchUserData = useCallback(async () => {
+    try {
+      const user = await getUser();
+      setUserData(user);
+    } catch (error) {
+      setError('Failed to fetch user data');
+    }
+  }, []);
+
+  const initData = useCallback(async () => {
+    if (!deviceSupported) {
+      return;
+    }
+    const storeUserIdResult = storeTelegramUserId();
+    if (!storeUserIdResult) {
+      return;
+    }
+    await Promise.all([fetchUserData(), loadAppAssets(AppAssets)]);
+    setInitialized(true);
+  }, [deviceSupported, fetchUserData]);
+
+  useEffect(() => {
+    initData();
+  }, [initData]);
 
   const requestHardwarePermissions = useCallback(async () => {
     const deviceMotionApprovalStatus = await DeviceMotion.approve();
@@ -91,10 +116,9 @@ export const AppContextProvider = ({
       },
       curUI,
       onUIChange,
-      assetsRef,
+      userData,
     }),
     [
-      assetsRef,
       curUI,
       deviceSupported,
       error,
@@ -102,6 +126,7 @@ export const AppContextProvider = ({
       onStart,
       started,
       starting,
+      userData,
     ],
   );
 
