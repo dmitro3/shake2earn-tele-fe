@@ -29,7 +29,7 @@ export default function Quest({ ...props }: QuestProps) {
           align="center"
         >
           <p>Daily checkin</p>
-          <Button disabled={(!quests as any)?.dailyClaim.claimed}>
+          <Button disabled={quests?.dailyClaim.claimed}>
             {isLoading ? <Spinner size="1" /> : 'Claim'}
           </Button>
         </Flex>
@@ -44,7 +44,7 @@ export default function Quest({ ...props }: QuestProps) {
             {isLoading ? (
               <Spinner size="1" />
             ) : (
-              quests.inviteFriend?.invitedFriendsCount
+              quests?.inviteFriend?.invitedFriendsCount
             )}
           </Strong>
         </Flex>
@@ -55,7 +55,9 @@ export default function Quest({ ...props }: QuestProps) {
           align="center"
         >
           <p>Join Telegram Chanel</p>
-          <Button>{isLoading ? <Spinner size="1" /> : 'Claim'}</Button>
+          <Button disabled={quests?.joinChannelQuest.claimed}>
+            {isLoading ? <Spinner size="1" /> : 'Claim'}
+          </Button>
         </Flex>
       </Card>
     </Box>
