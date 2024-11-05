@@ -29,7 +29,7 @@ export default function Quest({ ...props }: QuestProps) {
           align="center"
         >
           <p>Daily checkin</p>
-          <Button disabled={!quests?.dailyClaim.claimed}>
+          <Button disabled={(!quests as any)?.dailyClaim.claimed}>
             {isLoading ? <Spinner size="1" /> : 'Claim'}
             {/* <Spinner size="1" /> */}
           </Button>
