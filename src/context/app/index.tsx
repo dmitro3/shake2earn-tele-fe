@@ -33,11 +33,12 @@ export const AppContextProvider = ({
   children: React.ReactNode;
 }) => {
   const [initialized, setInitialized] = useState(false);
-  const [userData, setUserData] = useState<User | null>(null); // TODO: fetch user data
   const [started, setStarted] = useState(false);
   const [starting, setStarting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [curUI, setCurUI] = useState<string>('home');
+
+  const [userData, setUserData] = useState<User | null>(null);
 
   const deviceMotionRef = useRef<DeviceMotion>(new DeviceMotion());
 
