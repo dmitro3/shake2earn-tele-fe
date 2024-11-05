@@ -29,9 +29,8 @@ export default function Quest({ ...props }: QuestProps) {
           align="center"
         >
           <p>Daily checkin</p>
-          <Button disabled={!quests?.dailyClaim.claimed}>
+          <Button disabled={quests?.dailyClaim?.claimed}>
             {isLoading ? <Spinner size="1" /> : 'Claim'}
-            {/* <Spinner size="1" /> */}
           </Button>
         </Flex>
       </Card>
@@ -42,12 +41,11 @@ export default function Quest({ ...props }: QuestProps) {
         >
           <p>Invited friends</p>
           <Strong className=" mr-3">
-            {/* {isLoading ? (
+            {isLoading ? (
               <Spinner size="1" />
             ) : (
-              quests?.inviteFriend.invitedFriendsCount
-            )} */}
-            100
+              quests.inviteFriend?.invitedFriendsCount
+            )}
           </Strong>
         </Flex>
       </Card>
