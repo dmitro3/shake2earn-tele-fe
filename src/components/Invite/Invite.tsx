@@ -37,7 +37,7 @@ export const Invite = () => {
 
   const { data: user, error } = useQuery(
     [queryKey.getUser, userId],
-    () => getUser(userId?.toString() || ''),
+    () => getUser(),
     {
       enabled: !!userId,
       retry: false, // Prevent auto-retry on error
