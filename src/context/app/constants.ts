@@ -1,8 +1,8 @@
-import { AssetConfig, AssetType } from 'hooks/common/useLoadAssets';
+import { AssetConfig, AssetType } from 'utils/common/assets';
 
 const withViteBaseUrlWrapper = (url: string) => {
   return import.meta.env.BASE_URL ? url : `${import.meta.env.BASE_URL}/${url}`;
-}
+};
 
 // Assets from public folder will be cached
 export const AppAssets: AssetConfig[] = [

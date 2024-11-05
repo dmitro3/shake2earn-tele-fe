@@ -1,5 +1,3 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-
 export enum AssetType {
   IMG = 'IMG',
   AUDIO = 'AUDIO',
@@ -22,7 +20,7 @@ export type AssetData = { name: string } & (
     }
 );
 
-const loadAsset = (asset: AssetConfig) => {
+export const loadAsset = (asset: AssetConfig) => {
   return new Promise<AssetData>((resolve) => {
     switch (asset.type) {
       case AssetType.IMG: {
@@ -60,24 +58,3 @@ const loadAsset = (asset: AssetConfig) => {
     }
   });
 };
-
-export default function useLoadAssets(assets: AssetConfig[]): {
-  loaded: boolean;
-  assetsRef: React.RefObject<AssetData[]>;
-} {
-  const [loaded, setLoaded] = useState(false);
-  const loadedAssetsRef = useRef<AssetData[]>([]);
-
-  const loadAssets = useCallback(async () => {
-    setLoaded(false);
-    const loadedAssets = await Promise.all(assets.map(loadAsset));
-    setLoaded(true);
-    loadedAssetsRef.current = loadedAssets;
-  }, [assets]);
-
-  useEffect(() => {
-    loadAssets();
-  }, [loadAssets]);
-
-  return { loaded, assetsRef: loadedAssetsRef };
-}

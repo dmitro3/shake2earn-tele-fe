@@ -1,11 +1,12 @@
 import config from 'configs/env';
+import { StorageKey } from 'const/storage';
 import forge from 'node-forge';
 
 import storage from 'utils/storage';
 
 export class Auth {
   get telegramId() {
-    const telegramId = storage.getItem('telegram-id');
+    const telegramId = storage.getItem(StorageKey.USER_ID);
     return telegramId;
   }
 

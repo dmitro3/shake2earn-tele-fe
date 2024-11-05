@@ -1,5 +1,8 @@
 import axios from 'axios';
 
+import { User } from 'types/user';
+import { getWithToken } from 'utils/request';
+
 const userApi = axios.create({
   baseURL: 'http://localhost:3000/api/v1/users',
   headers: {
@@ -7,8 +10,8 @@ const userApi = axios.create({
   },
 });
 
-export const getUser = async (id: string) => {
-  const response = await userApi.get(`/${id}`);
+export const getUser = async () => {
+  const response = await getWithToken<User>(`/users`);
   return response.data;
 };
 
