@@ -21,7 +21,7 @@ const getAuthHeader = () => {
 const baseRequest = <R, D>(
   method: Method,
   url: string,
-  configs: { params?: any; data?: any } = {},
+  configs: { params?: any; data?: D } = {},
   auth = false,
 ) => {
   let headers = { ...defaultHeaders };
