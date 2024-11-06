@@ -97,7 +97,7 @@ export default function Quest({ ...props }: QuestProps) {
             disabled={
               quests?.joinChannelQuest.claimed || joinChannelMutation.isLoading
             }
-            onClick={() => joinChannelMutation.mutate()}
+            onClick={() => joinChannelMutation.mutate(user?.username)}
           >
             {isLoading || joinChannelMutation.isLoading ? (
               <Spinner size="1" />
