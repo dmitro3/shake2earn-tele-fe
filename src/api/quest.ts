@@ -1,4 +1,4 @@
-import { getWithToken } from 'utils/request';
+import { getWithToken, postWithToken } from 'utils/request';
 
 type Quest = {
   dailyClaim: {
@@ -30,4 +30,18 @@ export const getQuests = async () => {
   );
 
   return data;
+};
+
+export const claimDailyQuest = async () => {
+  const data = await postWithToken('quests/claim-daily', { params: {} }).then(
+    (res) => {
+      return res.data;
+    },
+  );
+  console.log(data);
+  return data;
+
+  // setTimeout(() => {
+  //   return true;
+  // }, 2000);
 };

@@ -7,9 +7,10 @@ import {
   Spinner,
   Strong,
 } from '@radix-ui/themes';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { queryKey } from 'api/queryKey';
-import { getQuests } from 'api/quest';
+import { claimDailyQuest, getQuests } from 'api/quest';
+import { toast } from 'react-toastify';
 
 type QuestProps = BoxProps;
 
@@ -21,6 +22,15 @@ export default function Quest({ ...props }: QuestProps) {
     },
   });
 
+  const mutation = useMutation(claimDailyQuest, {
+    onSuccess: () => {
+      toast.success('Daily quest claimed successfully!');
+    },
+    onError: () => {
+      toast.error('Failed to claim daily quest.');
+    },
+  });
+
   return (
     <Box className="mt-10 space-y-8">
       <Card>
@@ -29,8 +39,11 @@ export default function Quest({ ...props }: QuestProps) {
           align="center"
         >
           <p>Daily checkin</p>
-          <Button disabled={quests?.dailyClaim.claimed}>
-            {isLoading ? <Spinner size="1" /> : 'Claim'}
+          <Button
+            disabled={quests?.dailyClaim.claimed || mutation.isLoading}
+            onClick={() => mutation.mutate()}
+          >
+            {isLoading || mutation.isLoading ? <Spinner size="1" /> : 'Claim'}
           </Button>
         </Flex>
       </Card>
