@@ -3,6 +3,7 @@ import { Box } from '@radix-ui/themes';
 import AppPageContainer from 'components/Common/Page/AppPageContainer';
 import { useAppContext } from 'context/app';
 
+import Footer from './Footer';
 import Header from './Header';
 import Quest from './Quest';
 import User from './User';
@@ -20,6 +21,7 @@ export default function Explore() {
       </Box>
 
       <Quest />
+      <Footer />
     </AppPageContainer>
   );
 }
