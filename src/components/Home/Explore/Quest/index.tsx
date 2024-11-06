@@ -8,13 +8,23 @@ import {
   Strong,
 } from '@radix-ui/themes';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import WebApp from '@twa-dev/sdk';
 import { queryKey } from 'api/queryKey';
-import { claimDailyQuest, getQuests } from 'api/quest';
+import { claimDailyQuest, claimJoinChannel, getQuests } from 'api/quest';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 type QuestProps = BoxProps;
 
 export default function Quest({ ...props }: QuestProps) {
+  const [user, setUser] = useState<any>();
+
+  useEffect(() => {
+    if (WebApp.initDataUnsafe) {
+      setUser(WebApp.initDataUnsafe.user);
+    }
+  }, []);
+
   const { data: quests, isLoading } = useQuery({
     queryKey: [queryKey.getQuests],
     queryFn: () => {
@@ -22,12 +32,21 @@ export default function Quest({ ...props }: QuestProps) {
     },
   });
 
-  const mutation = useMutation(claimDailyQuest, {
+  const dailyQuestMutation = useMutation(claimDailyQuest, {
     onSuccess: () => {
       toast.success('Daily quest claimed successfully!');
     },
     onError: () => {
       toast.error('Failed to claim daily quest.');
+    },
+  });
+
+  const joinChannelMutation = useMutation(claimJoinChannel, {
+    onSuccess: () => {
+      toast.success('Join channel quest claimed successfully!');
+    },
+    onError: () => {
+      toast.error('Failed to claim join channel quest.');
     },
   });
 
@@ -40,10 +59,16 @@ export default function Quest({ ...props }: QuestProps) {
         >
           <p>Daily checkin</p>
           <Button
-            disabled={quests?.dailyClaim.claimed || mutation.isLoading}
-            onClick={() => mutation.mutate()}
+            disabled={
+              quests?.dailyClaim.claimed || dailyQuestMutation.isLoading
+            }
+            onClick={() => dailyQuestMutation.mutate()}
           >
-            {isLoading || mutation.isLoading ? <Spinner size="1" /> : 'Claim'}
+            {isLoading || dailyQuestMutation.isLoading ? (
+              <Spinner size="1" />
+            ) : (
+              'Claim'
+            )}
           </Button>
         </Flex>
       </Card>
@@ -68,8 +93,17 @@ export default function Quest({ ...props }: QuestProps) {
           align="center"
         >
           <p>Join Telegram Chanel</p>
-          <Button disabled={quests?.joinChannelQuest.claimed}>
-            {isLoading ? <Spinner size="1" /> : 'Claim'}
+          <Button
+            disabled={
+              quests?.joinChannelQuest.claimed || joinChannelMutation.isLoading
+            }
+            onClick={() => joinChannelMutation.mutate()}
+          >
+            {isLoading || joinChannelMutation.isLoading ? (
+              <Spinner size="1" />
+            ) : (
+              'Claim'
+            )}
           </Button>
         </Flex>
       </Card>
