@@ -8,6 +8,11 @@ const withViteBaseUrlWrapper = (url: string) => {
 export const AppAssets: AssetConfig[] = [
   {
     type: AssetType.IMG,
+    name: 'background-welcome',
+    src: withViteBaseUrlWrapper('assets/app/ocean-background-welcome.jpg'),
+  },
+  {
+    type: AssetType.IMG,
     name: 'background',
     src: withViteBaseUrlWrapper('assets/app/ocean-background.png'),
   },
