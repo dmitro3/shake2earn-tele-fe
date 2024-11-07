@@ -4,13 +4,6 @@ import { queryKey } from 'api/queryKey';
 import { createUser, getUser } from 'api/user';
 import React, { useEffect } from 'react';
 
-// Declare the Telegram WebApp object so TypeScript doesn't complain
-declare global {
-  interface Window {
-    Telegram: any;
-  }
-}
-
 export const Invite = () => {
   const [startParam, setStartParam] = React.useState<string | null>(null);
   const [userId, setUserId] = React.useState<number | undefined>(10);

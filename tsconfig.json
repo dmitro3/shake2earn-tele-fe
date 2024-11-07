@@ -25,11 +25,12 @@
     "./node_modules/**/*"
   ],
   "include": [
-    "global.d.ts",
+    "./src",
     "*.ts",
     "*.tsx",
     "**/*.ts",
-    "**/*.tsx"
+    "**/*.tsx",
+    "global.d.ts"
   ],
   "references": [
     {
