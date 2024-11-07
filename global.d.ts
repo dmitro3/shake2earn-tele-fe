@@ -1,5 +1,7 @@
+import WebApp from '@twa-dev/sdk';
+
 declare global {
   interface Window {
-    Telegram: any;
+    Telegram: typeof WebApp;
   }
 }

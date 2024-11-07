@@ -1,12 +1,14 @@
 import { getUser } from 'api/user';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
+import { User as TelegramUser } from 'types/telegram';
 import { User } from 'types/user';
 import createContext from 'utils/common/context';
 import { DeviceMotion } from 'utils/device/DeviceMotion';
 
 import { AppAssets } from './constants';
-import { loadAppAssets, storeTelegramUserId } from './utils';
+import useGetTelegramUser from './useGetTelegramUser';
+import { loadAppAssets } from './utils';
 
 interface AppContextType {
   initialized: boolean;
@@ -15,12 +17,10 @@ interface AppContextType {
   error: string | null;
   onStart: () => Promise<void>;
   deviceSupported: boolean;
-  device: {
-    motionRef: React.RefObject<DeviceMotion>;
-  };
   curUI: string;
   onUIChange: (newUI: string) => void;
   userData: User | null;
+  telegramUserData: TelegramUser;
 }
 
 export const [useAppContext, AppContext] = createContext<
@@ -38,11 +38,11 @@ export const AppContextProvider = ({
   const [error, setError] = useState<string | null>(null);
   const [curUI, setCurUI] = useState<string>('home');
 
-  const [userData, setUserData] = useState<User | null>(null);
-
-  const deviceMotionRef = useRef<DeviceMotion>(new DeviceMotion());
-
   const deviceSupported = DeviceMotion.isDeviceSupported;
+
+  const [userData, setUserData] = useState<User | null>(null);
+  const { user: telegramUserData, loaded: telegramUserLoaded } =
+    useGetTelegramUser();
 
   const fetchUserData = useCallback(async () => {
     try {
@@ -54,16 +54,13 @@ export const AppContextProvider = ({
   }, []);
 
   const initData = useCallback(async () => {
-    if (!deviceSupported) {
+    if (!deviceSupported || !telegramUserLoaded) {
       return;
     }
-    const storeUserIdResult = storeTelegramUserId();
-    if (!storeUserIdResult) {
-      return;
-    }
+
     await Promise.all([fetchUserData(), loadAppAssets(AppAssets)]);
     setInitialized(true);
-  }, [deviceSupported, fetchUserData]);
+  }, [deviceSupported, fetchUserData, telegramUserLoaded]);
 
   useEffect(() => {
     initData();
@@ -111,12 +108,10 @@ export const AppContextProvider = ({
       onStart,
       started,
       starting,
-      device: {
-        motionRef: deviceMotionRef,
-      },
       curUI,
       onUIChange,
       userData,
+      telegramUserData,
     }),
     [
       curUI,
@@ -127,6 +122,7 @@ export const AppContextProvider = ({
       started,
       starting,
       userData,
+      telegramUserData,
     ],
   );
 

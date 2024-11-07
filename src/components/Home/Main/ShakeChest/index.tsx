@@ -160,7 +160,7 @@ export default function ShakeChest({
           align="center"
         >
           <Button
-            size="4"
+            size="3"
             className="font-bold uppercase"
             disabled={disabledShakeButton}
             onClick={onStartShakeTurn}
@@ -234,8 +234,8 @@ export default function ShakeChest({
       </Flex>
 
       <Flex
-        maxWidth="360px"
-        maxHeight="360px"
+        maxWidth="320px"
+        maxHeight="320px"
         width="100%"
       >
         <Flex
@@ -254,7 +254,6 @@ export default function ShakeChest({
         direction="column"
         width="50%"
         height="82px"
-        mt="2"
       >
         {renderSharkTurnAction()}
       </Flex>

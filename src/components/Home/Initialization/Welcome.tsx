@@ -2,6 +2,7 @@ import { InfoCircledIcon } from '@radix-ui/react-icons';
 import { Box, Button, Callout, Heading } from '@radix-ui/themes';
 
 import AppPageContainer from 'components/Common/Page/AppPageContainer';
+import { getAppAssetSrc } from 'context/app/utils';
 
 interface WelcomeProps {
   onStart: () => void;
@@ -9,9 +10,13 @@ interface WelcomeProps {
   error: string | null;
 }
 
+const imgSrc = getAppAssetSrc('background-welcome');
+
 export default function Welcome({ onStart, starting, error }: WelcomeProps) {
   return (
-    <AppPageContainer>
+    <AppPageContainer
+      style={{ background: imgSrc ? `url(${imgSrc})` : undefined }}
+    >
       <Box className="flex flex-col content-center flex-grow">
         <Heading
           as="h1"

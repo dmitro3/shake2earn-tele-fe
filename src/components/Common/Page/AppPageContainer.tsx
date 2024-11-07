@@ -11,12 +11,19 @@ type AppPageContainerProps = FlexProps & {
 const imgSrc = getAppAssetSrc('background');
 
 export default function AppPageContainer({
+  style,
   children,
   ...props
 }: AppPageContainerProps) {
   return (
     <PageContainer
-      style={{ background: imgSrc ? `url(${imgSrc})` : undefined }}
+      style={{
+        background: imgSrc ? `url(${imgSrc})` : undefined,
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+        backgroundSize: 'cover',
+        ...style,
+      }}
       {...props}
     >
       {children}
