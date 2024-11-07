@@ -25,13 +25,7 @@ export default function Quest({ ...props }: QuestProps) {
     }
   }, []);
 
-  const { data: quests, isLoading } = useQuery({
-    queryKey: [queryKey.getQuests],
-    queryFn: () => {
-      return getQuests();
-    },
-  });
-
+  // post request to claim daily quest
   const dailyQuestMutation = useMutation(claimDailyQuest, {
     onSuccess: () => {
       toast.success('Daily quest claimed successfully!');
@@ -41,12 +35,25 @@ export default function Quest({ ...props }: QuestProps) {
     },
   });
 
+  // post request to claim join channel
   const joinChannelMutation = useMutation(claimJoinChannel, {
     onSuccess: () => {
       toast.success('Join channel quest claimed successfully!');
     },
     onError: () => {
       toast.error('Failed to claim join channel quest.');
+    },
+  });
+
+  // get request to get quests information
+  const { data: quests, isLoading } = useQuery({
+    queryKey: [
+      queryKey.getQuests,
+      dailyQuestMutation.isSuccess,
+      joinChannelMutation.isSuccess,
+    ],
+    queryFn: () => {
+      return getQuests();
     },
   });
 
@@ -59,9 +66,7 @@ export default function Quest({ ...props }: QuestProps) {
         >
           <p>Daily checkin</p>
           <Button
-            disabled={
-              quests?.dailyClaim.claimed || dailyQuestMutation.isLoading
-            }
+            disabled={quests?.dailyClaim.claimed}
             onClick={() => dailyQuestMutation.mutate()}
           >
             {isLoading || dailyQuestMutation.isLoading ? (
@@ -94,9 +99,7 @@ export default function Quest({ ...props }: QuestProps) {
         >
           <p>Join Telegram Chanel</p>
           <Button
-            disabled={
-              quests?.joinChannelQuest.claimed || joinChannelMutation.isLoading
-            }
+            disabled={quests?.joinChannelQuest.claimed}
             onClick={() => joinChannelMutation.mutate(user?.username)}
           >
             {isLoading || joinChannelMutation.isLoading ? (
