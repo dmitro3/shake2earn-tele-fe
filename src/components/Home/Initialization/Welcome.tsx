@@ -4,6 +4,8 @@ import { Box, Button, Callout, Heading } from '@radix-ui/themes';
 import AppPageContainer from 'components/Common/Page/AppPageContainer';
 import { getAppAssetSrc } from 'context/app/utils';
 
+import ViewDevInfo from './ViewDevInfo';
+
 interface WelcomeProps {
   onStart: () => void;
   starting: boolean;
@@ -26,6 +28,8 @@ export default function Welcome({ onStart, starting, error }: WelcomeProps) {
           Pirate Treausure
         </Heading>
       </Box>
+
+      <ViewDevInfo />
 
       <Box className="p-8 mb-8 flex flex-col items-center">
         <Button
