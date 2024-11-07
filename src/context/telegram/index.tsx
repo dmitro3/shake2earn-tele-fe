@@ -20,18 +20,10 @@ export const TelegramContextProvider = ({
   const [webApp, setWebApp] = useState<typeof WebApp | null>(null);
   const [loaded, setLoaded] = useState(false);
 
-  const loadWebApp = useCallback(() => {
-    const app = window.Telegram;
-    if (app && 'ready' in app && typeof app.ready === 'function') {
-      app.ready();
-      setWebApp(app);
-    }
+  useEffect(() => {
+    setWebApp(WebApp);
     setLoaded(true);
   }, []);
-
-  useEffect(() => {
-    loadWebApp();
-  }, [loadWebApp]);
 
   const value = useMemo(
     () => ({
