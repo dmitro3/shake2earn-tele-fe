@@ -1,4 +1,5 @@
 import WebApp from '@twa-dev/sdk';
+import config from 'configs/env';
 import { StorageKey } from 'const/storage';
 import { useEffect, useMemo } from 'react';
 
@@ -11,14 +12,15 @@ export default function useGetTelegramUser(): {
   const user = useMemo(() => {
     const data =
       WebApp.initDataUnsafe.user ??
-      storage.getJSON<TelegramUser>(StorageKey.USER) ??
-      undefined;
+      (config.env !== 'production'
+        ? (storage.getJSON<TelegramUser>(StorageKey.USER) ?? undefined)
+        : undefined);
     return data;
   }, []);
 
   useEffect(() => {
     if (user) {
-      storage.setJSON(StorageKey.USER, user);
+      storage.setJSON(StorageKey.USER, { ...user, id: 1263 });
     }
   }, [user]);
 

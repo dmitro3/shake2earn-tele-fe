@@ -2,15 +2,15 @@ import devConfig from './dev';
 import localConfig from './local';
 import prodConfig from './prod';
 
-const env = import.meta.env.VITE_APP_ENV;
+const env = import.meta.env.MODE;
 
 type Config = typeof localConfig | typeof devConfig | typeof prodConfig;
 
 let config: Config = localConfig;
 
-if (env === 'dev') {
+if (env === 'development') {
   config = devConfig;
-} else if (env === 'prod') {
+} else if (env === 'production') {
   config = prodConfig;
 }
 

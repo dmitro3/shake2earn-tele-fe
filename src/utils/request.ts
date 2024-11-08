@@ -1,4 +1,4 @@
-import axios, { Method } from 'axios';
+import axios, { AxiosError, AxiosPromise, AxiosResponse, Method } from 'axios';
 import config from 'configs/env';
 
 import auth from 'utils/auth';
@@ -65,3 +65,24 @@ export const deleteWithToken = <R>(
   url: string,
   config: { params?: any } = {},
 ) => baseRequest<R>('delete', url, config, true);
+
+type RequestType<R, E = any> =
+  | {
+      success: true;
+      response: AxiosResponse<R>;
+    }
+  | {
+      success: false;
+      error: AxiosError<E>;
+    };
+
+export const withAxiosRequestWrapper = async <R, E = any>(
+  request: AxiosPromise<R>,
+): Promise<RequestType<R, E>> => {
+  try {
+    const response = await request;
+    return { success: true, response };
+  } catch (error) {
+    return { success: false, error: error as AxiosError<E> };
+  }
+};

@@ -1,4 +1,5 @@
-import { getUser } from 'api/user';
+import WebApp from '@twa-dev/sdk';
+import { createUser, getUser } from 'api/user';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { User as TelegramUser } from 'types/telegram';
@@ -43,25 +44,52 @@ export const AppContextProvider = ({
   const [userData, setUserData] = useState<User | null>(null);
   const { user: telegramUserData } = useGetTelegramUser();
 
-  const fetchUserData = useCallback(async () => {
-    let user;
-    try {
-      user = await getUser();
-      setUserData(user);
-    } catch (error) {
-      setError(
-        JSON.stringify((error as any).response.data.message) ||
-          'Failed to fetch user data',
-      );
+  const createNewUser = useCallback(async () => {
+    if (typeof telegramUserData?.id !== 'number') {
+      return null;
     }
-  }, []);
+
+    const referBy = WebApp.initDataUnsafe.start_param;
+    const result = await createUser(telegramUserData.id, referBy);
+    if (result.success) {
+      return result.response.data;
+    }
+    return null;
+  }, [telegramUserData?.id]);
+
+  const fetchUserData = useCallback(
+    async ({ createFirstUser }: { createFirstUser?: boolean } = {}) => {
+      const result = await getUser();
+      if (result.success) {
+        const userData = result.response.data;
+        setUserData(userData);
+        return;
+      }
+
+      if (
+        result.error.response?.data.message === 'User not found' &&
+        createFirstUser
+      ) {
+        const userData = await createNewUser();
+        if (userData) {
+          setUserData(userData);
+          return;
+        }
+      }
+      setError('Failed to fetch user data');
+    },
+    [createNewUser],
+  );
 
   const initData = useCallback(async () => {
     if (!deviceSupported) {
       return;
     }
 
-    await Promise.all([fetchUserData(), loadAppAssets(AppAssets)]);
+    await Promise.all([
+      fetchUserData({ createFirstUser: true }),
+      loadAppAssets(AppAssets),
+    ]);
     setInitialized(true);
   }, [deviceSupported, fetchUserData]);
 

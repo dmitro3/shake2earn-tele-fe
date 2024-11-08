@@ -1,19 +1,19 @@
 import { User } from 'types/user';
-import { getWithToken, postWithoutToken } from 'utils/request';
+import {
+  getWithToken,
+  postWithoutToken,
+  withAxiosRequestWrapper,
+} from 'utils/request';
 
-export const getUser = async () => {
-  const response = await getWithToken<User>(`/users`);
-  return response.data;
-};
+export const createUser = async (telegramId: number, referBy?: string) =>
+  withAxiosRequestWrapper(
+    postWithoutToken<User>('/users', {
+      data: {
+        telegramId: telegramId.toString(),
+        referBy,
+      },
+    }),
+  );
 
-export const createUser = async (
-  telegramId: string,
-  referBy: string | null,
-) => {
-  await postWithoutToken<User>('/users', {
-    data: {
-      telegramId,
-      referBy,
-    },
-  });
-};
+export const getUser = async () =>
+  withAxiosRequestWrapper(getWithToken<User>(`/users`));
