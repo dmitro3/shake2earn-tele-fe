@@ -1,5 +1,5 @@
 import * as Dialog from '@radix-ui/react-dialog';
-import { Card } from '@radix-ui/themes';
+import { Button, Card } from '@radix-ui/themes';
 
 export default function DialogCustom({
   title,
@@ -11,7 +11,7 @@ export default function DialogCustom({
   return (
     <Dialog.Root>
       <Dialog.Trigger asChild>
-        <Card className="text-center text-sm">{title}</Card>
+        <Button className="text-center text-sm">{title}</Button>
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-0" />

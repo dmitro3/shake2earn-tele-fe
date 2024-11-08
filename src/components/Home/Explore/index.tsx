@@ -1,4 +1,4 @@
-import { Box } from '@radix-ui/themes';
+import { Box, Flex } from '@radix-ui/themes';
 
 import AppPageContainer from 'components/Common/Page/AppPageContainer';
 import { useAppContext } from 'context/app';
@@ -19,8 +19,14 @@ export default function Explore() {
           <User />
         </Box>
       </Box>
-
-      <Quest />
+      <Flex
+        direction="column"
+        flexGrow="1"
+        justify="center"
+        height="100%"
+      >
+        <Quest />
+      </Flex>
       <Footer />
     </AppPageContainer>
   );
