@@ -4,7 +4,6 @@ import { TonConnectUIProvider } from '@tonconnect/ui-react';
 import ReactDOM from 'react-dom/client';
 
 import { AppContextProvider } from 'context/app';
-import { TelegramContextProvider } from 'context/telegram';
 
 import App from './App';
 import './index.css';
@@ -18,15 +17,13 @@ const queryClient = new QueryClient({
 });
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <TelegramContextProvider>
-    <TonConnectUIProvider manifestUrl={manifestUrl}>
-      <QueryClientProvider client={queryClient}>
-        <Theme>
-          <AppContextProvider>
-            <App />
-          </AppContextProvider>
-        </Theme>
-      </QueryClientProvider>
-    </TonConnectUIProvider>
-  </TelegramContextProvider>,
+  <TonConnectUIProvider manifestUrl={manifestUrl}>
+    <QueryClientProvider client={queryClient}>
+      <Theme>
+        <AppContextProvider>
+          <App />
+        </AppContextProvider>
+      </Theme>
+    </QueryClientProvider>
+  </TonConnectUIProvider>,
 );

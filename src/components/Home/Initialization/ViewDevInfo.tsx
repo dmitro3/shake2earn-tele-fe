@@ -38,7 +38,7 @@ export default function ViewDevInfo() {
         </Box>
       </Box>
       <Box>
-        B. Env: {nodeEnv} {viteEnv}
+        B. Env: {nodeEnv} {viteEnv} {import.meta.env.VITE_APP_ENV}
       </Box>
       <Box>
         C. Storage: {isLocalStorageInWindow.toString()}, {res?.toString()}

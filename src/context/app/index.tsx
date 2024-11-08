@@ -41,8 +41,7 @@ export const AppContextProvider = ({
   const deviceSupported = DeviceMotion.isDeviceSupported;
 
   const [userData, setUserData] = useState<User | null>(null);
-  const { user: telegramUserData, loaded: telegramUserLoaded } =
-    useGetTelegramUser();
+  const { user: telegramUserData } = useGetTelegramUser();
 
   const fetchUserData = useCallback(async () => {
     let user;
@@ -58,13 +57,13 @@ export const AppContextProvider = ({
   }, []);
 
   const initData = useCallback(async () => {
-    if (!deviceSupported || !telegramUserLoaded) {
+    if (!deviceSupported) {
       return;
     }
 
     await Promise.all([fetchUserData(), loadAppAssets(AppAssets)]);
     setInitialized(true);
-  }, [deviceSupported, fetchUserData, telegramUserLoaded]);
+  }, [deviceSupported, fetchUserData]);
 
   useEffect(() => {
     initData();

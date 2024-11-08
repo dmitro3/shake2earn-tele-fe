@@ -18,10 +18,10 @@ const getAuthHeader = () => {
     : {};
 };
 
-const baseRequest = <R, D>(
+const baseRequest = <R>(
   method: Method,
   url: string,
-  configs: { params?: any; data?: D } = {},
+  configs: { params?: any; data?: any } = {},
   auth = false,
 ) => {
   let headers = { ...defaultHeaders };
@@ -35,33 +35,33 @@ const baseRequest = <R, D>(
 export const getWithoutToken = <R>(
   url: string,
   config: { params?: any } = {},
-) => baseRequest<R, undefined>('get', url, config);
+) => baseRequest<R>('get', url, config);
 export const getWithToken = <R>(url: string, config: { params?: any } = {}) =>
-  baseRequest<R, undefined>('get', url, config, true);
+  baseRequest<R>('get', url, config, true);
 
-export const postWithoutToken = <R, D>(
+export const postWithoutToken = <R>(
   url: string,
   config: { params?: any; data?: any } = {},
-) => baseRequest<R, D>('post', url, config);
-export const postWithToken = <R, D>(
+) => baseRequest<R>('post', url, config);
+export const postWithToken = <R>(
   url: string,
   config: { params?: any; data?: any } = {},
-) => baseRequest<R, D>('post', url, config, true);
+) => baseRequest<R>('post', url, config, true);
 
-export const putWithoutToken = <R, D>(
+export const putWithoutToken = <R>(
   url: string,
   config: { params?: any; data?: any } = {},
-) => baseRequest<R, D>('put', url, config);
-export const putWithToken = <R, D>(
+) => baseRequest<R>('put', url, config);
+export const putWithToken = <R>(
   url: string,
   config: { params?: any; data?: any } = {},
-) => baseRequest<R, D>('put', url, config, true);
+) => baseRequest<R>('put', url, config, true);
 
 export const deleteWithoutToken = <R>(
   url: string,
   config: { params?: any } = {},
-) => baseRequest<R, undefined>('delete', url, config);
+) => baseRequest<R>('delete', url, config);
 export const deleteWithToken = <R>(
   url: string,
   config: { params?: any } = {},
-) => baseRequest<R, undefined>('delete', url, config, true);
+) => baseRequest<R>('delete', url, config, true);

@@ -1,12 +1,9 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
-import WebApp from '@twa-dev/sdk';
-import { queryKey } from 'api/queryKey';
-import { createUser, getUser } from 'api/user';
-import React, { useEffect } from 'react';
+import { useAppContext } from 'context/app';
 
 export const Invite = () => {
   const [startParam, setStartParam] = React.useState<string | null>(null);
-  const [userId, setUserId] = React.useState<number | undefined>(10);
+  const { userData, telegramUserData } = useAppContext();
+  const userId = telegramUserData?.id;
 
   const copyInviteLink = () => {
     console.log('Invite link copied');
@@ -17,44 +14,43 @@ export const Invite = () => {
   // const id = '1';
   const searchParams = new URLSearchParams(window.location.search);
   const referBy = searchParams.get('id'); // Get the value of 'myParam'
-  console.log('referBy', referBy);
 
-  useEffect(() => {
-    if (WebApp.initDataUnsafe && WebApp.initDataUnsafe.start_param) {
-      setStartParam(WebApp.initDataUnsafe.start_param);
-    }
-    if (WebApp.initDataUnsafe) {
-      setUserId(WebApp.initDataUnsafe.user?.id);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (WebApp.initDataUnsafe && WebApp.initDataUnsafe.start_param) {
+  //     setStartParam(WebApp.initDataUnsafe.start_param);
+  //   }
+  //   if (WebApp.initDataUnsafe) {
+  //     setUserId(WebApp.initDataUnsafe.user?.id);
+  //   }
+  // }, []);
 
-  const { data: user, error } = useQuery(
-    [queryKey.getUser, userId],
-    () => getUser(),
-    {
-      enabled: !!userId,
-      retry: false, // Prevent auto-retry on error
-    },
-  );
-  console.log('error', error);
-  const createUserMutation = useMutation(
-    (variables: { id: string; startParam: string | null }) =>
-      createUser(variables.id, variables.startParam),
-    {
-      onSuccess: (data) => {
-        console.log('User created successfully:', data);
-      },
-      onError: (error) => {
-        console.error('Error creating user:', error);
-      },
-    },
-  );
+  // const { data: user, error } = useQuery(
+  //   [queryKey.getUser, userId],
+  //   () => getUser(),
+  //   {
+  //     enabled: !!userId,
+  //     retry: false, // Prevent auto-retry on error
+  //   },
+  // );
 
-  useEffect(() => {
-    if (error && (error as any).response?.status === 404) {
-      createUserMutation.mutate({ id: userId?.toString() || '', startParam });
-    }
-  }, [createUserMutation, error, startParam, userId]);
+  // const createUserMutation = useMutation(
+  //   (variables: { id: string; startParam: string | null }) =>
+  //     createUser(variables.id, variables.startParam),
+  //   {
+  //     onSuccess: (data) => {
+  //       console.log('User created successfully:', data);
+  //     },
+  //     onError: (error) => {
+  //       console.error('Error creating user:', error);
+  //     },
+  //   },
+  // );
+
+  // useEffect(() => {
+  //   if (error && (error as any).response?.status === 404) {
+  //     createUserMutation.mutate({ id: userId?.toString() || '', startParam });
+  //   }
+  // }, [createUserMutation, error, startParam, userId]);
 
   return (
     <>
@@ -63,7 +59,7 @@ export const Invite = () => {
       <button onClick={copyInviteLink}>Copy invite link</button>
       <p>startapp: {startParam ? startParam : 'N/A'}</p>
       <p>user id: {userId ? userId : 'N/A'}</p>
-      <p>point: {user ? user.point : '0'}</p>
+      <p>point: {userData ? userData.point : '0'}</p>
     </>
   );
 };
