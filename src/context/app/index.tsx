@@ -51,7 +51,7 @@ export const AppContextProvider = ({
       setUserData(user);
     } catch (error) {
       setError(
-        JSON.stringify(error.response.data.message) ||
+        JSON.stringify((error as any).response.data.message) ||
           'Failed to fetch user data',
       );
     }
