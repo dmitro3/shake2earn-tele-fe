@@ -45,11 +45,15 @@ export const AppContextProvider = ({
     useGetTelegramUser();
 
   const fetchUserData = useCallback(async () => {
+    let user;
     try {
-      const user = await getUser();
+      user = await getUser();
       setUserData(user);
     } catch (error) {
-      setError((error as string) || 'Failed to fetch user data');
+      setError(
+        JSON.stringify(error.response.data.message) ||
+          'Failed to fetch user data',
+      );
     }
   }, []);
 
