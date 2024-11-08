@@ -20,6 +20,8 @@ jobs:
         run: npm run build
         env:
           CI: false
+          VITE_APP_API_URL: ${{ secrets.VITE_APP_API_URL }}
+          VITE_APP_REQUEST_PUBLIC_KEY: ${{ secrets.VITE_APP_REQUEST_PUBLIC_KEY }}
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.4
         with:
