@@ -1,17 +1,17 @@
-import { getWithToken, postWithToken } from 'utils/request';
+import {
+  getWithToken,
+  postWithToken,
+  withAxiosRequestWrapper,
+} from 'utils/request';
 
-export const getShakeCount = () => {
-  return getWithToken<{ shakeCount: number }>('/shake');
-};
+export const getShakeCount = () =>
+  withAxiosRequestWrapper(getWithToken<{ shakeCount: number }>('/shake'));
 
-export const updateShakeCount = () => {
-  return postWithToken('/shake');
-};
+export const updateShakeCount = () =>
+  withAxiosRequestWrapper(postWithToken('/shake'));
 
-export const getPoint = () => {
-  return getWithToken<{ point: number }>('/point');
-};
+export const getPoint = () =>
+  withAxiosRequestWrapper(getWithToken<{ point: number }>('/point'));
 
-export const updatePoint = () => {
-  return postWithToken('/point');
-};
+export const updatePoint = () =>
+  withAxiosRequestWrapper(postWithToken('/point'));
