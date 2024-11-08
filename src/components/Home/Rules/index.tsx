@@ -1,4 +1,4 @@
-import { Box, Button, Heading } from '@radix-ui/themes';
+import { Box, Button, Heading, Link } from '@radix-ui/themes';
 
 import AppPageContainer from 'components/Common/Page/AppPageContainer';
 import { useAppContext } from 'context/app';
@@ -31,11 +31,14 @@ export default function Rules() {
         <Button
           className="w-full py-2"
           size="4"
-          onClick={() =>
-            window.open('https://t.me/pirate_treasure_channel', '_blank')
-          }
         >
-          Telegram Chanel
+          <Link
+            href="https://t.me/pirate_treasure_channel"
+            underline="hover"
+            className=" text-whiteA-12"
+          >
+            Telegram Channel
+          </Link>
         </Button>
       </Box>
     </AppPageContainer>
