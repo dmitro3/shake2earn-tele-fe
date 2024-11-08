@@ -1,7 +1,9 @@
+import { useState } from 'react';
+
 import { useAppContext } from 'context/app';
 
 export const Invite = () => {
-  const [startParam, setStartParam] = React.useState<string | null>(null);
+  const [startParam, setStartParam] = useState<string | null>(null);
   const { userData, telegramUserData } = useAppContext();
   const userId = telegramUserData?.id;
 
