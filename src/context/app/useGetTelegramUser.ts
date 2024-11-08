@@ -20,7 +20,7 @@ export default function useGetTelegramUser(): {
 
   useEffect(() => {
     if (user) {
-      storage.setJSON(StorageKey.USER, { ...user, id: 1263 });
+      storage.setJSON(StorageKey.USER, user);
     }
   }, [user]);
 
