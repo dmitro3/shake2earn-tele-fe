@@ -4,8 +4,10 @@ import {
   Button,
   Card,
   Flex,
+  Link,
   Spinner,
   Strong,
+  Text,
 } from '@radix-ui/themes';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import WebApp from '@twa-dev/sdk';
@@ -64,7 +66,7 @@ export default function Quest({ ...props }: QuestProps) {
           justify="between"
           align="center"
         >
-          <p>Daily checkin</p>
+          <Text weight="medium">Daily checkin</Text>
           <Button
             disabled={quests?.dailyClaim.claimed}
             onClick={() => dailyQuestMutation.mutate()}
@@ -82,7 +84,7 @@ export default function Quest({ ...props }: QuestProps) {
           justify="between"
           align="center"
         >
-          <p>Invited friends</p>
+          <Text weight="medium">Invited friends</Text>
           <Strong className=" mr-3">
             {isLoading ? (
               <Spinner size="1" />
@@ -97,7 +99,10 @@ export default function Quest({ ...props }: QuestProps) {
           justify="between"
           align="center"
         >
-          <p>Join Telegram Chanel</p>
+          <Text weight="medium">
+            Join our Telegram channel{' '}
+            <Link href="https://t.me/pirate_treasure_channel">here</Link>
+          </Text>
           <Button
             disabled={quests?.joinChannelQuest.claimed}
             onClick={() => joinChannelMutation.mutate(user?.username)}
