@@ -8,6 +8,7 @@ import DeviceNotSupported from './Initialization/DeviceNotSupported';
 import Loading from './Initialization/Loading';
 import Welcome from './Initialization/Welcome';
 import Main from './Main';
+import Rules from './Rules';
 
 const WELCOME_SCREEN_DELAY_MS = 1250;
 
@@ -47,6 +48,10 @@ export default function Home() {
 
   if (curUI === 'explore') {
     return <Explore />;
+  }
+
+  if (curUI === 'rules') {
+    return <Rules />;
   }
 
   return <Main />;
