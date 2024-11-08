@@ -49,7 +49,7 @@ export const AppContextProvider = ({
       const user = await getUser();
       setUserData(user);
     } catch (error) {
-      setError('Failed to fetch user data');
+      setError((error as string) || 'Failed to fetch user data');
     }
   }, []);
 

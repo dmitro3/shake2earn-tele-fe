@@ -33,6 +33,7 @@ export default function ViewDevInfo() {
       <Box>
         A. WebApp:{' '}
         <Box style={{ fontSize: 8 }}>
+          {JSON.stringify(WebApp.initDataUnsafe.user)} ||{' '}
           {JSON.stringify(webAppRef.current)} ||| {JSON.stringify(user)}
         </Box>
       </Box>

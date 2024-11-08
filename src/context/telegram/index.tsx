@@ -21,7 +21,7 @@ export const TelegramContextProvider = ({
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    setWebApp(WebApp);
+    // setWebApp(WebApp);
     setLoaded(true);
   }, []);
 
