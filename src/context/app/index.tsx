@@ -1,7 +1,6 @@
 import WebApp from '@twa-dev/sdk';
 import { createUser, getUser } from 'api/user';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { toast } from 'react-toastify';
 
 import { User as TelegramUser } from 'types/telegram';
 import { User } from 'types/user';
@@ -55,7 +54,9 @@ export const AppContextProvider = ({
     if (result.success) {
       return result.response.data;
     } else {
-      toast.error(result.error.response?.data.message);
+      setError(
+        result.error.response?.data.message || 'Failed to create user data',
+      );
     }
     return null;
   }, [telegramUserData?.id]);
@@ -76,11 +77,13 @@ export const AppContextProvider = ({
         const userData = await createNewUser();
         if (userData) {
           setUserData(userData);
-          return;
         }
+        return;
+      } else {
+        setError(
+          result.error.response?.data.message || 'Failed to fetch user data',
+        );
       }
-      toast.error(result.error.response?.data.message);
-      setError('Failed to fetch user data');
     },
     [createNewUser],
   );
