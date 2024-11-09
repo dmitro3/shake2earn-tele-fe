@@ -3,7 +3,13 @@ import { Address, toNano } from 'ton';
 
 import { useTonConnect } from 'hooks/ton/useTonConnect';
 
-import { Button, Card, FlexBoxCol, FlexBoxRow, Input } from './styled/styled';
+import {
+  Button,
+  Card,
+  FlexBoxCol,
+  FlexBoxRow,
+  Input,
+} from '../../styled/styled';
 
 export function TransferTon() {
   const { sender, connected } = useTonConnect();

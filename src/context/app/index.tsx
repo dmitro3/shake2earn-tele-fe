@@ -6,12 +6,13 @@ import {
 import { createUser, getUser } from 'api/user';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
+import { usePlayAudio } from 'hooks/common/usePlayAudio';
 import { User as TelegramUser } from 'types/telegram';
 import { User } from 'types/user';
 import createContext from 'utils/common/context';
 import { DeviceMotion } from 'utils/device/DeviceMotion';
 
-import { AppAssets } from './constants';
+import { AppAssetSrc, AppAssets } from './constants';
 import useGetTelegramUser from './useGetTelegramUser';
 import { getDefaultUserData, loadAppAssets } from './utils';
 
@@ -28,6 +29,8 @@ interface AppContextType {
   telegramUserData: TelegramUser;
   updatePoint: (shakeCount: number) => Promise<boolean>;
   updateTurn: (pointCount: number) => Promise<boolean>;
+  isPlayingAudio: boolean;
+  changePlayAudio: (play: boolean) => void;
 }
 
 export const [useAppContext, AppContext] = createContext<
@@ -49,6 +52,10 @@ export const AppContextProvider = ({
 
   const [userData, setUserData] = useState<User>(getDefaultUserData);
   const { user: telegramUserData } = useGetTelegramUser();
+
+  const { isPlaying: isPlayingAudio, changePlayAudio } = usePlayAudio(
+    initialized ? AppAssetSrc.SOUNDTRACK : undefined,
+  );
 
   const createNewUser = useCallback(async () => {
     if (typeof telegramUserData?.id !== 'number') {
@@ -149,15 +156,18 @@ export const AppContextProvider = ({
     }
 
     setStarting(true);
+    // request device permission
     const requestResult = await requestHardwarePermissions();
-    setStarting(false);
-
     if (!requestResult.success) {
       setError(requestResult.error);
       return;
     }
+    // play app sound
+    changePlayAudio(true);
+
+    setStarting(false);
     setStarted(true);
-  }, [deviceSupported, requestHardwarePermissions]);
+  }, [changePlayAudio, deviceSupported, requestHardwarePermissions]);
 
   const onUIChange = (newUI: string) => {
     setCurUI(newUI);
@@ -177,6 +187,8 @@ export const AppContextProvider = ({
       telegramUserData,
       updatePoint,
       updateTurn,
+      isPlayingAudio,
+      changePlayAudio,
     }),
     [
       curUI,
@@ -190,6 +202,8 @@ export const AppContextProvider = ({
       telegramUserData,
       updatePoint,
       updateTurn,
+      isPlayingAudio,
+      changePlayAudio,
     ],
   );
 
