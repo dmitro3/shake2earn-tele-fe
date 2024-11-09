@@ -1,4 +1,8 @@
 import WebApp from '@twa-dev/sdk';
+import {
+  updatePoint as requestUpdatePoint,
+  updateShakeTurn as requestUpdateShakeTurn,
+} from 'api/chest';
 import { createUser, getUser } from 'api/user';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
@@ -22,6 +26,8 @@ interface AppContextType {
   onUIChange: (newUI: string) => void;
   userData: User | null;
   telegramUserData: TelegramUser;
+  updateShake: (shakeCount: number) => Promise<void>;
+  updateTurn: (pointCount: number) => Promise<void>;
 }
 
 export const [useAppContext, AppContext] = createContext<
@@ -100,6 +106,20 @@ export const AppContextProvider = ({
     setInitialized(true);
   }, [deviceSupported, fetchUserData]);
 
+  const updateShake = useCallback(async (shakeCount: number) => {
+    const result = await requestUpdateShakeTurn(shakeCount);
+    if (result.success) {
+      setUserData(result.response.data.user);
+    }
+  }, []);
+
+  const updateTurn = useCallback(async (pointCount: number) => {
+    const result = await requestUpdatePoint(pointCount);
+    if (result.success) {
+      setUserData(result.response.data.user);
+    }
+  }, []);
+
   useEffect(() => {
     initData();
   }, [initData]);
@@ -150,6 +170,8 @@ export const AppContextProvider = ({
       onUIChange,
       userData,
       telegramUserData,
+      updateShake,
+      updateTurn,
     }),
     [
       curUI,
@@ -161,6 +183,8 @@ export const AppContextProvider = ({
       starting,
       userData,
       telegramUserData,
+      updateShake,
+      updateTurn,
     ],
   );
 
