@@ -2,6 +2,8 @@ import '@twa-dev/sdk';
 import Div100vh from 'react-div-100vh';
 import styled from 'styled-components';
 
+import ErrorBoundary from 'components/Common/ErrorBoundary';
+
 import './App.css';
 import Home from './components/Home';
 
@@ -20,7 +22,9 @@ function App() {
   return (
     <AppContainer>
       <AppContent>
-        <Home />
+        <ErrorBoundary>
+          <Home />
+        </ErrorBoundary>
       </AppContent>
     </AppContainer>
   );
