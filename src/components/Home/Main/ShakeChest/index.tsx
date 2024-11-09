@@ -160,16 +160,6 @@ export default function ShakeChest({
     };
   }, [onStartListenShake, onStopListenShake]);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const reward = getRandomReward(chestRewardConfigs);
-      onShakedSuccess(reward);
-    }, 3000);
-    return () => {
-      clearInterval(interval);
-    };
-  }, [onShakedSuccess]);
-
   const renderSharkTurnAction = () => {
     if (!isInShakeTurn) {
       const disabledShakeButton = data.turn === 0 || loadingTurn;
