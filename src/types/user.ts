@@ -1,6 +1,6 @@
 export interface User {
   telegramId: string;
-  referBy: string;
+  referBy?: string;
   point: number;
   lastAwardedAt: string;
   shakeCount: number;

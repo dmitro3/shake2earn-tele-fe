@@ -12,7 +12,7 @@ export const getShaketurn = () =>
 
 export const updateShakeTurn = (turnCount: number) =>
   withAxiosRequestWrapper(
-    postWithToken<{ user: User }>('/shake', { data: { turnCount } }),
+    postWithToken<{ user: User }>('/shake', { data: { count: turnCount } }),
   );
 
 export const getPoint = () =>
@@ -22,5 +22,5 @@ export const getPoint = () =>
 
 export const updatePoint = (pointCount: number) =>
   withAxiosRequestWrapper(
-    postWithToken<{ user: User }>('/point', { data: { pointCount } }),
+    postWithToken<{ user: User }>('/point', { data: { point: pointCount } }),
   );

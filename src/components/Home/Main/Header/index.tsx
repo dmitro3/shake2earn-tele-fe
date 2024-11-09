@@ -1,40 +1,59 @@
 import { Flex, FlexProps, Heading, Text } from '@radix-ui/themes';
 
+import { AppAssetSrc } from 'context/app/constants';
+import { User } from 'types/telegram';
+
 // import TonWallet from 'components/Common/Wallet/TonWallet';
 // import { Invite } from 'components/Invite/Invite';
 
 type HeaderProps = FlexProps & {
-  user: {
-    id: string;
-    username: string;
-  } | null;
+  telegramUser?: User;
+  point: number;
 };
 
-export default function Header({ user, ...props }: HeaderProps) {
-  const renderUserDropdown = () => {
-    if (!user) {
-      return null;
-    }
+export default function Header({ telegramUser, point, ...props }: HeaderProps) {
+  const renderPoint = () => {
+    return (
+      <Flex
+        align="center"
+        className="gap-1"
+      >
+        <img
+          src={AppAssetSrc.COIN}
+          alt="chest-turn"
+          className="w-6 h-6"
+        />
+        <Text
+          size="4"
+          className="text-whiteA-12 font-bold"
+        >
+          {point}
+        </Text>
+      </Flex>
+    );
+  };
 
+  const renderUserDropdown = () => {
     return (
       <Flex
         direction="column"
-        className="bg-blue-4 rounded-4 max-w-28 w-full"
+        className="bg-indigo-11 rounded-4 max-w-28 w-full"
         style={{ padding: '2px 6px' }}
       >
         <Heading
           as="h2"
           size="2"
           truncate
-          className="text-blue-11"
+          className="text-whiteA-12"
         >
-          {user.username}
+          {telegramUser?.username ?? '-'}
         </Heading>
         <Text
           truncate
           size="1"
+          className="text-whiteA-8"
         >
-          {user.id}
+          {telegramUser?.id ?? '-'}
         </Text>
         {/* <TonWallet /> */}
       </Flex>
@@ -47,13 +66,7 @@ export default function Header({ user, ...props }: HeaderProps) {
       py="4"
       {...props}
     >
-      <Heading
-        as="h1"
-        size="4"
-        className="h-[38px] text-amber-4"
-      >
-        Pirate Treasure
-      </Heading>
+      {renderPoint()}
       {renderUserDropdown()}
     </Flex>
   );

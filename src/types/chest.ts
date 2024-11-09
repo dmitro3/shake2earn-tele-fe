@@ -12,8 +12,3 @@ export interface ChestRewardData {
   type: ChestRewardType;
   value: number;
 }
-
-export interface UserShakeData {
-  turn: number;
-  point: number;
-}

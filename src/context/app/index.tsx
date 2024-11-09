@@ -13,7 +13,7 @@ import { DeviceMotion } from 'utils/device/DeviceMotion';
 
 import { AppAssets } from './constants';
 import useGetTelegramUser from './useGetTelegramUser';
-import { loadAppAssets } from './utils';
+import { getDefaultUserData, loadAppAssets } from './utils';
 
 interface AppContextType {
   initialized: boolean;
@@ -24,10 +24,10 @@ interface AppContextType {
   deviceSupported: boolean;
   curUI: string;
   onUIChange: (newUI: string) => void;
-  userData: User | null;
+  userData: User;
   telegramUserData: TelegramUser;
-  updateShake: (shakeCount: number) => Promise<void>;
-  updateTurn: (pointCount: number) => Promise<void>;
+  updatePoint: (shakeCount: number) => Promise<boolean>;
+  updateTurn: (pointCount: number) => Promise<boolean>;
 }
 
 export const [useAppContext, AppContext] = createContext<
@@ -47,7 +47,7 @@ export const AppContextProvider = ({
 
   const deviceSupported = DeviceMotion.isDeviceSupported;
 
-  const [userData, setUserData] = useState<User | null>(null);
+  const [userData, setUserData] = useState<User>(getDefaultUserData);
   const { user: telegramUserData } = useGetTelegramUser();
 
   const createNewUser = useCallback(async () => {
@@ -106,18 +106,20 @@ export const AppContextProvider = ({
     setInitialized(true);
   }, [deviceSupported, fetchUserData]);
 
-  const updateShake = useCallback(async (shakeCount: number) => {
+  const updateTurn = useCallback(async (shakeCount: number) => {
     const result = await requestUpdateShakeTurn(shakeCount);
     if (result.success) {
       setUserData(result.response.data.user);
     }
+    return result.success;
   }, []);
 
-  const updateTurn = useCallback(async (pointCount: number) => {
+  const updatePoint = useCallback(async (pointCount: number) => {
     const result = await requestUpdatePoint(pointCount);
     if (result.success) {
       setUserData(result.response.data.user);
     }
+    return result.success;
   }, []);
 
   useEffect(() => {
@@ -170,7 +172,7 @@ export const AppContextProvider = ({
       onUIChange,
       userData,
       telegramUserData,
-      updateShake,
+      updatePoint,
       updateTurn,
     }),
     [
@@ -183,7 +185,7 @@ export const AppContextProvider = ({
       starting,
       userData,
       telegramUserData,
-      updateShake,
+      updatePoint,
       updateTurn,
     ],
   );
