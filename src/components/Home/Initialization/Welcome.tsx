@@ -2,9 +2,7 @@ import { InfoCircledIcon } from '@radix-ui/react-icons';
 import { Box, Button, Callout, Heading } from '@radix-ui/themes';
 
 import AppPageContainer from 'components/Common/Page/AppPageContainer';
-import { getAppAssetSrc } from 'context/app/utils';
-
-import ViewDevInfo from './ViewDevInfo';
+import { AppAssetSrc } from 'context/app/constants';
 
 interface WelcomeProps {
   onStart: () => void;
@@ -12,31 +10,25 @@ interface WelcomeProps {
   error: string | null;
 }
 
-const imgSrc = getAppAssetSrc('background-welcome');
-
 export default function Welcome({ onStart, starting, error }: WelcomeProps) {
   return (
-    <AppPageContainer
-      style={{ background: imgSrc ? `url(${imgSrc})` : undefined }}
-    >
+    <AppPageContainer style={{ background: `url(${AppAssetSrc.WELCOME_BG})` }}>
       <Box className="flex flex-col content-center flex-grow">
         <Heading
           as="h1"
-          size="8"
-          className="text-amber-5 text-center mt-32"
+          size="7"
+          className="text-amber-12 text-center mt-32"
         >
           Pirate Treausure
         </Heading>
       </Box>
 
-      <ViewDevInfo />
-
-      <Box className="p-8 mb-8 flex flex-col items-center">
+      <Box className="mb-8 px-4 flex flex-col items-center">
         <Button
           onClick={onStart}
           disabled={starting}
-          size="4"
-          className="w-full font-bold"
+          size="3"
+          className="w-full font-bold uppercase"
         >
           {!starting ? 'Start' : 'Starting...'}
         </Button>

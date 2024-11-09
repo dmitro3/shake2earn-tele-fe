@@ -1,15 +1,8 @@
-import {
-  Button,
-  Flex,
-  FlexProps,
-  Heading,
-  Progress,
-  Text,
-} from '@radix-ui/themes';
+import { Button, Flex, FlexProps, Progress, Text } from '@radix-ui/themes';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import useShake from 'hooks/animation/useShake';
-import { ChestRewardData, ChestRewardType, UserShakeData } from 'types/chest';
+import { ChestRewardData, ChestRewardType } from 'types/chest';
 import { formatTime } from 'utils/format/time';
 
 import RewardDialog from './RewardDialog';
@@ -18,19 +11,23 @@ import { ShakeConfig, chestRewardConfigs } from './constants';
 import { getRandomReward } from './utils';
 
 type ShakechestProps = FlexProps & {
-  userData: UserShakeData;
-  onUpdatePoint?: (point: number) => void;
-  onUpdateTurn?: (turn: number) => void;
+  data: {
+    point: number;
+    turn: number;
+  };
+  onUpdatePoint: (shakeCount: number) => Promise<boolean>;
+  onUpdateTurn: (pointCount: number) => Promise<boolean>;
 };
 
 export default function ShakeChest({
-  userData,
+  data,
   onUpdatePoint,
   onUpdateTurn,
   ...props
 }: ShakechestProps) {
   const [shakeTurnTimeLeft, setShakeTurnTimeLeft] = useState(0);
   const [nextShakeTurnTimeLeft, setNextShakeTurnTimeLeft] = useState(0);
+  const [loadingTurn, setLoadingTurn] = useState(false);
 
   const [isChestOpened, setIsChestOpened] = useState(false);
   const [chestReward, setChestReward] = useState<ChestRewardData | null>(null);
@@ -65,8 +62,15 @@ export default function ShakeChest({
     }, 1000);
   }, []);
 
-  const onStartShakeTurn = useCallback(() => {
+  const onStartShakeTurn = useCallback(async () => {
     if (turnTimeLeftInterval.current) {
+      return;
+    }
+
+    setLoadingTurn(true);
+    const result = await onUpdateTurn(-1);
+    setLoadingTurn(false);
+    if (!result) {
       return;
     }
 
@@ -82,11 +86,10 @@ export default function ShakeChest({
           clearInterval(turnTimeLeftInterval.current);
           turnTimeLeftInterval.current = null;
         }
-        onCooldownShakeTurn();
         return newTimeLeft;
       });
     }, 1000);
-  }, [onCooldownShakeTurn]);
+  }, [onUpdateTurn]);
 
   // Shake chest
   const onShakedSuccess = useCallback(
@@ -153,7 +156,8 @@ export default function ShakeChest({
 
   const renderSharkTurnAction = () => {
     if (!isInShakeTurn) {
-      const disabledShakeButton = userData.turn === 0 || isShakeTurnCooldown;
+      const disabledShakeButton =
+        data.turn === 0 || isShakeTurnCooldown || loadingTurn;
       return (
         <Flex
           direction="column"
@@ -164,8 +168,9 @@ export default function ShakeChest({
             className="font-bold uppercase"
             disabled={disabledShakeButton}
             onClick={onStartShakeTurn}
+            loading={loadingTurn}
           >
-            Shake now
+            Shake ({data.turn})
           </Button>
 
           {isShakeTurnCooldown && (
@@ -196,7 +201,7 @@ export default function ShakeChest({
         <Progress
           value={(shakeTurnTimeLeft * 100) / ShakeConfig.TURN_DURATION_S}
           color="amber"
-          className="h-4 bg-whiteA-12"
+          className="h-3 bg-whiteA-12 mt-1"
         />
 
         <Flex
@@ -205,12 +210,11 @@ export default function ShakeChest({
           justify="center"
           className="text-whiteA-12"
         >
-          <Text size="4">Time left:</Text>&nbsp;
           <Text
-            size="4"
+            size="2"
             weight="bold"
           >
-            {formatTime(shakeTurnTimeLeft)}
+            ({formatTime(shakeTurnTimeLeft)})
           </Text>
         </Flex>
       </Flex>
@@ -223,19 +227,9 @@ export default function ShakeChest({
       align="center"
       {...props}
     >
-      <Flex justify="center">
-        <Heading
-          as="h1"
-          size="9"
-          className="text-center text-whiteA-12"
-        >
-          {userData.point}
-        </Heading>
-      </Flex>
-
       <Flex
-        maxWidth="320px"
-        maxHeight="320px"
+        maxWidth="296px"
+        maxHeight="220px"
         width="100%"
       >
         <Flex
@@ -243,17 +237,18 @@ export default function ShakeChest({
           height="0"
           pb="100%"
         >
-          <Flex className="absolute w-full h-full" />
           <TreasureChest
             isShaking={isChestOpened ? false : isShaking}
             isOpening={isChestOpened}
           />
         </Flex>
       </Flex>
+
       <Flex
         direction="column"
         width="50%"
         height="82px"
+        className="relative mt-4"
       >
         {renderSharkTurnAction()}
       </Flex>

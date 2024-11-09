@@ -66,7 +66,7 @@ export const deleteWithToken = <R>(
   config: { params?: any } = {},
 ) => baseRequest<R>('delete', url, config, true);
 
-type RequestType<R, E = any> =
+export type RequestType<R, E = any> =
   | {
       success: true;
       response: AxiosResponse<R>;
