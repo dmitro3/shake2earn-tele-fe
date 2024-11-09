@@ -5,21 +5,26 @@ interface Props {
 }
 
 interface State {
-  error: any;
+  error: Error | null;
 }
 
 export default class ErrorBoundary extends Component<Props, State> {
-  public state: State = {
-    error: null,
-  };
+  constructor(props: Props) {
+    super(props);
+    this.state = { error: null };
+  }
 
-  public componentDidCatch(error: any) {
+  componentDidCatch(error: Error) {
     this.setState({ error });
   }
 
-  public render() {
+  static getDerivedStateFromError(error: Error) {
+    return { error };
+  }
+
+  render() {
     if (this.state.error) {
-      return <h1>{JSON.stringify(this.state.error)}</h1>;
+      return <div>{this.state.error.message}</div>;
     }
 
     return this.props.children;

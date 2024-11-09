@@ -96,10 +96,14 @@ export const AppContextProvider = ({
 
   const initData = useCallback(async () => {
     if (deviceSupported) {
-      await Promise.all([
-        fetchUserData({ createFirstUser: true }),
-        loadAppAssets(AppAssets),
-      ]);
+      try {
+        await Promise.all([
+          fetchUserData({ createFirstUser: true }),
+          loadAppAssets(AppAssets),
+        ]);
+      } catch (error) {
+        setError((error as Error)?.message);
+      }
     }
 
     setInitialized(true);

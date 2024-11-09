@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { TonConnectUIProvider } from '@tonconnect/ui-react';
 import ReactDOM from 'react-dom/client';
 
+import ErrorBoundary from 'components/Common/ErrorBoundary';
 import { AppContextProvider } from 'context/app';
 
 import App from './App';
@@ -20,9 +21,11 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <TonConnectUIProvider manifestUrl={manifestUrl}>
     <QueryClientProvider client={queryClient}>
       <Theme>
-        <AppContextProvider>
-          <App />
-        </AppContextProvider>
+        <ErrorBoundary>
+          <AppContextProvider>
+            <App />
+          </AppContextProvider>
+        </ErrorBoundary>
       </Theme>
     </QueryClientProvider>
   </TonConnectUIProvider>,
