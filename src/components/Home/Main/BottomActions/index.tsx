@@ -29,7 +29,12 @@ export default function BottomActions({ ...props }: BottomActionsProps) {
         align="center"
       >
         {/* TODO: explorer + invite */}
-        <Button onClick={() => onUIChange('explore')}>Explore</Button>
+        <Button
+          onClick={() => onUIChange('explore')}
+          size="2"
+        >
+          Explore
+        </Button>
         {/* <Invite /> */}
       </Flex>
     );

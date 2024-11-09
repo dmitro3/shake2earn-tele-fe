@@ -1,7 +1,8 @@
-import { Flex, FlexProps, Heading, Text } from '@radix-ui/themes';
+import { Avatar, Card, Flex, FlexProps, Text } from '@radix-ui/themes';
 
 import { AppAssetSrc } from 'context/app/constants';
 import { User } from 'types/telegram';
+import { formatNumber } from 'utils/format/number';
 
 // import TonWallet from 'components/Common/Wallet/TonWallet';
 // import { Invite } from 'components/Invite/Invite';
@@ -14,49 +15,53 @@ type HeaderProps = FlexProps & {
 export default function Header({ telegramUser, point, ...props }: HeaderProps) {
   const renderPoint = () => {
     return (
-      <Flex
-        align="center"
-        className="gap-1"
-      >
-        <img
-          src={AppAssetSrc.COIN}
-          alt="chest-turn"
-          className="w-6 h-6"
-        />
-        <Text
-          size="4"
-          className="text-whiteA-12 font-bold"
+      <Flex className="flex-1 max-w-36">
+        <Flex
+          align="center"
+          className="w-full justify-end gap-2"
         >
-          {point}
-        </Text>
+          <img
+            src={AppAssetSrc.COIN}
+            alt="chest-turn"
+            className="w-6 h-6"
+          />
+          <Text
+            size="2"
+            className="text-whiteA-11 font-bold truncate"
+          >
+            {formatNumber(point)}
+          </Text>
+        </Flex>
       </Flex>
     );
   };
 
   const renderUserDropdown = () => {
+    const userName = telegramUser?.username ?? '-';
     return (
-      <Flex
-        direction="column"
-        className="bg-indigo-11 rounded-4 max-w-28 w-full"
-        style={{ padding: '2px 6px' }}
-      >
-        <Heading
-          as="h2"
-          size="2"
-          truncate
-          className="text-whiteA-12"
+      <Card className="p-1 max-w-36 bg-whiteA-10">
+        <Flex
+          align="center"
+          gap="2"
         >
-          {telegramUser?.username ?? '-'}
-        </Heading>
-        <Text
-          truncate
-          size="1"
-          className="text-whiteA-8"
-        >
-          {telegramUser?.id ?? '-'}
-        </Text>
-        {/* <TonWallet /> */}
-      </Flex>
+          <Avatar
+            size="1"
+            radius="small"
+            fallback={userName[0]}
+            color="amber"
+            src={telegramUser?.photo_url}
+          />
+
+          <Text
+            size="2"
+            truncate
+            className="truncate mr-1"
+          >
+            {userName}
+          </Text>
+          {/* <TonWallet /> */}
+        </Flex>
+      </Card>
     );
   };
 
@@ -66,8 +71,8 @@ export default function Header({ telegramUser, point, ...props }: HeaderProps) {
       py="4"
       {...props}
     >
-      {renderPoint()}
       {renderUserDropdown()}
+      {renderPoint()}
     </Flex>
   );
 }
