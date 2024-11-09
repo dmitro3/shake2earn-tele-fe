@@ -13,29 +13,6 @@ type HeaderProps = FlexProps & {
 };
 
 export default function Header({ telegramUser, point, ...props }: HeaderProps) {
-  const renderPoint = () => {
-    return (
-      <Flex className="flex-1 max-w-36">
-        <Flex
-          align="center"
-          className="w-full justify-end gap-2"
-        >
-          <img
-            src={AppAssetSrc.COIN}
-            alt="chest-turn"
-            className="w-6 h-6"
-          />
-          <Text
-            size="2"
-            className="text-whiteA-11 font-bold truncate"
-          >
-            {formatNumber(point)}
-          </Text>
-        </Flex>
-      </Flex>
-    );
-  };
-
   const renderUserDropdown = () => {
     const userName = telegramUser?.username ?? '-';
     return (
@@ -62,6 +39,29 @@ export default function Header({ telegramUser, point, ...props }: HeaderProps) {
           {/* <TonWallet /> */}
         </Flex>
       </Card>
+    );
+  };
+
+  const renderPoint = () => {
+    return (
+      <Flex className="flex-1 max-w-36">
+        <Flex
+          align="center"
+          className="w-full justify-end gap-1"
+        >
+          <img
+            src={AppAssetSrc.COIN}
+            alt="chest-turn"
+            className="w-6 h-6"
+          />
+          <Text
+            size="2"
+            className="text-whiteA-11 font-bold truncate"
+          >
+            {formatNumber(point)}
+          </Text>
+        </Flex>
+      </Flex>
     );
   };
 
