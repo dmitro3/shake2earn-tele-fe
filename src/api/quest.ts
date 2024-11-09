@@ -38,12 +38,7 @@ export const claimDailyQuest = async () => {
       return res.data;
     },
   );
-  console.log(data);
   return data;
-
-  // setTimeout(() => {
-  //   return true;
-  // }, 2000);
 };
 
 export const claimJoinChannel = async (userName: string) => {
