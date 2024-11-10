@@ -31,6 +31,8 @@ interface AppContextType {
   updateTurn: (pointCount: number) => Promise<boolean>;
   isPlayingAudio: boolean;
   changePlayAudio: (play: boolean) => void;
+  // debug ios
+  debugError: Error | null;
 }
 
 export const [useAppContext, AppContext] = createContext<
@@ -47,6 +49,8 @@ export const AppContextProvider = ({
   const [starting, setStarting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [curUI, setCurUI] = useState<string>('home');
+
+  const [debugError, setDebugError] = useState<Error | null>(null);
 
   const deviceSupported = DeviceMotion.isDeviceSupported;
 
@@ -109,7 +113,7 @@ export const AppContextProvider = ({
           loadAppAssets(AppAssets),
         ]);
       } catch (error) {
-        setError((error as Error)?.message);
+        setDebugError(error as Error);
       }
     }
 
@@ -189,6 +193,7 @@ export const AppContextProvider = ({
       updateTurn,
       isPlayingAudio,
       changePlayAudio,
+      debugError,
     }),
     [
       curUI,
@@ -204,6 +209,7 @@ export const AppContextProvider = ({
       updateTurn,
       isPlayingAudio,
       changePlayAudio,
+      debugError,
     ],
   );
 
