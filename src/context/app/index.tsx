@@ -31,8 +31,6 @@ interface AppContextType {
   updateTurn: (pointCount: number) => Promise<boolean>;
   isPlayingAudio: boolean;
   changePlayAudio: (play: boolean) => void;
-  // debug ios
-  debugError: Error | null;
 }
 
 export const [useAppContext, AppContext] = createContext<
@@ -50,10 +48,6 @@ export const AppContextProvider = ({
   const [error, setError] = useState<string | null>(null);
   const [curUI, setCurUI] = useState<string>('home');
 
-  const [debugError, setDebugError] = useState<Error | null>(null);
-
-  const deviceSupported = DeviceMotion.isDeviceSupported;
-
   const [userData, setUserData] = useState<User>(getDefaultUserData);
   const { user: telegramUserData } = useGetTelegramUser();
 
@@ -61,6 +55,7 @@ export const AppContextProvider = ({
     initialized ? AppAssetSrc.SOUNDTRACK : undefined,
   );
 
+  const deviceSupported = DeviceMotion.isDeviceSupported;
   const createNewUser = useCallback(async () => {
     if (typeof telegramUserData?.id !== 'number') {
       return null;
@@ -156,7 +151,7 @@ export const AppContextProvider = ({
     }
 
     setStarting(true);
-    // request device permission
+    // support iOS (ref: https://dev.to/li/how-to-requestpermission-for-devicemotion-and-deviceorientation-events-in-ios-13-46g2)
     const requestResult = await requestHardwarePermissions();
     if (!requestResult.success) {
       setError(requestResult.error);
@@ -189,7 +184,6 @@ export const AppContextProvider = ({
       updateTurn,
       isPlayingAudio,
       changePlayAudio,
-      debugError,
     }),
     [
       curUI,
@@ -205,7 +199,6 @@ export const AppContextProvider = ({
       updateTurn,
       isPlayingAudio,
       changePlayAudio,
-      debugError,
     ],
   );
 

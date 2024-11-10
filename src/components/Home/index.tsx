@@ -22,7 +22,6 @@ export default function Home() {
     started,
     starting,
     curUI,
-    debugError,
   } = useAppContext();
   const [showWelcomeScreen, setShowWelcomeScreen] = useState(true);
 
@@ -32,10 +31,6 @@ export default function Home() {
 
   if (!deviceSupported) {
     return <DeviceNotSupported />;
-  }
-
-  if (debugError) {
-    throw debugError;
   }
 
   if (showWelcomeScreen || !initialized) {
