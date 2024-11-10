@@ -1,5 +1,5 @@
 import * as Dialog from '@radix-ui/react-dialog';
-import { Button, Card } from '@radix-ui/themes';
+import { Button } from '@radix-ui/themes';
 
 export default function DialogCustom({
   title,

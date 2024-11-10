@@ -4,7 +4,6 @@ import {
   ChestRewardName,
   ChestRewardTextProps,
 } from 'const/chest';
-import pluralize from 'pluralize';
 
 import { ChestRewardData } from 'types/chest';
 import { formatNumber } from 'utils/format/number';
@@ -47,7 +46,7 @@ export default function RewardDialog({
               className="font-bold"
               {...ChestRewardTextProps[reward.type]}
             >
-              +{formatNumber(reward.value)}{' '}
+              +{formatNumber(reward.value)}
             </Text>
           </Flex>
         </Dialog.Description>
