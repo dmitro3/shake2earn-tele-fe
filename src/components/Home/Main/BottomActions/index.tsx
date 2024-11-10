@@ -15,7 +15,10 @@ export default function BottomActions({ ...props }: BottomActionsProps) {
         justify="between"
         align="center"
       >
-        <IconButton onClick={() => changePlayAudio(!isPlayingAudio)}>
+        <IconButton
+          onClick={() => changePlayAudio(!isPlayingAudio)}
+          size="4"
+        >
           {isPlayingAudio ? <SpeakerLoudIcon /> : <SpeakerOffIcon />}
         </IconButton>
       </Flex>
@@ -29,14 +32,12 @@ export default function BottomActions({ ...props }: BottomActionsProps) {
         justify="between"
         align="center"
       >
-        {/* TODO: explorer + invite */}
         <Button
           onClick={() => onUIChange('explore')}
-          size="2"
+          size="4"
         >
           Quest
         </Button>
-        {/* <Invite /> */}
       </Flex>
     );
   };

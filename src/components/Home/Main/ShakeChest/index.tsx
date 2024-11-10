@@ -167,10 +167,9 @@ export default function ShakeChest({
         <Flex
           direction="column"
           align="center"
-          gap="2"
         >
           <Button
-            size="3"
+            size="4"
             color="amber"
             className="font-bold uppercase"
             disabled={disabledShakeButton}
@@ -183,11 +182,11 @@ export default function ShakeChest({
           <Badge
             color="orange"
             className="bg-amber-3"
+            mt="1"
           >
             <RewardBadge
               type={UserRewardType.TURN}
               value={data.turn}
-              size="sm"
             />
           </Badge>
           {/* {isShakeTurnCooldown && (

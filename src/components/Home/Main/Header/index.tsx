@@ -30,7 +30,7 @@ export default function Header({
             gap="2"
           >
             <Avatar
-              size="1"
+              size="3"
               radius="small"
               fallback={userName[0]}
               color="amber"
@@ -38,9 +38,10 @@ export default function Header({
             />
 
             <Text
-              size="2"
+              size="3"
               truncate
               className="truncate mr-1"
+              weight="medium"
             >
               {userName}
             </Text>
@@ -60,6 +61,8 @@ export default function Header({
           type={UserRewardType.POINT}
           value={point}
           className="text-whiteA-12"
+          valueProps={{ weight: 'medium' }}
+          size="lg"
         />
       </Flex>
     );
