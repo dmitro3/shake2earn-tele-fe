@@ -32,6 +32,14 @@ const UserRewardImgClassNameBySize: Record<UserRewardBadgeSize, string> = {
   md: 'w-6 h-6',
   lg: 'w-8 h-8',
 };
+const UserRewardValuePropsBySize: Record<
+  UserRewardBadgeSize,
+  Omit<TextProps, 'children' | 'as'>
+> = {
+  sm: {},
+  md: {},
+  lg: { size: '3' },
+};
 
 export function RewardBadge({
   type,
@@ -59,6 +67,7 @@ export function RewardBadge({
       <Text
         size="2"
         {...valueProps}
+        {...UserRewardValuePropsBySize[size]}
         className={clsx('truncate', valueProps?.className)}
       >
         {formatNumber(value)}

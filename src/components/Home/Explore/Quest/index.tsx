@@ -50,7 +50,7 @@ export default function Quest({ ...props }: QuestProps) {
     setTimeout(() => {
       setCopyText('Copy');
       copyTimeoutRef.current = null;
-    }, 1000);
+    }, 2000);
   };
 
   // post request to claim daily quest
@@ -91,7 +91,7 @@ export default function Quest({ ...props }: QuestProps) {
   const renderInvitation = () => {
     return (
       <Flex direction="column">
-        <Heading size="3">Referral</Heading>
+        <Heading size="4">Referral</Heading>
 
         <Flex
           gap="3"
@@ -103,7 +103,7 @@ export default function Quest({ ...props }: QuestProps) {
             justify="center"
           >
             <Text
-              size="2"
+              size="3"
               className="truncate text-indigoA-10"
               weight="medium"
             >
@@ -119,7 +119,7 @@ export default function Quest({ ...props }: QuestProps) {
               color="amber"
               variant="surface"
               onClick={copyInviteLink}
-              size="2"
+              size="3"
             >
               <Link2Icon />
               <Box>{copyText}</Box>
@@ -137,19 +137,19 @@ export default function Quest({ ...props }: QuestProps) {
             align="center"
             gap="1"
           >
-            <Text size="2">Friends</Text>
+            <Text size="3">Friends</Text>
             <Flex
               align="center"
               gap="1"
             >
               <FriendIcon
                 className="text-indigo-9"
-                width="20"
-                height="20"
+                width="24"
+                height="24"
               />
               <Text
                 className="font-medium"
-                size="2"
+                size="3"
               >
                 {formatNumber(invitedFriendsCount)}
               </Text>
@@ -160,10 +160,10 @@ export default function Quest({ ...props }: QuestProps) {
             align="center"
             gap="1"
           >
-            <Text size="2">Earned</Text>
+            <Text size="3">Earned</Text>
             <RewardBadge
               type={UserRewardType.POINT}
-              iconImgProps={{ className: 'w-[20px] h-[20px]' }}
+              valueProps={{ size: '3' }}
               value={invitedFriendsCount * pointsPerInvite}
             />
           </Flex>
@@ -175,14 +175,14 @@ export default function Quest({ ...props }: QuestProps) {
   const renderDailyReward = () => {
     return (
       <Flex direction="column">
-        <Heading size="3">Daily</Heading>
+        <Heading size="4">Daily</Heading>
 
         <Flex
           justify="between"
           mt="1"
         >
           <Text
-            size="2"
+            size="3"
             mt="2"
           >
             Daily rewards
@@ -194,6 +194,7 @@ export default function Quest({ ...props }: QuestProps) {
             onClick={() => dailyQuestMutation.mutate()}
             loading={isLoading || dailyQuestMutation.isLoading}
             disabled={quests?.dailyClaim.claimed}
+            size="3"
           >
             {!quests?.dailyClaim.claimed ? (
               <RewardBadge
@@ -213,14 +214,14 @@ export default function Quest({ ...props }: QuestProps) {
   const renderJoinChannel = () => {
     return (
       <Flex direction="column">
-        <Heading size="3">Tasks</Heading>
+        <Heading size="4">Tasks</Heading>
 
         <Flex
           justify="between"
           mt="1"
         >
           <Text
-            size="2"
+            size="3"
             mt="2"
           >
             Join{' '}
@@ -236,6 +237,7 @@ export default function Quest({ ...props }: QuestProps) {
               joinChannelMutation.mutate(telegramUserData?.username ?? '')
             }
             loading={isLoading || joinChannelMutation.isLoading}
+            size="3"
           >
             {!quests?.joinChannelQuest.claimed ? (
               <RewardBadge

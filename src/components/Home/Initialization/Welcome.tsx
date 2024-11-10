@@ -27,7 +27,7 @@ export default function Welcome({ onStart, starting, error }: WelcomeProps) {
         <Button
           onClick={onStart}
           disabled={starting}
-          size="3"
+          size="4"
           loading={starting}
           color="amber"
           className="w-full font-bold uppercase"

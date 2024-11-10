@@ -7,7 +7,10 @@ const getDialogList = () => [
     name: 'Rules',
     content: (
       <Flex direction="column">
-        <Text mb="2">
+        <Text
+          mb="2"
+          size="2"
+        >
           Follow Telegram&apos;s content rules and policies whenever possible.
           Targeted hate or harassment of private individuals and protected
           groups are violations of our policy and will be removed. In addition,
@@ -15,13 +18,21 @@ const getDialogList = () => [
           sexually-explicit, and/or offensive are violations of our policy and
           will be removed.
         </Text>
-        <Text mb="2">
+        <Text
+          mb="2"
+          size="2"
+        >
           Use of third-party software, code reversal, any automation of canvas
           painting, use of bugs – may result in user lockout without the right
           to recover.
         </Text>
-        <Text mb="2">Lay off the pineapple pizza.</Text>
-        <Text>Be creative and have fun, Piratetreasure.</Text>
+        <Text
+          mb="2"
+          size="2"
+        >
+          Lay off the pineapple pizza.
+        </Text>
+        <Text size="2">Be creative and have fun, Piratetreasure.</Text>
       </Flex>
     ),
   },
@@ -30,7 +41,10 @@ const getDialogList = () => [
     name: 'Support',
     content: (
       <Flex direction="column">
-        <Text mb="2">
+        <Text
+          mb="2"
+          size="2"
+        >
           Follow Telegram&apos;s content rules and policies whenever possible.
           Targeted hate or harassment of private individuals and protected
           groups are violations of our policy and will be removed. In addition,
@@ -38,13 +52,21 @@ const getDialogList = () => [
           sexually-explicit, and/or offensive are violations of our policy and
           will be removed.
         </Text>
-        <Text mb="2">
+        <Text
+          mb="2"
+          size="2"
+        >
           Use of third-party software, code reversal, any automation of canvas
           painting, use of bugs – may result in user lockout without the right
           to recover.
         </Text>
-        <Text mb="2">Lay off the pineapple pizza.</Text>
-        <Text>Be creative and have fun, Piratetreasure.</Text>
+        <Text
+          mb="2"
+          size="2"
+        >
+          Lay off the pineapple pizza.
+        </Text>
+        <Text size="2">Be creative and have fun, Piratetreasure.</Text>
       </Flex>
     ),
   },
@@ -53,7 +75,10 @@ const getDialogList = () => [
     name: 'Terms',
     content: (
       <Flex direction="column">
-        <Text mb="2">
+        <Text
+          mb="2"
+          size="2"
+        >
           Follow Telegram&apos;s content rules and policies whenever possible.
           Targeted hate or harassment of private individuals and protected
           groups are violations of our policy and will be removed. In addition,
@@ -61,13 +86,21 @@ const getDialogList = () => [
           sexually-explicit, and/or offensive are violations of our policy and
           will be removed.
         </Text>
-        <Text mb="2">
+        <Text
+          mb="2"
+          size="2"
+        >
           Use of third-party software, code reversal, any automation of canvas
           painting, use of bugs – may result in user lockout without the right
           to recover.
         </Text>
-        <Text mb="2">Lay off the pineapple pizza.</Text>
-        <Text>Be creative and have fun, Piratetreasure.</Text>
+        <Text
+          mb="2"
+          size="2"
+        >
+          Lay off the pineapple pizza.
+        </Text>
+        <Text size="2">Be creative and have fun, Piratetreasure.</Text>
       </Flex>
     ),
   },
@@ -76,7 +109,10 @@ const getDialogList = () => [
     name: 'Privacy',
     content: (
       <Flex direction="column">
-        <Text mb="2">
+        <Text
+          mb="2"
+          size="2"
+        >
           Follow Telegram&apos;s content rules and policies whenever possible.
           Targeted hate or harassment of private individuals and protected
           groups are violations of our policy and will be removed. In addition,
@@ -84,13 +120,21 @@ const getDialogList = () => [
           sexually-explicit, and/or offensive are violations of our policy and
           will be removed.
         </Text>
-        <Text mb="2">
+        <Text
+          mb="2"
+          size="2"
+        >
           Use of third-party software, code reversal, any automation of canvas
           painting, use of bugs – may result in user lockout without the right
           to recover.
         </Text>
-        <Text mb="2">Lay off the pineapple pizza.</Text>
-        <Text>Be creative and have fun, Piratetreasure.</Text>
+        <Text
+          mb="2"
+          size="2"
+        >
+          Lay off the pineapple pizza.
+        </Text>
+        <Text size="2">Be creative and have fun, Piratetreasure.</Text>
       </Flex>
     ),
   },
@@ -122,17 +166,12 @@ export default function Footer(props: FooterProps) {
     return (
       <Dialog.Root open>
         <Dialog.Content
-          size="1"
+          size="2"
           className="bg-amber-1"
         >
-          <Dialog.Title
-            size="3"
-            className="text-center"
-          >
-            {dialog.name}
-          </Dialog.Title>
+          <Dialog.Title className="text-center">{dialog.name}</Dialog.Title>
           <Dialog.Description
-            mb="4"
+            my="4"
             size="1"
           >
             {dialog.content}
@@ -142,7 +181,12 @@ export default function Footer(props: FooterProps) {
             className="w-full"
             onClick={() => setOpenDialog(null)}
           >
-            <Button color="amber">Ok</Button>
+            <Button
+              color="amber"
+              size="4"
+            >
+              Ok
+            </Button>
           </Dialog.Close>
         </Dialog.Content>
       </Dialog.Root>
@@ -158,6 +202,7 @@ export default function Footer(props: FooterProps) {
       {dialogs.map(({ type, name }) => (
         <Button
           key={type}
+          size="3"
           variant="ghost"
           onClick={() => setOpenDialog(type)}
         >

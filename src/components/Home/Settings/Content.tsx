@@ -15,15 +15,15 @@ export default function Content({
     return (
       <Flex
         direction="column"
-        align="center"
         gap="2"
       >
         <Flex
           align="center"
           gap="2"
+          mb="4"
         >
           <Avatar
-            size="4"
+            size="5"
             radius="small"
             fallback={username[0]}
             color="amber"
@@ -31,7 +31,7 @@ export default function Content({
           />
 
           <Text
-            size="3"
+            size="4"
             truncate
             className="truncate mr-1 font-medium"
           >
@@ -45,8 +45,8 @@ export default function Content({
   const renderTonWallet = () => {
     return (
       <Flex direction="column">
-        <Heading size="3">Wallet</Heading>
-        <Box mt="1">
+        <Heading size="4">Wallet</Heading>
+        <Box mt="2">
           <TonWallet />
         </Box>
       </Flex>
@@ -56,8 +56,8 @@ export default function Content({
   const renderMore = () => {
     return (
       <Flex direction="column">
-        <Heading size="3">About</Heading>
-        <Footer mt="1" />
+        <Heading size="4">About</Heading>
+        <Footer mt="2" />
       </Flex>
     );
   };
