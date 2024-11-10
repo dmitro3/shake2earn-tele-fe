@@ -136,7 +136,8 @@ export const AppContextProvider = ({
     if (!deviceMotionApprovalStatus.success) {
       return {
         success: false,
-        error: "We can't access your device motion. Please try again later.",
+        error:
+          'Device motion access denied. Please restart Telegram and try again.',
       };
     }
     return {
