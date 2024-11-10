@@ -1,61 +1,66 @@
-import { Flex, FlexProps, Heading, Text } from '@radix-ui/themes';
+import { Avatar, Button, Card, Flex, FlexProps, Text } from '@radix-ui/themes';
 
-import { AppAssetSrc } from 'context/app/constants';
+import { RewardBadge } from 'components/Common/User/RewardBadge';
 import { User } from 'types/telegram';
-
-// import TonWallet from 'components/Common/Wallet/TonWallet';
-// import { Invite } from 'components/Invite/Invite';
+import { UserRewardType } from 'types/user';
 
 type HeaderProps = FlexProps & {
   telegramUser?: User;
   point: number;
+  onClickUserBadge?: () => void;
 };
 
-export default function Header({ telegramUser, point, ...props }: HeaderProps) {
-  const renderPoint = () => {
+export default function Header({
+  onClickUserBadge,
+  telegramUser,
+  point,
+  ...props
+}: HeaderProps) {
+  const renderUserDropdown = () => {
+    const userName = telegramUser?.username ?? '-';
     return (
-      <Flex
-        align="center"
-        className="gap-1"
-      >
-        <img
-          src={AppAssetSrc.COIN}
-          alt="chest-turn"
-          className="w-6 h-6"
-        />
-        <Text
-          size="4"
-          className="text-whiteA-12 font-bold"
+      <Card className="p-1 max-w-36 bg-whiteA-10">
+        <Button
+          variant="ghost"
+          color="gray"
+          onClick={onClickUserBadge}
         >
-          {point}
-        </Text>
-      </Flex>
+          <Flex
+            align="center"
+            gap="2"
+          >
+            <Avatar
+              size="1"
+              radius="small"
+              fallback={userName[0]}
+              color="amber"
+              src={telegramUser?.photo_url}
+            />
+
+            <Text
+              size="2"
+              truncate
+              className="truncate mr-1"
+            >
+              {userName}
+            </Text>
+          </Flex>
+        </Button>
+      </Card>
     );
   };
 
-  const renderUserDropdown = () => {
+  const renderPoint = () => {
     return (
       <Flex
-        direction="column"
-        className="bg-indigo-11 rounded-4 max-w-28 w-full"
-        style={{ padding: '2px 6px' }}
+        className="flex-1 max-w-24"
+        justify="end"
       >
-        <Heading
-          as="h2"
-          size="2"
-          truncate
+        <RewardBadge
+          type={UserRewardType.POINT}
+          value={point}
           className="text-whiteA-12"
-        >
-          {telegramUser?.username ?? '-'}
-        </Heading>
-        <Text
-          truncate
-          size="1"
-          className="text-whiteA-8"
-        >
-          {telegramUser?.id ?? '-'}
-        </Text>
-        {/* <TonWallet /> */}
+        />
       </Flex>
     );
   };
@@ -66,8 +71,8 @@ export default function Header({ telegramUser, point, ...props }: HeaderProps) {
       py="4"
       {...props}
     >
-      {renderPoint()}
       {renderUserDropdown()}
+      {renderPoint()}
     </Flex>
   );
 }

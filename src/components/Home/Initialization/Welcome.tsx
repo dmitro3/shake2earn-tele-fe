@@ -28,9 +28,11 @@ export default function Welcome({ onStart, starting, error }: WelcomeProps) {
           onClick={onStart}
           disabled={starting}
           size="3"
+          loading={starting}
+          color="amber"
           className="w-full font-bold uppercase"
         >
-          {!starting ? 'Start' : 'Starting...'}
+          Start
         </Button>
 
         {error && (

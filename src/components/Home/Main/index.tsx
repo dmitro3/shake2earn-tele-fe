@@ -8,7 +8,7 @@ import Header from './Header';
 import ShakeChest from './ShakeChest';
 
 export default function Main() {
-  const { userData, updatePoint, updateTurn, telegramUserData } =
+  const { userData, updatePoint, updateTurn, telegramUserData, onUIChange } =
     useAppContext();
 
   const shakeData = {
@@ -22,6 +22,7 @@ export default function Main() {
         flexShrink="0"
         telegramUser={telegramUserData}
         point={userData.point}
+        onClickUserBadge={() => onUIChange('settings')}
       />
 
       <Flex

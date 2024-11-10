@@ -9,7 +9,7 @@ import {
   Ellipsis,
   FlexBoxCol,
   FlexBoxRow,
-} from './styled/styled';
+} from '../../styled/styled';
 
 export function Counter() {
   const { connected } = useTonConnect();

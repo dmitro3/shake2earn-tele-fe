@@ -1,18 +1,20 @@
-import { Box, Button } from '@radix-ui/themes';
+import { Box, Button, Flex, FlexProps } from '@radix-ui/themes';
 import { CHAIN, TonConnectButton } from '@tonconnect/ui-react';
 
 import { useTonConnect } from 'hooks/ton/useTonConnect';
 
-export default function TonWallet() {
+type TonWalletProps = FlexProps;
+
+export default function TonWallet(props: FlexProps) {
   const { network } = useTonConnect();
 
   return (
-    <Box className=" w-full flex justify-center">
+    <Flex {...props}>
       <TonConnectButton />
       {/* <Button>
         {!network && 'N/A'}
         {network && (network === CHAIN.MAINNET ? 'mainnet' : 'testnet')}
       </Button> */}
-    </Box>
+    </Flex>
   );
 }

@@ -24,15 +24,21 @@ const TreasureChestImgSrc = {
   [TreasureChestStatus.CLOSED]: AppAssetSrc.CHEST_CLOSED,
 };
 
+const getTreasureDisableStyle = (): React.CSSProperties => ({
+  filter: 'grayscale(100%) brightness(90%)',
+});
+
 interface TreasureChestProps
   extends Partial<Omit<React.ComponentProps<typeof motion.div>, 'children'>> {
   isOpening?: boolean;
   isShaking?: boolean;
+  disabled?: boolean;
 }
 
 export default function TreasureChest({
   isOpening,
   isShaking,
+  disabled,
   ...props
 }: TreasureChestProps) {
   const controls = useAnimation();
@@ -78,7 +84,10 @@ export default function TreasureChest({
       <img
         src={TreasureChestImgSrc[chestStatus]}
         alt={`{chestStatus closed treasure chest`}
-        style={{ ...TreasureChestSizeMap[chestStatus] }}
+        style={{
+          ...TreasureChestSizeMap[chestStatus],
+          ...(disabled ? getTreasureDisableStyle() : {}),
+        }}
       />
     </motion.div>
   );

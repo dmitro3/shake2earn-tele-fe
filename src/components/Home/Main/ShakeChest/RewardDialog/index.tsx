@@ -1,6 +1,12 @@
-import { Box, Button, Dialog, Heading } from '@radix-ui/themes';
+import { Button, Dialog, Flex, Text } from '@radix-ui/themes';
+import {
+  ChestRewardImgSrc,
+  ChestRewardName,
+  ChestRewardTextProps,
+} from 'const/chest';
 
-import { ChestRewardData, ChestRewardName } from 'types/chest';
+import { ChestRewardData } from 'types/chest';
+import { formatNumber } from 'utils/format/number';
 
 interface RewardDialogProps {
   open?: boolean;
@@ -20,26 +26,36 @@ export default function RewardDialog({
   return (
     <Dialog.Root open={open}>
       <Dialog.Content
-        maxWidth="450px"
-        className="bg-blue-3"
-        size="4"
+        size="2"
+        className="bg-amber-1"
       >
-        <Dialog.Title className="text-center">Your reward</Dialog.Title>
-        <Dialog.Description
-          size="2"
-          mb="4"
-        >
-          <Box className="flex gap-2 py-4 justify-center">
-            <Heading size="9">{reward.value}</Heading>
-            <Heading size="9">{ChestRewardName[reward.type]}</Heading>
-          </Box>
+        <Dialog.Title className="text-center">Treasure</Dialog.Title>
+        <Dialog.Description mb="2">
+          <Flex
+            direction="column"
+            align="center"
+            py="4"
+          >
+            <img
+              src={ChestRewardImgSrc[reward.type]}
+              alt={ChestRewardName[reward.type]}
+              className="w-24 h-24"
+            />
+            <Text
+              size="6"
+              className="font-bold"
+              {...ChestRewardTextProps[reward.type]}
+            >
+              +{formatNumber(reward.value)}
+            </Text>
+          </Flex>
         </Dialog.Description>
 
         <Dialog.Close
           className="w-full"
           onClick={onClose}
         >
-          <Button>Ok</Button>
+          <Button color="amber">Ok</Button>
         </Dialog.Close>
       </Dialog.Content>
     </Dialog.Root>

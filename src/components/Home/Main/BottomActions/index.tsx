@@ -1,13 +1,12 @@
-import { Button, Flex, FlexProps } from '@radix-ui/themes';
+import { SpeakerLoudIcon, SpeakerOffIcon } from '@radix-ui/react-icons';
+import { Button, Flex, FlexProps, IconButton } from '@radix-ui/themes';
 
 import { useAppContext } from 'context/app';
-
-import BackgroundSound from './BackgroundSound';
 
 type BottomActionsProps = FlexProps;
 
 export default function BottomActions({ ...props }: BottomActionsProps) {
-  const { onUIChange } = useAppContext();
+  const { onUIChange, isPlayingAudio, changePlayAudio } = useAppContext();
 
   const renderLeftActions = () => {
     return (
@@ -16,7 +15,9 @@ export default function BottomActions({ ...props }: BottomActionsProps) {
         justify="between"
         align="center"
       >
-        <BackgroundSound />
+        <IconButton onClick={() => changePlayAudio(!isPlayingAudio)}>
+          {isPlayingAudio ? <SpeakerLoudIcon /> : <SpeakerOffIcon />}
+        </IconButton>
       </Flex>
     );
   };
@@ -29,7 +30,12 @@ export default function BottomActions({ ...props }: BottomActionsProps) {
         align="center"
       >
         {/* TODO: explorer + invite */}
-        <Button onClick={() => onUIChange('explore')}>Explore</Button>
+        <Button
+          onClick={() => onUIChange('explore')}
+          size="2"
+        >
+          Quest
+        </Button>
         {/* <Invite /> */}
       </Flex>
     );

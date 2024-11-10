@@ -1,8 +1,17 @@
-import { Button, Flex, FlexProps, Progress, Text } from '@radix-ui/themes';
+import {
+  Badge,
+  Button,
+  Flex,
+  FlexProps,
+  Progress,
+  Text,
+} from '@radix-ui/themes';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
+import { RewardBadge } from 'components/Common/User/RewardBadge';
 import useShake from 'hooks/animation/useShake';
 import { ChestRewardData, ChestRewardType } from 'types/chest';
+import { UserRewardType } from 'types/user';
 import { formatTime } from 'utils/format/time';
 
 import RewardDialog from './RewardDialog';
@@ -26,7 +35,6 @@ export default function ShakeChest({
   ...props
 }: ShakechestProps) {
   const [shakeTurnTimeLeft, setShakeTurnTimeLeft] = useState(0);
-  const [nextShakeTurnTimeLeft, setNextShakeTurnTimeLeft] = useState(0);
   const [loadingTurn, setLoadingTurn] = useState(false);
 
   const [isChestOpened, setIsChestOpened] = useState(false);
@@ -34,33 +42,31 @@ export default function ShakeChest({
 
   const shakingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const turnTimeLeftInterval = useRef<NodeJS.Timeout | null>(null);
-  const nextTurnTimeLeftInterval = useRef<NodeJS.Timeout | null>(null);
 
+  const noTurnLeft = data.turn === 0;
   const isInShakeTurn = shakeTurnTimeLeft > 0;
-  const isShakeTurnCooldown = nextShakeTurnTimeLeft > 0;
-  const isShakeAvailable = isInShakeTurn && !isShakeTurnCooldown;
 
-  const onCooldownShakeTurn = useCallback(() => {
-    if (nextTurnTimeLeftInterval.current) {
-      return;
-    }
+  // const onCooldownShakeTurn = useCallback(() => {
+  //   if (nextTurnTimeLeftInterval.current) {
+  //     return;
+  //   }
 
-    setNextShakeTurnTimeLeft(ShakeConfig.TURN_COOLDOWN_S);
+  //   setNextShakeTurnTimeLeft(ShakeConfig.TURN_COOLDOWN_S);
 
-    nextTurnTimeLeftInterval.current = setInterval(() => {
-      setNextShakeTurnTimeLeft((timeLeft) => {
-        const newTimeLeft = timeLeft - 1;
-        if (newTimeLeft > 0) {
-          return newTimeLeft;
-        }
-        if (nextTurnTimeLeftInterval.current) {
-          clearInterval(nextTurnTimeLeftInterval.current);
-          nextTurnTimeLeftInterval.current = null;
-        }
-        return newTimeLeft;
-      });
-    }, 1000);
-  }, []);
+  //   nextTurnTimeLeftInterval.current = setInterval(() => {
+  //     setNextShakeTurnTimeLeft((timeLeft) => {
+  //       const newTimeLeft = timeLeft - 1;
+  //       if (newTimeLeft > 0) {
+  //         return newTimeLeft;
+  //       }
+  //       if (nextTurnTimeLeftInterval.current) {
+  //         clearInterval(nextTurnTimeLeftInterval.current);
+  //         nextTurnTimeLeftInterval.current = null;
+  //       }
+  //       return newTimeLeft;
+  //     });
+  //   }, 1000);
+  // }, []);
 
   const onStartShakeTurn = useCallback(async () => {
     if (turnTimeLeftInterval.current) {
@@ -138,7 +144,7 @@ export default function ShakeChest({
   );
 
   const { isShaking, onStartListenShake, onStopListenShake } = useShake({
-    onShake: isShakeAvailable ? onShakingTreasureChest : undefined,
+    onShake: isInShakeTurn ? onShakingTreasureChest : undefined,
     timeout: 500,
   });
 
@@ -156,24 +162,35 @@ export default function ShakeChest({
 
   const renderSharkTurnAction = () => {
     if (!isInShakeTurn) {
-      const disabledShakeButton =
-        data.turn === 0 || isShakeTurnCooldown || loadingTurn;
+      const disabledShakeButton = data.turn === 0 || loadingTurn;
       return (
         <Flex
           direction="column"
           align="center"
+          gap="2"
         >
           <Button
             size="3"
+            color="amber"
             className="font-bold uppercase"
             disabled={disabledShakeButton}
             onClick={onStartShakeTurn}
             loading={loadingTurn}
           >
-            Shake ({data.turn})
+            Shake
           </Button>
 
-          {isShakeTurnCooldown && (
+          <Badge
+            color="orange"
+            className="bg-amber-3"
+          >
+            <RewardBadge
+              type={UserRewardType.TURN}
+              value={data.turn}
+              size="sm"
+            />
+          </Badge>
+          {/* {isShakeTurnCooldown && (
             <Flex
               mt="2"
               width="100%"
@@ -188,7 +205,7 @@ export default function ShakeChest({
                 {formatTime(nextShakeTurnTimeLeft)}
               </Text>
             </Flex>
-          )}
+          )} */}
         </Flex>
       );
     }
@@ -196,16 +213,17 @@ export default function ShakeChest({
     return (
       <Flex
         direction="column"
+        align="center"
         width="100%"
+        gap="2"
       >
         <Progress
           value={(shakeTurnTimeLeft * 100) / ShakeConfig.TURN_DURATION_S}
           color="amber"
-          className="h-3 bg-whiteA-12 mt-1"
+          className="h-3 bg-whiteA-12 w-full mt-1"
         />
 
         <Flex
-          mt="2"
           width="100%"
           justify="center"
           className="text-whiteA-12"
@@ -214,7 +232,7 @@ export default function ShakeChest({
             size="2"
             weight="bold"
           >
-            ({formatTime(shakeTurnTimeLeft)})
+            {formatTime(shakeTurnTimeLeft)}
           </Text>
         </Flex>
       </Flex>
@@ -238,6 +256,7 @@ export default function ShakeChest({
           pb="100%"
         >
           <TreasureChest
+            disabled={noTurnLeft}
             isShaking={isChestOpened ? false : isShaking}
             isOpening={isChestOpened}
           />

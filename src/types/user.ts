@@ -6,3 +6,8 @@ export interface User {
   shakeCount: number;
   hasClaimedJoinChannelQuest: boolean;
 }
+
+export enum UserRewardType {
+  POINT = 'point',
+  TURN = 'turn',
+}
