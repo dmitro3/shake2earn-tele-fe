@@ -1,31 +1,57 @@
+import { CheckCircledIcon, Link2Icon } from '@radix-ui/react-icons';
 import {
   Box,
   BoxProps,
   Button,
-  Card,
   Flex,
+  Heading,
   Link,
-  Spinner,
-  Strong,
   Text,
 } from '@radix-ui/themes';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import WebApp from '@twa-dev/sdk';
 import { queryKey } from 'api/queryKey';
 import { claimDailyQuest, claimJoinChannel, getQuests } from 'api/quest';
-import { useEffect, useState } from 'react';
+import { useRef, useState } from 'react';
 import { toast } from 'react-toastify';
+
+import { useAppContext } from 'context/app';
+import { formatNumber } from 'utils/format/number';
+
+import CoinBadge from '../CoinBadge';
 
 type QuestProps = BoxProps;
 
-export default function Quest({ ...props }: QuestProps) {
-  const [user, setUser] = useState<any>();
+function FriendIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      {...props}
+    >
+      <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3m-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3m0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5m8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5"></path>
+    </svg>
+  );
+}
 
-  useEffect(() => {
-    if (WebApp.initDataUnsafe) {
-      setUser(WebApp.initDataUnsafe.user);
+export default function Quest({ ...props }: QuestProps) {
+  const { telegramUserData } = useAppContext();
+  const [copyText, setCopyText] = useState('Copy');
+  const copyTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const inviteLink = `t.me/PirateTreasureBot/join?startapp=${telegramUserData?.id}`;
+
+  const copyInviteLink = () => {
+    navigator.clipboard.writeText(inviteLink);
+    setCopyText('Copied!');
+
+    if (copyTimeoutRef.current) {
+      clearTimeout(copyTimeoutRef.current);
     }
-  }, []);
+    setTimeout(() => {
+      setCopyText('Copy');
+      copyTimeoutRef.current = null;
+    }, 1000);
+  };
 
   // post request to claim daily quest
   const dailyQuestMutation = useMutation(claimDailyQuest, {
@@ -59,62 +85,162 @@ export default function Quest({ ...props }: QuestProps) {
     },
   });
 
-  return (
-    <Box className="mt-10 space-y-8">
-      <Card>
-        <Flex
-          justify="between"
-          align="center"
-        >
-          <Text weight="medium">Daily checkin</Text>
-          <Button
-            disabled={quests?.dailyClaim.claimed}
-            onClick={() => dailyQuestMutation.mutate()}
+  const invitedFriendsCount = quests?.inviteFriend?.invitedFriendsCount ?? 0;
+  const pointsPerInvite = quests?.inviteFriend?.pointsPerInvite ?? 0;
+
+  const renderInvitation = () => {
+    return (
+      <Flex direction="column">
+        <Heading size="3">Referral</Heading>
+        <Flex gap="3">
+          <Flex
+            className="w-full flex-1 overflow-hidden"
+            direction="column"
+            justify="center"
           >
-            {isLoading || dailyQuestMutation.isLoading ? (
-              <Spinner size="1" />
+            <Text
+              size="2"
+              className="truncate text-indigoA-10"
+              weight="medium"
+            >
+              {inviteLink}
+            </Text>
+          </Flex>
+
+          <Flex
+            className="w-24"
+            justify="end"
+          >
+            <Button
+              color="amber"
+              variant="surface"
+              onClick={copyInviteLink}
+              size="2"
+            >
+              <Link2Icon />
+              <Box>{copyText}</Box>
+            </Button>
+          </Flex>
+        </Flex>
+
+        <Flex
+          justify="center"
+          gap="8"
+          py="2"
+        >
+          <Flex
+            direction="column"
+            align="center"
+            gap="1"
+          >
+            <Text size="2">Earned</Text>
+            <CoinBadge
+              coinProps={{ width: 20, height: 20 }}
+              point={invitedFriendsCount * pointsPerInvite}
+            />
+          </Flex>
+          <Flex
+            direction="column"
+            align="center"
+            gap="1"
+          >
+            <Text size="2">Friends</Text>
+            <Flex
+              align="center"
+              gap="1"
+            >
+              <FriendIcon
+                className="text-indigo-9"
+                width="20"
+                height="20"
+              />
+              <Text
+                className="font-medium"
+                size="2"
+              >
+                {formatNumber(invitedFriendsCount)}
+              </Text>
+            </Flex>
+          </Flex>
+        </Flex>
+      </Flex>
+    );
+  };
+
+  const renderDailyReward = () => {
+    return (
+      <Flex direction="column">
+        <Heading size="3">Daily</Heading>
+
+        <Flex justify="between">
+          <Text
+            size="2"
+            mt="2"
+          >
+            Daily rewards
+          </Text>
+
+          <Button
+            color="amber"
+            variant="surface"
+            onClick={() => dailyQuestMutation.mutate()}
+            loading={isLoading || dailyQuestMutation.isLoading}
+            disabled={quests?.dailyClaim.claimed}
+          >
+            {!quests?.dailyClaim.claimed ? (
+              <CoinBadge point={quests?.dailyClaim.pointsPerClaim ?? 0} />
             ) : (
-              'Claim'
+              <CheckCircledIcon color="green" />
             )}
           </Button>
         </Flex>
-      </Card>
-      <Card>
-        <Flex
-          justify="between"
-          align="center"
-        >
-          <Text weight="medium">Invited friends</Text>
-          <Strong className=" mr-3">
-            {isLoading ? (
-              <Spinner size="1" />
-            ) : (
-              quests?.inviteFriend?.invitedFriendsCount
-            )}
-          </Strong>
-        </Flex>
-      </Card>
-      <Card>
-        <Flex
-          justify="between"
-          align="center"
-        >
-          <Text weight="medium">
-            Join our Telegram channel{' '}
-            <Link href="https://t.me/pirate_treasure_channel">here</Link>
+      </Flex>
+    );
+  };
+
+  const renderJoinChannel = () => {
+    return (
+      <Flex direction="column">
+        <Heading size="3">Tasks</Heading>
+
+        <Flex justify="between">
+          <Text
+            size="2"
+            mt="2"
+          >
+            Join{' '}
+            <Link href="https://t.me/pirate_treasure_channel">
+              Telegram channel
+            </Link>
           </Text>
           <Button
+            color="amber"
+            variant="surface"
             disabled={quests?.joinChannelQuest.claimed}
-            onClick={() => joinChannelMutation.mutate(user?.username)}
+            onClick={() =>
+              joinChannelMutation.mutate(telegramUserData?.username ?? '')
+            }
+            loading={isLoading || joinChannelMutation.isLoading}
           >
-            {isLoading || joinChannelMutation.isLoading ? (
-              <Spinner size="1" />
+            {!quests?.joinChannelQuest.claimed ? (
+              <CoinBadge point={quests?.joinChannelQuest.pointsPerClaim ?? 0} />
             ) : (
-              'Claim'
+              <CheckCircledIcon color="green" />
             )}
           </Button>
         </Flex>
-      </Card>
+      </Flex>
+    );
+  };
+
+  return (
+    <Box
+      className="space-y-4"
+      {...props}
+    >
+      {renderInvitation()}
+      {renderDailyReward()}
+      {renderJoinChannel()}
     </Box>
   );
 }

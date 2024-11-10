@@ -188,12 +188,12 @@ export default function ShakeChest({
               align="center"
               gap="1"
             >
-              {formatNumber(data.turn)}
               <img
                 src={AppAssetSrc.MAP_PAPER}
                 className="w-4 h-4"
                 alt="treasure map paper"
               />
+              <Text weight="medium">{formatNumber(data.turn)}</Text>
             </Flex>
           </Badge>
 

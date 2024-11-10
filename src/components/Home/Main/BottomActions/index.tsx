@@ -34,7 +34,7 @@ export default function BottomActions({ ...props }: BottomActionsProps) {
           onClick={() => onUIChange('explore')}
           size="2"
         >
-          Explore
+          Quest
         </Button>
         {/* <Invite /> */}
       </Flex>

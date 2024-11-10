@@ -56,7 +56,8 @@ export default function Header({ telegramUser, point, ...props }: HeaderProps) {
           />
           <Text
             size="2"
-            className="text-whiteA-11 font-bold truncate"
+            className="text-whiteA-11 truncate"
+            weight="bold"
           >
             {formatNumber(point)}
           </Text>
