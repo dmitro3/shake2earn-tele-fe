@@ -50,7 +50,7 @@ export default function Quest({ ...props }: QuestProps) {
     setTimeout(() => {
       setCopyText('Copy');
       copyTimeoutRef.current = null;
-    }, 1000);
+    }, 2000);
   };
 
   // post request to claim daily quest
