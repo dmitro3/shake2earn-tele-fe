@@ -90,7 +90,10 @@ export default function Quest({ ...props }: QuestProps) {
 
   const renderInvitation = () => {
     return (
-      <Flex direction="column">
+      <Flex
+        direction="column"
+        position="relative"
+      >
         <Heading size="4">Referral</Heading>
 
         <Flex

@@ -1,3 +1,4 @@
+import { Cross2Icon } from '@radix-ui/react-icons';
 import { Button, Card, Flex } from '@radix-ui/themes';
 
 import AppPageContainer from 'components/Common/Page/AppPageContainer';
@@ -17,7 +18,16 @@ export default function Settings() {
         <Flex
           direction="column"
           flexGrow="1"
+          position="relative"
         >
+          <Button
+            className="absolute top-0 right-1 p-1"
+            color="gray"
+            variant="ghost"
+            onClick={() => onUIChange('home')}
+          >
+            <Cross2Icon />
+          </Button>
           <Content
             username={telegramUserData?.username ?? '-'}
             avatarUrl={telegramUserData?.photo_url}

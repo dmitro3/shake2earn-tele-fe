@@ -4,6 +4,7 @@ import {
   updateShakeTurn as requestUpdateShakeTurn,
 } from 'api/chest';
 import { createUser, getUser } from 'api/user';
+import { produce } from 'immer';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { usePlayAudio } from 'hooks/common/usePlayAudio';
@@ -114,7 +115,11 @@ export const AppContextProvider = ({
   const updateTurn = useCallback(async (shakeCount: number) => {
     const result = await requestUpdateShakeTurn(shakeCount);
     if (result.success) {
-      setUserData(result.response.data.user);
+      setUserData(
+        produce((user) => {
+          user.shakeCount = result.response.data.user.shakeCount;
+        }),
+      );
     }
     return result.success;
   }, []);
@@ -122,7 +127,11 @@ export const AppContextProvider = ({
   const updatePoint = useCallback(async (pointCount: number) => {
     const result = await requestUpdatePoint(pointCount);
     if (result.success) {
-      setUserData(result.response.data.user);
+      setUserData(
+        produce((user) => {
+          user.point = result.response.data.user.point;
+        }),
+      );
     }
     return result.success;
   }, []);

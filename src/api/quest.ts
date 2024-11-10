@@ -23,21 +23,17 @@ type Quest = {
 };
 
 export const getQuests = async () => {
-  const data = await getWithToken('quests/overview', { params: {} }).then(
-    (res) => {
-      return res.data as Quest;
-    },
-  );
+  const data = await getWithToken('quests/overview').then((res) => {
+    return res.data as Quest;
+  });
 
   return data;
 };
 
 export const claimDailyQuest = async () => {
-  const data = await postWithToken('quests/claim-daily', { params: {} }).then(
-    (res) => {
-      return res.data;
-    },
-  );
+  const data = await postWithToken('quests/claim-daily').then((res) => {
+    return res.data;
+  });
   return data;
 };
 
