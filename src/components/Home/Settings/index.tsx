@@ -26,6 +26,7 @@ export default function Settings() {
 
         <Button
           variant="solid"
+          size="4"
           onClick={() => onUIChange('home')}
         >
           Back
