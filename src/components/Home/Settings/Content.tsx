@@ -31,7 +31,7 @@ export default function Content({
           />
 
           <Text
-            size="3"
+            size="4"
             truncate
             className="truncate mr-1 font-medium"
           >
@@ -46,7 +46,7 @@ export default function Content({
     return (
       <Flex direction="column">
         <Heading size="3">Wallet</Heading>
-        <Box mt="1">
+        <Box mt="2">
           <TonWallet />
         </Box>
       </Flex>
@@ -57,7 +57,7 @@ export default function Content({
     return (
       <Flex direction="column">
         <Heading size="3">About</Heading>
-        <Footer mt="1" />
+        <Footer mt="2" />
       </Flex>
     );
   };
