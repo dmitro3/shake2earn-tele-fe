@@ -30,7 +30,9 @@ export const loadAsset = (asset: AssetConfig) => {
           name: asset.name,
           value: img,
         } as const;
-        const onCompleted = () => resolve(loadedAsset);
+        const onCompleted = () => {
+          resolve(loadedAsset);
+        };
 
         img.onload = onCompleted;
         img.onerror = onCompleted;
@@ -45,10 +47,13 @@ export const loadAsset = (asset: AssetConfig) => {
           name: asset.name,
           value: audio,
         } as const;
-        const onCompleted = () => resolve(loadedAsset);
+        const onCompleted = () => {
+          resolve(loadedAsset);
+        };
 
         audio.oncanplaythrough = onCompleted;
         audio.onerror = onCompleted;
+        audio.load(); // must load in mobile iOS (ref: https://stackoverflow.com/questions/49792768/js-html5-audio-why-is-canplaythrough-not-fired-on-ios-safari)
         return;
       }
 
