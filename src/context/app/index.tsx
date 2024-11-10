@@ -110,7 +110,7 @@ export const AppContextProvider = ({
       try {
         await Promise.all([
           fetchUserData({ createFirstUser: true }),
-          loadAppAssets(AppAssets),
+          // loadAppAssets(AppAssets),
         ]);
       } catch (error) {
         setDebugError(error as Error);
