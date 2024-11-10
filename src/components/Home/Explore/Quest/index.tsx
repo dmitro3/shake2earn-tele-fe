@@ -14,10 +14,10 @@ import { claimDailyQuest, claimJoinChannel, getQuests } from 'api/quest';
 import { useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 
+import { RewardBadge } from 'components/Common/User/RewardBadge';
 import { useAppContext } from 'context/app';
+import { UserRewardType } from 'types/user';
 import { formatNumber } from 'utils/format/number';
-
-import CoinBadge from '../CoinBadge';
 
 type QuestProps = BoxProps;
 
@@ -92,7 +92,11 @@ export default function Quest({ ...props }: QuestProps) {
     return (
       <Flex direction="column">
         <Heading size="3">Referral</Heading>
-        <Flex gap="3">
+
+        <Flex
+          gap="3"
+          mt="1"
+        >
           <Flex
             className="w-full flex-1 overflow-hidden"
             direction="column"
@@ -133,17 +137,6 @@ export default function Quest({ ...props }: QuestProps) {
             align="center"
             gap="1"
           >
-            <Text size="2">Earned</Text>
-            <CoinBadge
-              coinProps={{ width: 20, height: 20 }}
-              point={invitedFriendsCount * pointsPerInvite}
-            />
-          </Flex>
-          <Flex
-            direction="column"
-            align="center"
-            gap="1"
-          >
             <Text size="2">Friends</Text>
             <Flex
               align="center"
@@ -162,6 +155,18 @@ export default function Quest({ ...props }: QuestProps) {
               </Text>
             </Flex>
           </Flex>
+          <Flex
+            direction="column"
+            align="center"
+            gap="1"
+          >
+            <Text size="2">Earned</Text>
+            <RewardBadge
+              type={UserRewardType.POINT}
+              iconImgProps={{ className: 'w-[20px] h-[20px]' }}
+              value={invitedFriendsCount * pointsPerInvite}
+            />
+          </Flex>
         </Flex>
       </Flex>
     );
@@ -172,7 +177,10 @@ export default function Quest({ ...props }: QuestProps) {
       <Flex direction="column">
         <Heading size="3">Daily</Heading>
 
-        <Flex justify="between">
+        <Flex
+          justify="between"
+          mt="1"
+        >
           <Text
             size="2"
             mt="2"
@@ -188,7 +196,11 @@ export default function Quest({ ...props }: QuestProps) {
             disabled={quests?.dailyClaim.claimed}
           >
             {!quests?.dailyClaim.claimed ? (
-              <CoinBadge point={quests?.dailyClaim.pointsPerClaim ?? 0} />
+              <RewardBadge
+                type={UserRewardType.POINT}
+                size="sm"
+                value={quests?.dailyClaim.pointsPerClaim ?? 0}
+              />
             ) : (
               <CheckCircledIcon color="green" />
             )}
@@ -203,7 +215,10 @@ export default function Quest({ ...props }: QuestProps) {
       <Flex direction="column">
         <Heading size="3">Tasks</Heading>
 
-        <Flex justify="between">
+        <Flex
+          justify="between"
+          mt="1"
+        >
           <Text
             size="2"
             mt="2"
@@ -223,7 +238,11 @@ export default function Quest({ ...props }: QuestProps) {
             loading={isLoading || joinChannelMutation.isLoading}
           >
             {!quests?.joinChannelQuest.claimed ? (
-              <CoinBadge point={quests?.joinChannelQuest.pointsPerClaim ?? 0} />
+              <RewardBadge
+                type={UserRewardType.POINT}
+                size="sm"
+                value={quests?.joinChannelQuest.pointsPerClaim ?? 0}
+              />
             ) : (
               <CheckCircledIcon color="green" />
             )}

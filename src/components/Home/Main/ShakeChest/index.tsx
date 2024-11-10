@@ -8,10 +8,10 @@ import {
 } from '@radix-ui/themes';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-import { AppAssetSrc } from 'context/app/constants';
+import { RewardBadge } from 'components/Common/User/RewardBadge';
 import useShake from 'hooks/animation/useShake';
 import { ChestRewardData, ChestRewardType } from 'types/chest';
-import { formatNumber } from 'utils/format/number';
+import { UserRewardType } from 'types/user';
 import { formatTime } from 'utils/format/time';
 
 import RewardDialog from './RewardDialog';
@@ -184,19 +184,12 @@ export default function ShakeChest({
             color="orange"
             className="bg-amber-3"
           >
-            <Flex
-              align="center"
-              gap="1"
-            >
-              <img
-                src={AppAssetSrc.MAP_PAPER}
-                className="w-4 h-4"
-                alt="treasure map paper"
-              />
-              <Text weight="medium">{formatNumber(data.turn)}</Text>
-            </Flex>
+            <RewardBadge
+              type={UserRewardType.TURN}
+              value={data.turn}
+              size="sm"
+            />
           </Badge>
-
           {/* {isShakeTurnCooldown && (
             <Flex
               mt="2"

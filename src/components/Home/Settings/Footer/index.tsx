@@ -1,13 +1,16 @@
-import { Button, Flex } from '@radix-ui/themes';
+import { Button, Flex, FlexProps } from '@radix-ui/themes';
 
 import { useAppContext } from 'context/app';
 
-export default function Footer() {
+type FooterProps = FlexProps;
+
+export default function Footer(props: FooterProps) {
   const { onUIChange } = useAppContext();
   return (
     <Flex
       wrap="wrap"
       gap="2"
+      {...props}
     >
       <Button
         variant="ghost"

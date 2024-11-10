@@ -9,6 +9,7 @@ import Loading from './Initialization/Loading';
 import Welcome from './Initialization/Welcome';
 import Main from './Main';
 import Rules from './Rules';
+import Settings from './Settings';
 
 const WELCOME_SCREEN_DELAY_MS = 1250;
 
@@ -44,6 +45,10 @@ export default function Home() {
         error={error}
       />
     );
+  }
+
+  if (curUI === 'settings') {
+    return <Settings />;
   }
 
   if (curUI === 'explore') {
