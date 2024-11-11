@@ -231,7 +231,7 @@ export default function ShakeChest({
             size="2"
             weight="bold"
           >
-            {formatTime(shakeTurnTimeLeft)}
+            {shakeTurnTimeLeft}s
           </Text>
         </Flex>
       </Flex>
