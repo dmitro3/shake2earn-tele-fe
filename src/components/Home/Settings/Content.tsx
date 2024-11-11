@@ -22,18 +22,11 @@ export default function Content({
           gap="2"
           mb="4"
         >
-          <Avatar
-            size="5"
-            radius="small"
-            fallback={username[0]}
-            color="amber"
-            src={avatarUrl}
-          />
-
           <Text
             size="4"
             truncate
             className="truncate mr-1 font-medium"
+            align="center"
           >
             {username}
           </Text>
@@ -66,7 +59,13 @@ export default function Content({
       direction="column"
       gap="4"
     >
-      {renderUserInfo()}
+      <Heading
+        size="6"
+        align="center"
+      >
+        Settings
+      </Heading>
+      {/* {renderUserInfo()} */}
       {renderTonWallet()}
       {renderMore()}
     </Flex>

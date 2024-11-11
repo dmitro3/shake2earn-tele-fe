@@ -21,7 +21,7 @@ export default function Settings() {
           position="relative"
         >
           <Button
-            className="absolute top-0 right-1 p-1"
+            className="absolute top-0 right-1 p-4"
             color="gray"
             variant="ghost"
             onClick={() => onUIChange('home')}
