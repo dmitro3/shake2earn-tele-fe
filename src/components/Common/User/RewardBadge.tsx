@@ -68,7 +68,7 @@ export function RewardBadge({
         size="2"
         {...valueProps}
         {...UserRewardValuePropsBySize[size]}
-        className={clsx('truncate', valueProps?.className)}
+        className={clsx(valueProps?.className)}
       >
         {formatNumber(value)}
       </Text>

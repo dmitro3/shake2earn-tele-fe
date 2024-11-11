@@ -1,4 +1,4 @@
-import { Avatar, Button, Card, Flex, FlexProps, Text } from '@radix-ui/themes';
+import { Button, Card, Flex, FlexProps, Text } from '@radix-ui/themes';
 
 import { RewardBadge } from 'components/Common/User/RewardBadge';
 import { User } from 'types/telegram';
@@ -28,15 +28,9 @@ export default function Header({
           <Flex
             align="center"
             gap="2"
+            py="1"
+            px="2"
           >
-            <Avatar
-              size="3"
-              radius="small"
-              fallback={userName[0]}
-              color="amber"
-              src={telegramUser?.photo_url}
-            />
-
             <Text
               size="3"
               truncate
@@ -55,13 +49,13 @@ export default function Header({
     return (
       <Flex
         className="flex-1 max-w-24"
-        justify="end"
+        justify="start"
       >
         <RewardBadge
           type={UserRewardType.POINT}
-          value={point}
+          value={point + 1092831823}
           className="text-whiteA-12"
-          valueProps={{ weight: 'medium' }}
+          valueProps={{ weight: 'medium', truncate: false }}
           size="lg"
         />
       </Flex>
@@ -74,8 +68,8 @@ export default function Header({
       py="4"
       {...props}
     >
-      {renderUserDropdown()}
       {renderPoint()}
+      {renderUserDropdown()}
     </Flex>
   );
 }
