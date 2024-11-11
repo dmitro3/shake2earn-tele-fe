@@ -9,6 +9,7 @@ export const AppAssetSrc = {
   BG: 'assets/app/ocean-background.png',
   COIN: 'assets/app/coin.png',
   MAP_PAPER: 'assets/app/map-paper.png',
+  PHONE: 'assets/app/phone.svg',
   CHEST_OPENED: 'assets/app/chest-opened.png',
   CHEST_CLOSED: 'assets/app/chest-closed.png',
   SOUNDTRACK: 'assets/music/soundtrack.mp3',
@@ -35,6 +36,11 @@ export const AppAssets: AssetConfig[] = [
     type: AssetType.IMG,
     name: 'map-paper',
     src: withViteBaseUrlWrapper(AppAssetSrc.MAP_PAPER),
+  },
+  {
+    type: AssetType.IMG,
+    name: 'phone',
+    src: withViteBaseUrlWrapper(AppAssetSrc.PHONE),
   },
   {
     type: AssetType.IMG,

@@ -266,7 +266,7 @@ export default function ShakeChest({
         direction="column"
         width="50%"
         height="82px"
-        className="relative mt-4"
+        className="relative mt-6"
       >
         {renderSharkTurnAction()}
       </Flex>
