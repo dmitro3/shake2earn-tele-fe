@@ -179,25 +179,32 @@ export default function Quest({ ...props }: QuestProps) {
           >
             Daily rewards
           </Text>
-
-          <Button
-            color="amber"
-            variant="surface"
-            onClick={() => dailyQuestMutation.mutate()}
-            loading={isLoading || dailyQuestMutation.isLoading}
-            disabled={quests?.dailyClaim.claimed}
-            size="3"
-          >
-            {!quests?.dailyClaim.claimed ? (
-              <RewardBadge
-                type={UserRewardType.TURN}
-                size="sm"
-                value={quests?.dailyClaim.turnsPerClaim ?? 0}
-              />
-            ) : (
-              <CheckCircledIcon color="green" />
+          <Box className="relative">
+            {!quests?.dailyClaim.claimed && (
+              <span className="absolute flex h-3 w-3 right-0">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-10 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-red-10"></span>
+              </span>
             )}
-          </Button>
+            <Button
+              color="amber"
+              variant="surface"
+              onClick={() => dailyQuestMutation.mutate()}
+              loading={isLoading || dailyQuestMutation.isLoading}
+              disabled={quests?.dailyClaim.claimed}
+              size="3"
+            >
+              {!quests?.dailyClaim.claimed ? (
+                <RewardBadge
+                  type={UserRewardType.TURN}
+                  size="sm"
+                  value={quests?.dailyClaim.turnsPerClaim ?? 0}
+                />
+              ) : (
+                <CheckCircledIcon color="green" />
+              )}
+            </Button>
+          </Box>
         </Flex>
       </Flex>
     );
@@ -221,26 +228,34 @@ export default function Quest({ ...props }: QuestProps) {
               Telegram channel
             </Link>
           </Text>
-          <Button
-            color="amber"
-            variant="surface"
-            disabled={quests?.joinChannelQuest.claimed}
-            onClick={() =>
-              joinChannelMutation.mutate(telegramUserData?.username ?? '')
-            }
-            loading={isLoading || joinChannelMutation.isLoading}
-            size="3"
-          >
-            {!quests?.joinChannelQuest.claimed ? (
-              <RewardBadge
-                type={UserRewardType.TURN}
-                size="sm"
-                value={quests?.joinChannelQuest.turnsPerClaim ?? 0}
-              />
-            ) : (
-              <CheckCircledIcon color="green" />
+          <Box className="relative">
+            {!quests?.joinChannelQuest.claimed && (
+              <span className="absolute flex h-3 w-3 right-0">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-10 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-red-10"></span>
+              </span>
             )}
-          </Button>
+            <Button
+              color="amber"
+              variant="surface"
+              disabled={quests?.joinChannelQuest.claimed}
+              onClick={() =>
+                joinChannelMutation.mutate(telegramUserData?.username ?? '')
+              }
+              loading={isLoading || joinChannelMutation.isLoading}
+              size="3"
+            >
+              {!quests?.joinChannelQuest.claimed ? (
+                <RewardBadge
+                  type={UserRewardType.TURN}
+                  size="sm"
+                  value={quests?.joinChannelQuest.turnsPerClaim ?? 0}
+                />
+              ) : (
+                <CheckCircledIcon color="green" />
+              )}
+            </Button>
+          </Box>
         </Flex>
       </Flex>
     );
