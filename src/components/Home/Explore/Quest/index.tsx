@@ -16,7 +16,9 @@ import { useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { RewardBadge } from 'components/Common/User/RewardBadge';
+import RewardDialog from 'components/Home/Main/ShakeChest/RewardDialog';
 import { useAppContext } from 'context/app';
+import { ChestRewardData, ChestRewardType } from 'types/chest';
 import { UserRewardType } from 'types/user';
 import { formatNumber } from 'utils/format/number';
 
@@ -39,6 +41,8 @@ export default function Quest({ ...props }: QuestProps) {
   const [copyText, setCopyText] = useState('Copy');
   const copyTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+  const [chestReward, setChestReward] = useState<ChestRewardData | null>(null);
+
   const inviteLink = `t.me/PirateTreasureBot/join?startapp=${telegramUserData?.id}`;
 
   const copyInviteLink = () => {
@@ -58,6 +62,10 @@ export default function Quest({ ...props }: QuestProps) {
   const dailyQuestMutation = useMutation(claimDailyQuest, {
     onSuccess: () => {
       toast.success('Daily quest claimed successfully!');
+      setChestReward({
+        type: ChestRewardType.TURN,
+        value: quests?.dailyClaim.turnsPerClaim ?? 0,
+      });
     },
     onError: () => {
       toast.error('Failed to claim daily quest.');
@@ -68,6 +76,10 @@ export default function Quest({ ...props }: QuestProps) {
   const joinChannelMutation = useMutation(claimJoinChannel, {
     onSuccess: () => {
       toast.success('Join channel quest claimed successfully!');
+      setChestReward({
+        type: ChestRewardType.TURN,
+        value: quests?.joinChannelQuest.turnsPerClaim ?? 0,
+      });
     },
     onError: () => {
       toast.error('Failed to claim join channel quest.');
@@ -87,7 +99,10 @@ export default function Quest({ ...props }: QuestProps) {
   });
 
   const invitedFriendsCount = quests?.inviteFriend?.invitedFriendsCount ?? 0;
-  const turnsPerInvite = quests?.inviteFriend?.turnsPerInvite ?? 0;
+
+  const onCloseRewardDialog = () => {
+    setChestReward(null);
+  };
 
   const renderInvitation = () => {
     return (
@@ -283,6 +298,12 @@ export default function Quest({ ...props }: QuestProps) {
         size="4"
       />
       {renderJoinChannel()}
+
+      <RewardDialog
+        open={!!chestReward}
+        reward={chestReward}
+        onClose={onCloseRewardDialog}
+      />
     </Box>
   );
 }
