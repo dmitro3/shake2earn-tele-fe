@@ -5,19 +5,19 @@ type Quest = {
     claimed: boolean;
     timeToNextClaim: number;
     nextClaimAt: string;
-    pointsPerClaim: number;
+    turnsPerClaim: number;
     note: string;
   };
   inviteFriend: {
     invitedFriendsCount: number;
-    pointsPerInvite: number;
+    turnsPerInvite: number;
     note: string;
   };
   joinChannelQuest: {
     claimed: boolean;
     channel: string;
     channelTelegramLink: string;
-    pointsPerClaim: number;
+    turnsPerClaim: number;
     note: string;
   };
 };

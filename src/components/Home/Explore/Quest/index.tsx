@@ -86,7 +86,7 @@ export default function Quest({ ...props }: QuestProps) {
   });
 
   const invitedFriendsCount = quests?.inviteFriend?.invitedFriendsCount ?? 0;
-  const pointsPerInvite = quests?.inviteFriend?.pointsPerInvite ?? 0;
+  const turnsPerInvite = quests?.inviteFriend?.turnsPerInvite ?? 0;
 
   const renderInvitation = () => {
     return (
@@ -163,11 +163,11 @@ export default function Quest({ ...props }: QuestProps) {
             align="center"
             gap="1"
           >
-            <Text size="3">Earned</Text>
+            <Text size="3">Claimed</Text>
             <RewardBadge
-              type={UserRewardType.POINT}
+              type={UserRewardType.TURN}
               valueProps={{ size: '3' }}
-              value={invitedFriendsCount * pointsPerInvite}
+              value={invitedFriendsCount * turnsPerInvite}
             />
           </Flex>
         </Flex>
@@ -201,9 +201,9 @@ export default function Quest({ ...props }: QuestProps) {
           >
             {!quests?.dailyClaim.claimed ? (
               <RewardBadge
-                type={UserRewardType.POINT}
+                type={UserRewardType.TURN}
                 size="sm"
-                value={quests?.dailyClaim.pointsPerClaim ?? 0}
+                value={quests?.dailyClaim.turnsPerClaim ?? 0}
               />
             ) : (
               <CheckCircledIcon color="green" />
@@ -244,9 +244,9 @@ export default function Quest({ ...props }: QuestProps) {
           >
             {!quests?.joinChannelQuest.claimed ? (
               <RewardBadge
-                type={UserRewardType.POINT}
+                type={UserRewardType.TURN}
                 size="sm"
-                value={quests?.joinChannelQuest.pointsPerClaim ?? 0}
+                value={quests?.joinChannelQuest.turnsPerClaim ?? 0}
               />
             ) : (
               <CheckCircledIcon color="green" />
