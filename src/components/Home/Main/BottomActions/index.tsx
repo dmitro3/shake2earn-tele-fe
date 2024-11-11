@@ -1,20 +1,36 @@
-import { SpeakerLoudIcon, SpeakerOffIcon } from '@radix-ui/react-icons';
+import {
+  QuestionMarkCircledIcon,
+  SpeakerLoudIcon,
+  SpeakerOffIcon,
+} from '@radix-ui/react-icons';
 import { Button, Flex, FlexProps, IconButton } from '@radix-ui/themes';
 
 import { useAppContext } from 'context/app';
 
-type BottomActionsProps = FlexProps;
+type BottomActionsProps = FlexProps & {
+  onOpenTutorials: () => void;
+};
 
-export default function BottomActions({ ...props }: BottomActionsProps) {
+export default function BottomActions({
+  onOpenTutorials,
+  ...props
+}: BottomActionsProps) {
   const { onUIChange, isPlayingAudio, changePlayAudio } = useAppContext();
 
   const renderLeftActions = () => {
     return (
       <Flex
         direction="column"
-        justify="between"
+        justify="end"
         align="center"
+        gap="2"
       >
+        <IconButton
+          onClick={onOpenTutorials}
+          size="4"
+        >
+          <QuestionMarkCircledIcon />
+        </IconButton>
         <IconButton
           onClick={() => changePlayAudio(!isPlayingAudio)}
           size="4"
@@ -29,7 +45,7 @@ export default function BottomActions({ ...props }: BottomActionsProps) {
     return (
       <Flex
         direction="column"
-        justify="between"
+        justify="end"
         align="center"
       >
         <Button

@@ -174,7 +174,7 @@ export default function Quest({ ...props }: QuestProps) {
               </Text>
             </Flex>
           </Flex>
-        </Flex>
+        </Flex> */}
       </Flex>
     );
   };
