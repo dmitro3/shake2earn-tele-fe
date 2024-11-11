@@ -63,24 +63,40 @@ const shakeAnimation = keyframes`
     transform: rotate(0deg);
     transform-origin: bottom right;
   }
+  12.5% {
+    transform: rotate(4deg);
+    transform-origin: bottom right;
+  }
   25% {
-    transform: rotate(5deg);
+    transform: rotate(0deg);
+    transform-origin: bottom right;
+  }
+  37.5% {
+    transform: rotate(-4deg);
     transform-origin: bottom right;
   }
   50% {
     transform: rotate(0deg);
     transform-origin: bottom right;
   }
-  75% {
-    transform: rotate(-5deg);
+  62.5% {
+    transform: rotate(4deg);
     transform-origin: bottom right;
   }
-  100% {
+  75% {
+    transform: rotate(0deg);
+    transform-origin: bottom right;
+  }
+  87.5% {
+    transform: rotate(-4deg);
+    transform-origin: bottom right;
+  }
+  1-0% {
     transform: rotate(0deg);
     transform-origin: bottom right;
   }
 `;
 
 const StyledPhoneImg = styled.img`
-  animation: ${shakeAnimation} 1s infinite;
+  animation: ${shakeAnimation} 2s infinite;
 `;
