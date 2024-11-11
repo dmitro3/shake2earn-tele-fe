@@ -146,7 +146,7 @@ export default function Quest({ ...props }: QuestProps) {
           </Flex>
         </Flex>
 
-        {/* <Flex
+        <Flex
           justify="center"
           gap="8"
           py="2"
