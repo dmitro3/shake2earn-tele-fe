@@ -159,18 +159,6 @@ export default function Quest({ ...props }: QuestProps) {
               </Text>
             </Flex>
           </Flex>
-          <Flex
-            direction="column"
-            align="center"
-            gap="1"
-          >
-            <Text size="3">Claimed</Text>
-            <RewardBadge
-              type={UserRewardType.TURN}
-              valueProps={{ size: '3' }}
-              value={invitedFriendsCount * turnsPerInvite}
-            />
-          </Flex>
         </Flex>
       </Flex>
     );
