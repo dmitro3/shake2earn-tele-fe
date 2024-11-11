@@ -6,6 +6,7 @@ import {
   Flex,
   Heading,
   Link,
+  Separator,
   Text,
 } from '@radix-ui/themes';
 import { useMutation, useQuery } from '@tanstack/react-query';
@@ -259,11 +260,25 @@ export default function Quest({ ...props }: QuestProps) {
 
   return (
     <Box
-      className="space-y-4"
+      className="space-y-4 mt-2"
       {...props}
     >
+      <Heading
+        size="6"
+        align="center"
+      >
+        Quest
+      </Heading>
       {renderInvitation()}
+      <Separator
+        my="3"
+        size="4"
+      />
       {renderDailyReward()}
+      <Separator
+        my="3"
+        size="4"
+      />
       {renderJoinChannel()}
     </Box>
   );
