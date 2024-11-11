@@ -16,7 +16,9 @@ import { useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { RewardBadge } from 'components/Common/User/RewardBadge';
+import RewardDialog from 'components/Home/Main/ShakeChest/RewardDialog';
 import { useAppContext } from 'context/app';
+import { ChestRewardData, ChestRewardType } from 'types/chest';
 import { UserRewardType } from 'types/user';
 import { formatNumber } from 'utils/format/number';
 
@@ -39,6 +41,8 @@ export default function Quest({ ...props }: QuestProps) {
   const [copyText, setCopyText] = useState('Copy');
   const copyTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+  const [chestReward, setChestReward] = useState<ChestRewardData | null>(null);
+
   const inviteLink = `t.me/PirateTreasureBot/join?startapp=${telegramUserData?.id}`;
 
   const copyInviteLink = () => {
@@ -58,6 +62,10 @@ export default function Quest({ ...props }: QuestProps) {
   const dailyQuestMutation = useMutation(claimDailyQuest, {
     onSuccess: () => {
       toast.success('Daily quest claimed successfully!');
+      setChestReward({
+        type: ChestRewardType.TURN,
+        value: quests?.dailyClaim.turnsPerClaim ?? 0,
+      });
     },
     onError: () => {
       toast.error('Failed to claim daily quest.');
@@ -68,6 +76,10 @@ export default function Quest({ ...props }: QuestProps) {
   const joinChannelMutation = useMutation(claimJoinChannel, {
     onSuccess: () => {
       toast.success('Join channel quest claimed successfully!');
+      setChestReward({
+        type: ChestRewardType.TURN,
+        value: quests?.joinChannelQuest.turnsPerClaim ?? 0,
+      });
     },
     onError: () => {
       toast.error('Failed to claim join channel quest.');
@@ -87,7 +99,10 @@ export default function Quest({ ...props }: QuestProps) {
   });
 
   const invitedFriendsCount = quests?.inviteFriend?.invitedFriendsCount ?? 0;
-  const turnsPerInvite = quests?.inviteFriend?.turnsPerInvite ?? 0;
+
+  const onCloseRewardDialog = () => {
+    setChestReward(null);
+  };
 
   const renderInvitation = () => {
     return (
@@ -159,19 +174,7 @@ export default function Quest({ ...props }: QuestProps) {
               </Text>
             </Flex>
           </Flex>
-          <Flex
-            direction="column"
-            align="center"
-            gap="1"
-          >
-            <Text size="3">Claimed</Text>
-            <RewardBadge
-              type={UserRewardType.TURN}
-              valueProps={{ size: '3' }}
-              value={invitedFriendsCount * turnsPerInvite}
-            />
-          </Flex>
-        </Flex> */}
+        </Flex>
       </Flex>
     );
   };
@@ -191,25 +194,32 @@ export default function Quest({ ...props }: QuestProps) {
           >
             Daily rewards
           </Text>
-
-          <Button
-            color="amber"
-            variant="surface"
-            onClick={() => dailyQuestMutation.mutate()}
-            loading={isLoading || dailyQuestMutation.isLoading}
-            disabled={quests?.dailyClaim.claimed}
-            size="3"
-          >
-            {!quests?.dailyClaim.claimed ? (
-              <RewardBadge
-                type={UserRewardType.TURN}
-                size="sm"
-                value={quests?.dailyClaim.turnsPerClaim ?? 0}
-              />
-            ) : (
-              <CheckCircledIcon color="green" />
+          <Box className="relative">
+            {!quests?.dailyClaim.claimed && (
+              <span className="absolute flex h-3 w-3 right-0">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-10 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-red-10"></span>
+              </span>
             )}
-          </Button>
+            <Button
+              color="amber"
+              variant="surface"
+              onClick={() => dailyQuestMutation.mutate()}
+              loading={isLoading || dailyQuestMutation.isLoading}
+              disabled={quests?.dailyClaim.claimed}
+              size="3"
+            >
+              {!quests?.dailyClaim.claimed ? (
+                <RewardBadge
+                  type={UserRewardType.TURN}
+                  size="sm"
+                  value={quests?.dailyClaim.turnsPerClaim ?? 0}
+                />
+              ) : (
+                <CheckCircledIcon color="green" />
+              )}
+            </Button>
+          </Box>
         </Flex>
       </Flex>
     );
@@ -233,26 +243,34 @@ export default function Quest({ ...props }: QuestProps) {
               Telegram channel
             </Link>
           </Text>
-          <Button
-            color="amber"
-            variant="surface"
-            disabled={quests?.joinChannelQuest.claimed}
-            onClick={() =>
-              joinChannelMutation.mutate(telegramUserData?.username ?? '')
-            }
-            loading={isLoading || joinChannelMutation.isLoading}
-            size="3"
-          >
-            {!quests?.joinChannelQuest.claimed ? (
-              <RewardBadge
-                type={UserRewardType.TURN}
-                size="sm"
-                value={quests?.joinChannelQuest.turnsPerClaim ?? 0}
-              />
-            ) : (
-              <CheckCircledIcon color="green" />
+          <Box className="relative">
+            {!quests?.joinChannelQuest.claimed && (
+              <span className="absolute flex h-3 w-3 right-0">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-10 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-red-10"></span>
+              </span>
             )}
-          </Button>
+            <Button
+              color="amber"
+              variant="surface"
+              disabled={quests?.joinChannelQuest.claimed}
+              onClick={() =>
+                joinChannelMutation.mutate(telegramUserData?.username ?? '')
+              }
+              loading={isLoading || joinChannelMutation.isLoading}
+              size="3"
+            >
+              {!quests?.joinChannelQuest.claimed ? (
+                <RewardBadge
+                  type={UserRewardType.TURN}
+                  size="sm"
+                  value={quests?.joinChannelQuest.turnsPerClaim ?? 0}
+                />
+              ) : (
+                <CheckCircledIcon color="green" />
+              )}
+            </Button>
+          </Box>
         </Flex>
       </Flex>
     );
@@ -280,6 +298,12 @@ export default function Quest({ ...props }: QuestProps) {
         size="4"
       />
       {renderJoinChannel()}
+
+      <RewardDialog
+        open={!!chestReward}
+        reward={chestReward}
+        onClose={onCloseRewardDialog}
+      />
     </Box>
   );
 }
