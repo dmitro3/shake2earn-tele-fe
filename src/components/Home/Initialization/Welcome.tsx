@@ -12,7 +12,10 @@ interface WelcomeProps {
 
 export default function Welcome({ onStart, starting, error }: WelcomeProps) {
   return (
-    <AppPageContainer backgroundImgSrc={AppAssetSrc.WELCOME_BG}>
+    <AppPageContainer
+      backgroundImgSrc={AppAssetSrc.WELCOME_BG}
+      dimmed={false}
+    >
       <Box className="flex flex-col content-center flex-grow">
         <Heading
           as="h1"

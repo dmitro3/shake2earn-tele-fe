@@ -1,4 +1,5 @@
 import { Box, Flex, FlexProps } from '@radix-ui/themes';
+import clsx from 'clsx';
 
 import { AppAssetSrc } from 'context/app/constants';
 
@@ -6,11 +7,15 @@ import PageContainer from './PageContainer';
 
 type AppPageContainerProps = FlexProps & {
   backgroundImgSrc?: string;
+  backgroundImgClassName?: string;
+  dimmed?: boolean;
   children: React.ReactNode;
 };
 
 export default function AppPageContainer({
   backgroundImgSrc,
+  backgroundImgClassName,
+  dimmed = true,
   children,
   ...props
 }: AppPageContainerProps) {
@@ -27,7 +32,11 @@ export default function AppPageContainer({
         <img
           src={backgroundImgSrc ?? AppAssetSrc.BG}
           alt="background"
-          className="object-cover text-center h-full w-full brightness-75"
+          className={clsx(
+            'object-cover text-center h-full w-full',
+            dimmed && 'brightness-90',
+            backgroundImgClassName,
+          )}
         />
       </Flex>
       <PageContainer
