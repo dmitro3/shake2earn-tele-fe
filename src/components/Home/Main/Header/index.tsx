@@ -53,7 +53,7 @@ export default function Header({
       >
         <RewardBadge
           type={UserRewardType.POINT}
-          value={point + 1092831823}
+          value={point}
           className="text-whiteA-12"
           valueProps={{ weight: 'medium', truncate: false }}
           size="lg"

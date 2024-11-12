@@ -32,6 +32,7 @@ interface AppContextType {
   updateTurn: (pointCount: number) => Promise<boolean>;
   isPlayingAudio: boolean;
   changePlayAudio: (play: boolean) => void;
+  fetchUserData: (options?: { createFirstUser?: boolean }) => Promise<void>;
 }
 
 export const [useAppContext, AppContext] = createContext<
@@ -194,6 +195,7 @@ export const AppContextProvider = ({
       updateTurn,
       isPlayingAudio,
       changePlayAudio,
+      fetchUserData,
     }),
     [
       curUI,
@@ -209,6 +211,7 @@ export const AppContextProvider = ({
       updateTurn,
       isPlayingAudio,
       changePlayAudio,
+      fetchUserData,
     ],
   );
 

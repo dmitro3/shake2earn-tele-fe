@@ -37,7 +37,7 @@ function FriendIcon(props: React.SVGProps<SVGSVGElement>) {
 }
 
 export default function Quest({ ...props }: QuestProps) {
-  const { telegramUserData } = useAppContext();
+  const { telegramUserData, fetchUserData } = useAppContext();
   const [copyText, setCopyText] = useState('Copy');
   const copyTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -61,7 +61,7 @@ export default function Quest({ ...props }: QuestProps) {
   // post request to claim daily quest
   const dailyQuestMutation = useMutation(claimDailyQuest, {
     onSuccess: () => {
-      toast.success('Daily quest claimed successfully!');
+      fetchUserData(); // TODO: bring quest to appContext
       setChestReward({
         type: ChestRewardType.TURN,
         value: quests?.dailyClaim.turnsPerClaim ?? 0,
@@ -75,6 +75,7 @@ export default function Quest({ ...props }: QuestProps) {
   // post request to claim join channel
   const joinChannelMutation = useMutation(claimJoinChannel, {
     onSuccess: () => {
+      fetchUserData();
       toast.success('Join channel quest claimed successfully!');
       setChestReward({
         type: ChestRewardType.TURN,
