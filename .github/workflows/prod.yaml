@@ -1,0 +1,53 @@
+name: Deploy to server Poseidon
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Use Node.js 18
+        uses: actions/setup-node@v2
+        with:
+          node-version: "18"
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Create SSH directory
+        run: mkdir -p ~/.ssh
+
+      - name: Install SSH key and start SSH agent
+        run: |
+          set -e  # Stop the script if any command fails
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          eval $(ssh-agent -s)
+          ssh-add ~/.ssh/id_ed25519
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.POSEIDON_KEY }}
+
+      - name: Add Server SSH key to known hosts
+        run: |
+          set -e  # Stop the script if any command fails
+          ssh-keyscan -H $POSEIDON_IP >> ~/.ssh/known_hosts
+        env:
+          POSEIDON_IP: ${{ secrets.POSEIDON_IP }}
+
+      - name: Deploy via SSH
+        run: |
+          set -e  # Stop the script if any command fails
+          ssh blockey@${{ secrets.POSEIDON_IP }} << 'EOF'
+            cd /home/blockey/shake2earn-tele-fe
+            nvm use 18  # Ensure the correct Node.js version is being used
+            git stash || true  # Stash unstaged changes, ignore if there are none
+            git pull --rebase origin main
+            npm install
+            npm install -g pm2 || true  # Install pm2 globally if not already installed
+            npm run build
+            pm2 restart 'shake2earn-front-end'
+          EOF
