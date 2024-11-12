@@ -53,7 +53,7 @@ export default function Terms() {
         The Agreement and Terms sheet shall govern the use of Pirate Treasure,
         the use of the app and its benefits, the relationship between the
         product and app and its users, as well as clarify the different layers
-        that Not Pixel has created for the brand awareness and protection, any
+        that Pirate Treasure has created for the brand awareness and protection, any
         use of the brand/Trademark &quot;Pirate Treasure&quot; outside of its
         purpose is not permitted and shall never occur by Pirate Treasure and
         its ecosystem, any use of the Pirate Treasure Token other than its
@@ -159,8 +159,8 @@ export default function Terms() {
         </li>
         <li>
           <Text size="2">
-            &quot;User&quot; or &quot;You&quot; Shall mean you, the user of Not
-            Pixel App.
+            &quot;User&quot; or &quot;You&quot; Shall mean you, the user of
+            Pirate Treasure.
           </Text>
         </li>
         <li>
