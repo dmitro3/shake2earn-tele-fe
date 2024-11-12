@@ -40,9 +40,10 @@ export default function TutorialsDialog({
 
             <Text
               align="center"
-              size="4"
+              size="2"
+              className="px-4"
             >
-              Shake your phone in duration to get treasure.
+              Shake your phone within the duration to get the treasure.
             </Text>
           </Flex>
         </Dialog.Description>
