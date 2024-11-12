@@ -27,7 +27,7 @@ export default function AppPageContainer({
         <img
           src={backgroundImgSrc ?? AppAssetSrc.BG}
           alt="background"
-          className="object-cover text-center h-full w-full brightness-90"
+          className="object-cover text-center h-full w-full brightness-75"
         />
       </Flex>
       <PageContainer

@@ -1,4 +1,4 @@
-import { Button, Card, Flex, FlexProps, Text } from '@radix-ui/themes';
+import { Box, Button, Card, Flex, FlexProps, Text } from '@radix-ui/themes';
 
 import { RewardBadge } from 'components/Common/User/RewardBadge';
 import { User } from 'types/telegram';
@@ -23,21 +23,20 @@ export default function Header({
         <Button
           variant="ghost"
           color="gray"
+          className="truncate w-full"
           onClick={onClickUserBadge}
         >
           <Flex
-            align="center"
-            gap="2"
             py="1"
             px="2"
+            className="w-full"
           >
             <Text
               size="3"
-              truncate
-              className="truncate mr-1"
+              className="mr-1 truncate"
               weight="medium"
             >
-              {userName}
+              {userName + userName + userName + userName + userName}
             </Text>
           </Flex>
         </Button>
@@ -47,18 +46,19 @@ export default function Header({
 
   const renderPoint = () => {
     return (
-      <Flex
-        className="flex-1 max-w-24"
-        justify="start"
-      >
-        <RewardBadge
-          type={UserRewardType.POINT}
-          value={point}
-          className="text-whiteA-12"
-          valueProps={{ weight: 'medium', truncate: false }}
-          size="lg"
-        />
-      </Flex>
+      <Card className="p-1 bg-whiteA-10">
+        <Flex
+          justify="start"
+          px="2"
+        >
+          <RewardBadge
+            type={UserRewardType.POINT}
+            value={point}
+            valueProps={{ weight: 'medium', truncate: false }}
+            size="lg"
+          />
+        </Flex>
+      </Card>
     );
   };
 

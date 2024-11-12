@@ -12,7 +12,6 @@ import { RewardBadge } from 'components/Common/User/RewardBadge';
 import useShake from 'hooks/animation/useShake';
 import { ChestRewardData, ChestRewardType } from 'types/chest';
 import { UserRewardType } from 'types/user';
-import { formatTime } from 'utils/format/time';
 
 import RewardDialog from './RewardDialog';
 import TreasureChest from './TreasureChest';
@@ -169,6 +168,7 @@ export default function ShakeChest({
           align="center"
         >
           <Button
+            mt="1"
             size="4"
             color="amber"
             className="font-bold uppercase"
