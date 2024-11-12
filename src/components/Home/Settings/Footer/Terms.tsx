@@ -168,7 +168,7 @@ export default function Terms() {
             &quot;Wallet&quot; shall mean a combination of a User&apos;s public
             address and corresponding private key (or mnemonic phrase or
             keystore file with password) that holds any tokens that are created
-            and/or received on a public blockchain such as TON, which may
+            and/or received onn a public blockchain such as TON, which may
             associate with corresponding transactions related to this address.
           </Text>
         </li>
