@@ -43,7 +43,7 @@ jobs:
           set -e  # Stop the script if any command fails
           ssh blockey@${{ secrets.POSEIDON_IP }} << 'EOF'
             cd /home/blockey/shake2earn-tele-fe
-            nvm use 18  # Ensure the correct Node.js version is being used
+            nvm use 20  # Ensure the correct Node.js version is being used
             git stash || true  # Stash unstaged changes, ignore if there are none
             git pull --rebase origin main
             npm install
