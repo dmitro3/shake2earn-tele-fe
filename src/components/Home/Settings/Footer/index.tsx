@@ -8,6 +8,7 @@ import {
   Text,
 } from '@radix-ui/themes';
 import { useState } from 'react';
+
 import Terms from './Terms';
 
 const getDialogList = () => [
