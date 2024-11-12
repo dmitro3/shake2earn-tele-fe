@@ -31,7 +31,10 @@ export default function Explore() {
   });
 
   return (
-    <AppPageContainer py="4">
+    <AppPageContainer
+      py="4"
+      dimmed
+    >
       <Card
         className="flex flex-col flex-1 bg-whiteA-8"
         variant="classic"

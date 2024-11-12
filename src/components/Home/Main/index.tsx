@@ -37,7 +37,7 @@ export default function Main() {
   }, [visitedWalkthrough]);
 
   return (
-    <AppPageContainer>
+    <AppPageContainer backgroundImgClassName="blur-[1px]">
       <Header
         flexShrink="0"
         telegramUser={telegramUserData}
