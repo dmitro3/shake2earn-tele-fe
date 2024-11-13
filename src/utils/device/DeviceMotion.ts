@@ -1,5 +1,5 @@
 // Ref: https://stackoverflow.com/questions/70544832/detect-shake-event-with-javascript-with-all-major-browsers-devices-ios-androi
-import { DebouncedFunc, debounce } from 'lodash-es';
+import { DebouncedFunc, throttle } from 'lodash-es';
 
 export type DeviceMotionEventListener = (event: DeviceMotionEvent) => void;
 export type DeviceMotionOptions = {
@@ -33,7 +33,7 @@ export class DeviceMotion extends EventTarget {
   #threshold: DeviceMotionOptions['threshold'];
   #approved?: deviceMotionApprovalStatus;
   #listeners: DeviceMotionEventListener[] = [];
-  #debouncedRunListeners: DebouncedFunc<(event: DeviceMotionEvent) => void>;
+  #throttledRunListeners: DebouncedFunc<(event: DeviceMotionEvent) => void>;
   // Debug
   #debugListeners: DeviceMotionEventListener[] = [];
 
@@ -42,8 +42,9 @@ export class DeviceMotion extends EventTarget {
     const { threshold, duration } = { ...options, ...defaultOptions };
     this.#threshold = threshold;
 
-    this.#debouncedRunListeners = debounce((event: DeviceMotionEvent) => {
+    this.#throttledRunListeners = throttle((event: DeviceMotionEvent) => {
       this.#listeners.forEach((listener) => listener(event));
+      this.#debugListeners.forEach((listener) => listener(event));
     }, duration);
   }
 
@@ -93,7 +94,7 @@ export class DeviceMotion extends EventTarget {
     if (accel < this.#threshold) {
       return;
     }
-    this.#debouncedRunListeners(event);
+    this.#throttledRunListeners(event);
   };
 
   addListener(callback: DeviceMotionEventListener | null): void {
