@@ -180,7 +180,7 @@ export default function ShakeChest({
             onClick={onStartShakeTurn}
             loading={loadingTurn}
           >
-            Shake
+            Play
           </Button>
 
           <Badge
