@@ -38,6 +38,7 @@ export default function ShakeChest({
 
   const [shakeTurnTimeLeft, setShakeTurnTimeLeft] = useState(0);
   const [loadingTurn, setLoadingTurn] = useState(false);
+  const [debugShakeEvent, setDebugShakeEvent] = useState<any>(null);
 
   const [isChestOpened, setIsChestOpened] = useState(false);
   const [chestReward, setChestReward] = useState<ChestRewardData | null>(null);
@@ -155,6 +156,7 @@ export default function ShakeChest({
   const { isShaking, onStartListenShake, onStopListenShake } = useShake({
     onShake: isInShakeTurn ? onShakingTreasureChest : undefined,
     timeout: 500,
+    onDebugShakeListener: setDebugShakeEvent,
   });
 
   const onCloseRewardDialog = () => {
@@ -263,6 +265,7 @@ export default function ShakeChest({
         <Text size="1">{`Show reward timeout${showRewardTimeout.current}`}</Text>
         <Text size="1">{`Opening: ${isChestOpened}`}</Text>
         <Text size="1">{`Reward: ${JSON.stringify(chestReward)}`}</Text>
+        <Text size="1">{`Debug shake: ${JSON.stringify(debugShakeEvent)}`}</Text>
       </Flex>
       <Flex
         maxWidth="296px"

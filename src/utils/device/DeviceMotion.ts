@@ -34,6 +34,8 @@ export class DeviceMotion extends EventTarget {
   #approved?: deviceMotionApprovalStatus;
   #timeStamp: number;
   #listeners: DeviceMotionEventListener[] = [];
+  // Debug
+  #debugListeners: DeviceMotionEventListener[] = [];
 
   constructor(options?: Partial<DeviceMotionOptions>) {
     super();
@@ -87,6 +89,13 @@ export class DeviceMotion extends EventTarget {
   #handleDeviceMotion = (event: DeviceMotionEvent): void => {
     const diff = event.timeStamp - this.#timeStamp;
     const accel = getMaxAcceleration(event);
+    this.#debugListeners.forEach((listener) =>
+      listener({
+        ...event,
+        duration: diff < this.#duration,
+        accel: accel < this.#threshold,
+      } as any),
+    );
     if (diff < this.#duration) return;
     if (accel < this.#threshold) return;
     this.#timeStamp = event.timeStamp;
@@ -124,5 +133,21 @@ export class DeviceMotion extends EventTarget {
 
   stop(): void {
     window.removeEventListener('devicemotion', this.#handleDeviceMotion);
+  }
+
+  addDebugListener(callback: DeviceMotionEventListener | null): void {
+    if (callback) {
+      this.#debugListeners.push(callback);
+    }
+  }
+
+  removeDebugListener(callback: DeviceMotionEventListener | null): void {
+    if (!callback) {
+      return;
+    }
+    const index = this.#debugListeners.indexOf(callback);
+    if (index !== -1) {
+      this.#debugListeners.splice(index, 1);
+    }
   }
 }
