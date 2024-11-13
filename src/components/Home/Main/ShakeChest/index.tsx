@@ -251,6 +251,16 @@ export default function ShakeChest({
       {...props}
     >
       <Flex
+        className="bg-whiteA-12"
+        direction="column"
+        gap="1"
+      >
+        <Text size="1">{`Shaking timeout${shakingTimeoutRef.current}`}</Text>
+        <Text size="1">{`Show reward timeout${showRewardTimeout.current}`}</Text>
+        <Text size="1">{`Opening: ${isChestOpened}`}</Text>
+        <Text size="1">{`Reward: ${JSON.stringify(chestReward)}`}</Text>
+      </Flex>
+      <Flex
         maxWidth="296px"
         maxHeight="220px"
         width="100%"
@@ -260,16 +270,6 @@ export default function ShakeChest({
           height="0"
           pb="100%"
         >
-          <Flex
-            className="bg-whiteA-10"
-            direction="column"
-            gap="1"
-          >
-            <Text size="1">{`Shaking timeout${shakingTimeoutRef.current}`}</Text>
-            <Text size="1">{`Show reward timeout${showRewardTimeout.current}`}</Text>
-            <Text size="1">{`Opening: ${isChestOpened}`}</Text>
-            <Text size="1">{`Reward: ${JSON.stringify(chestReward)}`}</Text>
-          </Flex>
           <TreasureChest
             disabled={shakeNotAvailable}
             isShaking={isChestOpened ? false : isShaking}
