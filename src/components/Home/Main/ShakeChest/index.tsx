@@ -43,6 +43,7 @@ export default function ShakeChest({
   const [chestReward, setChestReward] = useState<ChestRewardData | null>(null);
 
   const shakingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const showRewardTimeout = useRef<NodeJS.Timeout | null>(null);
   const turnTimeLeftInterval = useRef<NodeJS.Timeout | null>(null);
 
   const noTurnLeft = data.turn === 0;
@@ -116,7 +117,7 @@ export default function ShakeChest({
   const onShakingTreasureChest = useCallback(
     ({ shaking }: { shaking: boolean }) => {
       // Opening: skip
-      if (isChestOpened) {
+      if (showRewardTimeout.current) {
         return;
       }
       // not shakng: reset timeout
@@ -137,13 +138,14 @@ export default function ShakeChest({
         navigator.vibrate(SHOW_REWARD_DELAY_MS);
         // Show reward
         shakingTimeoutRef.current = null;
-        setTimeout(() => {
+        showRewardTimeout.current = setTimeout(() => {
           const reward = getRandomReward(chestRewardConfigs);
           onShakedSuccess(reward);
+          showRewardTimeout.current = null;
         }, SHOW_REWARD_DELAY_MS);
       }, chestConfig.shakeThreshold * 1000);
     },
-    [chestConfig.shakeThreshold, isChestOpened, onShakedSuccess],
+    [chestConfig.shakeThreshold, onShakedSuccess],
   );
 
   const { isShaking, onStartListenShake, onStopListenShake } = useShake({
@@ -258,6 +260,16 @@ export default function ShakeChest({
           height="0"
           pb="100%"
         >
+          <Flex
+            className="bg-whiteA-10"
+            direction="column"
+            gap="1"
+          >
+            <Text size="1">{`Shaking timeout${shakingTimeoutRef.current}`}</Text>
+            <Text size="1">{`Show reward timeout${showRewardTimeout.current}`}</Text>
+            <Text size="1">{`Opening: ${isChestOpened}`}</Text>
+            <Text size="1">{`Reward: ${JSON.stringify(chestReward)}`}</Text>
+          </Flex>
           <TreasureChest
             disabled={shakeNotAvailable}
             isShaking={isChestOpened ? false : isShaking}
