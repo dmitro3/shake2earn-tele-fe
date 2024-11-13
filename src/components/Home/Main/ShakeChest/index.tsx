@@ -271,7 +271,7 @@ export default function ShakeChest({
                   ? 'amber'
                   : undefined
               }
-            >{`Debug shake X: ${debugShakeEvent.acceleration.x.toFixed(2)}`}</Text>
+            >{`X: ${debugShakeEvent.acceleration.x.toFixed(2)}`}</Text>
             <Text
               size="1"
               color={
@@ -279,7 +279,7 @@ export default function ShakeChest({
                   ? 'amber'
                   : undefined
               }
-            >{`Debug shake Y: ${debugShakeEvent.acceleration.y.toFixed(2)}`}</Text>
+            >{`Y: ${debugShakeEvent.acceleration.y.toFixed(2)}`}</Text>
             <Text
               size="1"
               color={
@@ -287,7 +287,7 @@ export default function ShakeChest({
                   ? 'amber'
                   : undefined
               }
-            >{`Debug shake Z: ${debugShakeEvent.acceleration.z.toFixed(2)}`}</Text>
+            >{`Z: ${debugShakeEvent.acceleration.z.toFixed(2)}`}</Text>
           </Flex>
         ) : (
           <Text size="1">No event</Text>
