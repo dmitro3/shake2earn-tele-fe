@@ -1,3 +1,4 @@
+import { ChestConfig } from 'types/chest';
 import { User } from 'types/user';
 import { AssetConfig, loadAsset } from 'utils/common/assets';
 
@@ -10,4 +11,10 @@ export const getDefaultUserData = (): User => ({
   hasClaimedJoinChannelQuest: false,
   point: 0,
   shakeCount: 0,
+});
+
+export const getDefaultChestConfig = (): ChestConfig => ({
+  shakeTime: 30,
+  shakeThreshold: 1.5,
+  shakeMax: 20,
 });

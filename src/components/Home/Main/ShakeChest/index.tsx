@@ -9,13 +9,14 @@ import {
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { RewardBadge } from 'components/Common/User/RewardBadge';
+import { useAppContext } from 'context/app';
 import useShake from 'hooks/animation/useShake';
 import { ChestRewardData, ChestRewardType } from 'types/chest';
 import { UserRewardType } from 'types/user';
 
 import RewardDialog from './RewardDialog';
 import TreasureChest from './TreasureChest';
-import { ShakeConfig, chestRewardConfigs } from './constants';
+import { SHOW_REWARD_DELAY_MS, chestRewardConfigs } from './constants';
 import { getRandomReward } from './utils';
 
 type ShakechestProps = FlexProps & {
@@ -33,6 +34,8 @@ export default function ShakeChest({
   onUpdateTurn,
   ...props
 }: ShakechestProps) {
+  const { chestConfig } = useAppContext();
+
   const [shakeTurnTimeLeft, setShakeTurnTimeLeft] = useState(0);
   const [loadingTurn, setLoadingTurn] = useState(false);
 
@@ -79,7 +82,7 @@ export default function ShakeChest({
       return;
     }
 
-    setShakeTurnTimeLeft(ShakeConfig.TURN_DURATION_S);
+    setShakeTurnTimeLeft(chestConfig.shakeTime);
 
     turnTimeLeftInterval.current = setInterval(() => {
       setShakeTurnTimeLeft((timeLeft) => {
@@ -94,7 +97,7 @@ export default function ShakeChest({
         return newTimeLeft;
       });
     }, 1000);
-  }, [onUpdateTurn]);
+  }, [chestConfig.shakeTime, onUpdateTurn]);
 
   // Shake chest
   const onShakedSuccess = useCallback(
@@ -130,16 +133,16 @@ export default function ShakeChest({
       shakingTimeoutRef.current = setTimeout(() => {
         // Open chest and vibrate device
         setIsChestOpened(true);
-        navigator.vibrate(ShakeConfig.SHOW_REWARD_DELAY_MS);
+        navigator.vibrate(SHOW_REWARD_DELAY_MS);
         // Show reward
         shakingTimeoutRef.current = null;
         setTimeout(() => {
           const reward = getRandomReward(chestRewardConfigs);
           onShakedSuccess(reward);
-        }, ShakeConfig.SHOW_REWARD_DELAY_MS);
-      }, ShakeConfig.SHAKE_DURATION_MS);
+        }, SHOW_REWARD_DELAY_MS);
+      }, chestConfig.shakeThreshold);
     },
-    [isChestOpened, onShakedSuccess],
+    [chestConfig.shakeThreshold, isChestOpened, onShakedSuccess],
   );
 
   const { isShaking, onStartListenShake, onStopListenShake } = useShake({
@@ -217,7 +220,7 @@ export default function ShakeChest({
         gap="2"
       >
         <Progress
-          value={(shakeTurnTimeLeft * 100) / ShakeConfig.TURN_DURATION_S}
+          value={(shakeTurnTimeLeft * 100) / chestConfig.shakeTime}
           color="amber"
           className="h-3 bg-whiteA-12 w-full mt-1"
         />

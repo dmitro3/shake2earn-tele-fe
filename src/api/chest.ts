@@ -1,9 +1,13 @@
+import { ChestConfig } from 'types/chest';
 import { User } from 'types/user';
 import {
   getWithToken,
   postWithToken,
   withAxiosRequestWrapper,
 } from 'utils/request';
+
+export const getShakeConfig = () =>
+  withAxiosRequestWrapper(getWithToken<ChestConfig>('/shake/config'));
 
 export const getShaketurn = () =>
   withAxiosRequestWrapper(

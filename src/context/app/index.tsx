@@ -1,5 +1,6 @@
 import WebApp from '@twa-dev/sdk';
 import {
+  getShakeConfig,
   updatePoint as requestUpdatePoint,
   updateShakeTurn as requestUpdateShakeTurn,
 } from 'api/chest';
@@ -8,6 +9,7 @@ import { produce } from 'immer';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { usePlayAudio } from 'hooks/common/usePlayAudio';
+import { ChestConfig } from 'types/chest';
 import { User as TelegramUser } from 'types/telegram';
 import { User } from 'types/user';
 import createContext from 'utils/common/context';
@@ -15,7 +17,11 @@ import { DeviceMotion } from 'utils/device/DeviceMotion';
 
 import { AppAssetSrc, AppAssets } from './constants';
 import useGetTelegramUser from './useGetTelegramUser';
-import { getDefaultUserData, loadAppAssets } from './utils';
+import {
+  getDefaultChestConfig,
+  getDefaultUserData,
+  loadAppAssets,
+} from './utils';
 
 interface AppContextType {
   initialized: boolean;
@@ -33,6 +39,7 @@ interface AppContextType {
   isPlayingAudio: boolean;
   changePlayAudio: (play: boolean) => void;
   fetchUserData: (options?: { createFirstUser?: boolean }) => Promise<void>;
+  chestConfig: ChestConfig;
 }
 
 export const [useAppContext, AppContext] = createContext<
@@ -49,6 +56,9 @@ export const AppContextProvider = ({
   const [starting, setStarting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [curUI, setCurUI] = useState<string>('home');
+  const [chestConfig, setChestConfig] = useState<ChestConfig>(
+    getDefaultChestConfig,
+  );
 
   const [userData, setUserData] = useState<User>(getDefaultUserData);
   const { user: telegramUserData } = useGetTelegramUser();
@@ -108,6 +118,11 @@ export const AppContextProvider = ({
         fetchUserData({ createFirstUser: true }),
         loadAppAssets(AppAssets),
       ]);
+
+      const chestConfigResult = await getShakeConfig();
+      if (chestConfigResult.success) {
+        setChestConfig(chestConfigResult.response.data);
+      }
     }
 
     setInitialized(true);
@@ -196,6 +211,7 @@ export const AppContextProvider = ({
       isPlayingAudio,
       changePlayAudio,
       fetchUserData,
+      chestConfig,
     }),
     [
       curUI,
@@ -212,6 +228,7 @@ export const AppContextProvider = ({
       isPlayingAudio,
       changePlayAudio,
       fetchUserData,
+      chestConfig,
     ],
   );
 
