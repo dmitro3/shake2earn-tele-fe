@@ -140,7 +140,7 @@ export default function ShakeChest({
           const reward = getRandomReward(chestRewardConfigs);
           onShakedSuccess(reward);
         }, SHOW_REWARD_DELAY_MS);
-      }, chestConfig.shakeThreshold);
+      }, chestConfig.shakeThreshold * 1000);
     },
     [chestConfig.shakeThreshold, isChestOpened, onShakedSuccess],
   );
