@@ -262,7 +262,11 @@ export default function ShakeChest({
         <Text size="1">{`Show reward timeout${showRewardTimeout.current}`}</Text>
         <Text size="1">{`Opening: ${isChestOpened}`}</Text>
         <Text size="1">{`Reward: ${JSON.stringify(chestReward)}`}</Text>
-        <Text size="1">{`Debug shake: ${debugShakeEvent.acceleration.x} ${debugShakeEvent.acceleration.y} ${debugShakeEvent.acceleration.z}`}</Text>
+        {debugShakeEvent.acceleration ? (
+          <Text size="1">{`Debug shake: ${debugShakeEvent.acceleration.x} ${debugShakeEvent.acceleration.y} ${debugShakeEvent.acceleration.z}`}</Text>
+        ) : (
+          <Text size="1">No event</Text>
+        )}
       </Flex>
       <Flex
         maxWidth="296px"
