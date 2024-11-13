@@ -13,6 +13,7 @@ import { useAppContext } from 'context/app';
 import useShake from 'hooks/animation/useShake';
 import { ChestRewardData, ChestRewardType } from 'types/chest';
 import { UserRewardType } from 'types/user';
+import { vibrate } from 'utils/device/vibrate';
 
 import RewardDialog from './RewardDialog';
 import TreasureChest from './TreasureChest';
@@ -136,11 +137,7 @@ export default function ShakeChest({
       shakingTimeoutRef.current = setTimeout(() => {
         // Open chest and vibrate device
         setIsChestOpened(true);
-        try {
-          navigator.vibrate(SHOW_REWARD_DELAY_MS);
-        } catch (error) {
-          alert(error);
-        }
+        vibrate(SHOW_REWARD_DELAY_MS);
         // Show reward
         shakingTimeoutRef.current = null;
         showRewardTimeout.current = setTimeout(() => {

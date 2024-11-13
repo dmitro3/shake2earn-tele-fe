@@ -180,7 +180,7 @@ export const AppContextProvider = ({
     }
 
     setStarting(true);
-    // support iOS (ref: https://dev.to/li/how-to-requestpermission-for-devicemotion-and-deviceorientation-events-in-ios-13-46g2)
+    // [iOS issue] Request device npermission by user interaction e.g. click (ref: https://dev.to/li/how-to-requestpermission-for-devicemotion-and-deviceorientation-events-in-ios-13-46g2)
     const requestResult = await requestHardwarePermissions();
     if (!requestResult.success) {
       setError(requestResult.error);
