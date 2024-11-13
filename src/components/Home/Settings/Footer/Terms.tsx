@@ -243,7 +243,7 @@ export default function Terms() {
         human. Pirate Treasure is not responsible for your health and will
         encourage you to treat others respectfully.
       </Text>
-      <Text size="2">
+      {/* <Text size="2">
         <b>Mining and Value:</b> Pirate Treasure is NOT a typical coin, in the
         sense that it has not been pre-minted, nor has it been planned to be
         distributed in trenches to certain fraudulent beneficiaries. Pirate
@@ -261,7 +261,7 @@ export default function Terms() {
         receive their SNOTPX at a given time and through a given process. You
         agree that SNOTPX has never been a promise for leverage or value, nor is
         announced or agreed to be a store of value.
-      </Text>
+      </Text> */}
       <Text size="2">
         The visitors and users consent is given when they navigate the website
         or app on the following links:
