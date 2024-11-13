@@ -47,6 +47,7 @@ export default function ShakeChest({
 
   const noTurnLeft = data.turn === 0;
   const isInShakeTurn = shakeTurnTimeLeft > 0;
+  const shakeNotAvailable = noTurnLeft && !isInShakeTurn;
 
   // const onCooldownShakeTurn = useCallback(() => {
   //   if (nextTurnTimeLeftInterval.current) {
@@ -164,8 +165,7 @@ export default function ShakeChest({
 
   const renderSharkTurnAction = () => {
     if (!isInShakeTurn) {
-      const disabledShakeButton =
-        (data.turn === 0 && !isInShakeTurn) || loadingTurn;
+      const disabledShakeButton = shakeNotAvailable || loadingTurn;
       return (
         <Flex
           direction="column"
@@ -259,7 +259,7 @@ export default function ShakeChest({
           pb="100%"
         >
           <TreasureChest
-            disabled={noTurnLeft}
+            disabled={shakeNotAvailable}
             isShaking={isChestOpened ? false : isShaking}
             isOpening={isChestOpened}
           />
