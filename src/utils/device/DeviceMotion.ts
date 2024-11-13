@@ -1,4 +1,5 @@
 // Ref: https://stackoverflow.com/questions/70544832/detect-shake-event-with-javascript-with-all-major-browsers-devices-ios-androi
+import { DebouncedFunc, debounce } from 'lodash-es';
 
 export type DeviceMotionEventListener = (event: DeviceMotionEvent) => void;
 export type DeviceMotionOptions = {
@@ -30,10 +31,9 @@ function getMaxAcceleration(event: DeviceMotionEvent): number {
 
 export class DeviceMotion extends EventTarget {
   #threshold: DeviceMotionOptions['threshold'];
-  #duration: DeviceMotionOptions['duration'];
   #approved?: deviceMotionApprovalStatus;
-  #timeStamp: number;
   #listeners: DeviceMotionEventListener[] = [];
+  #debouncedRunListeners: DebouncedFunc<(event: DeviceMotionEvent) => void>;
   // Debug
   #debugListeners: DeviceMotionEventListener[] = [];
 
@@ -41,8 +41,10 @@ export class DeviceMotion extends EventTarget {
     super();
     const { threshold, duration } = { ...options, ...defaultOptions };
     this.#threshold = threshold;
-    this.#duration = duration;
-    this.#timeStamp = -Infinity;
+
+    this.#debouncedRunListeners = debounce((event: DeviceMotionEvent) => {
+      this.#listeners.forEach((listener) => listener(event));
+    }, duration);
   }
 
   static get isDeviceSupported(): boolean {
@@ -87,24 +89,12 @@ export class DeviceMotion extends EventTarget {
   }
 
   #handleDeviceMotion = (event: DeviceMotionEvent): void => {
-    const diff = event.timeStamp - this.#timeStamp;
     const accel = getMaxAcceleration(event);
-    this.#debugListeners.forEach((listener) =>
-      listener({
-        ...event,
-        duration: diff < this.#duration,
-        accel: accel < this.#threshold,
-      } as any),
-    );
-    if (diff < this.#duration) return;
-    if (accel < this.#threshold) return;
-    this.#timeStamp = event.timeStamp;
-    this.#runListeners(event);
+    if (accel < this.#threshold) {
+      return;
+    }
+    this.#debouncedRunListeners(event);
   };
-
-  #runListeners(event: DeviceMotionEvent): void {
-    this.#listeners.forEach((listener) => listener(event));
-  }
 
   addListener(callback: DeviceMotionEventListener | null): void {
     if (callback) {
