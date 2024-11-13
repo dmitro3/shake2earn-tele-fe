@@ -38,6 +38,7 @@ interface AppContextType {
   updateTurn: (pointCount: number) => Promise<boolean>;
   isPlayingAudio: boolean;
   changePlayAudio: (play: boolean) => void;
+  audioRef: React.MutableRefObject<HTMLAudioElement>;
   fetchUserData: (options?: { createFirstUser?: boolean }) => Promise<void>;
   chestConfig: ChestConfig;
 }
@@ -63,9 +64,11 @@ export const AppContextProvider = ({
   const [userData, setUserData] = useState<User>(getDefaultUserData);
   const { user: telegramUserData } = useGetTelegramUser();
 
-  const { isPlaying: isPlayingAudio, changePlayAudio } = usePlayAudio(
-    initialized ? AppAssetSrc.SOUNDTRACK : undefined,
-  );
+  const {
+    isPlaying: isPlayingAudio,
+    changePlayAudio,
+    audioRef,
+  } = usePlayAudio(initialized ? AppAssetSrc.SOUNDTRACK : undefined);
 
   const deviceSupported = DeviceMotion.isDeviceSupported;
   const createNewUser = useCallback(async () => {
@@ -184,11 +187,12 @@ export const AppContextProvider = ({
       return;
     }
     // play app sound
+    audioRef.current.loop = true;
     changePlayAudio(true);
 
     setStarting(false);
     setStarted(true);
-  }, [changePlayAudio, deviceSupported, requestHardwarePermissions]);
+  }, [audioRef, changePlayAudio, deviceSupported, requestHardwarePermissions]);
 
   const onUIChange = (newUI: string) => {
     setCurUI(newUI);
@@ -210,6 +214,7 @@ export const AppContextProvider = ({
       updateTurn,
       isPlayingAudio,
       changePlayAudio,
+      audioRef,
       fetchUserData,
       chestConfig,
     }),
@@ -227,6 +232,7 @@ export const AppContextProvider = ({
       updateTurn,
       isPlayingAudio,
       changePlayAudio,
+      audioRef,
       fetchUserData,
       chestConfig,
     ],
