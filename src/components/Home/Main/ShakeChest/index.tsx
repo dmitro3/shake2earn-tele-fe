@@ -263,7 +263,32 @@ export default function ShakeChest({
         <Text size="1">{`Opening: ${isChestOpened}`}</Text>
         <Text size="1">{`Reward: ${JSON.stringify(chestReward)}`}</Text>
         {debugShakeEvent?.acceleration ? (
-          <Text size="1">{`Debug shake: ${debugShakeEvent.acceleration.x} ${debugShakeEvent.acceleration.y} ${debugShakeEvent.acceleration.z}`}</Text>
+          <Flex>
+            <Text
+              size="1"
+              color={
+                Math.abs(debugShakeEvent.acceleration.x) >= 8
+                  ? 'amber'
+                  : undefined
+              }
+            >{`Debug shake X: ${debugShakeEvent.acceleration.x.toFixed(2)}`}</Text>
+            <Text
+              size="1"
+              color={
+                Math.abs(debugShakeEvent.acceleration.y) >= 8
+                  ? 'amber'
+                  : undefined
+              }
+            >{`Debug shake Y: ${debugShakeEvent.acceleration.y.toFixed(2)}`}</Text>
+            <Text
+              size="1"
+              color={
+                Math.abs(debugShakeEvent.acceleration.z) >= 8
+                  ? 'amber'
+                  : undefined
+              }
+            >{`Debug shake Z: ${debugShakeEvent.acceleration.z.toFixed(2)}`}</Text>
+          </Flex>
         ) : (
           <Text size="1">No event</Text>
         )}
