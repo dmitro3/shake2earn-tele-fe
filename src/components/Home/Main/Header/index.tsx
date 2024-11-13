@@ -36,7 +36,7 @@ export default function Header({
               className="mr-1 truncate"
               weight="medium"
             >
-              {userName + userName + userName + userName + userName}
+              {userName}
             </Text>
           </Flex>
         </Button>

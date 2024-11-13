@@ -22,7 +22,7 @@ export default function Welcome({ onStart, starting, error }: WelcomeProps) {
           size="7"
           className="text-amber-12 text-center mt-32"
         >
-          Pirate Treausure
+          Pirate Treasure
         </Heading>
       </Box>
 
