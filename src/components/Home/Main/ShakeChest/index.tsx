@@ -152,7 +152,7 @@ export default function ShakeChest({
 
   const { isShaking, onStartListenShake, onStopListenShake } = useShake({
     onShake: isInShakeTurn ? onShakingTreasureChest : undefined,
-    timeout: 500,
+    timeout: 600,
     onDebugShakeListener: setDebugShakeEvent,
   });
 
