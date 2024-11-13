@@ -165,7 +165,7 @@ export default function ShakeChest({
   const renderSharkTurnAction = () => {
     if (!isInShakeTurn) {
       const disabledShakeButton =
-        (data.turn === 0 && isInShakeTurn) || loadingTurn;
+        (data.turn === 0 && !isInShakeTurn) || loadingTurn;
       return (
         <Flex
           direction="column"
