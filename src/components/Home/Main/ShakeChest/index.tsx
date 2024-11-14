@@ -253,7 +253,7 @@ export default function ShakeChest({
       align="center"
       {...props}
     >
-      <Flex
+      {/* <Flex
         className="bg-whiteA-12"
         direction="column"
         gap="1"
@@ -292,7 +292,7 @@ export default function ShakeChest({
         ) : (
           <Text size="1">No event</Text>
         )}
-      </Flex>
+      </Flex> */}
       <Flex
         maxWidth="296px"
         maxHeight="220px"
