@@ -26,6 +26,10 @@ export default function TonWallet(props: FlexProps) {
       userId: telegramUserData?.id,
     };
 
+    const sign = Object.entries(resSign)
+      .map(([key, value]) => `${key}=${value}`)
+      .join('&');
+    console.log('sign', sign);
     const responseAeon = await fetch(
       'https://sbx-crypto-payment-api.aeon.xyz/open/api/tg/payment/V2',
       {
@@ -34,7 +38,10 @@ export default function TonWallet(props: FlexProps) {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(resSign),
+        body: JSON.stringify({
+          ...resSign,
+          sign,
+        }),
       },
     );
   };
