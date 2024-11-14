@@ -1,6 +1,7 @@
 import { Box, Button, Flex, FlexProps } from '@radix-ui/themes';
 import { CHAIN, TonConnectButton } from '@tonconnect/ui-react';
 import config from 'configs/env';
+import { createHmac } from 'crypto';
 
 import { useAppContext } from 'context/app';
 import { useTonConnect } from 'hooks/ton/useTonConnect';
@@ -10,6 +11,15 @@ type TonWalletProps = FlexProps;
 export default function TonWallet(props: FlexProps) {
   const { telegramUserData } = useAppContext();
   const { network } = useTonConnect();
+
+  const encryptSHA = async (sign: string) => {
+    sign = sign + `&key=${config.key}`;
+    console.log('sign', sign);
+    return createHmac('sha512', config.key)
+      .update(sign)
+      .digest('hex')
+      .toUpperCase();
+  };
 
   const handleAeonPayment = async () => {
     const resSign = {
@@ -21,7 +31,6 @@ export default function TonWallet(props: FlexProps) {
       orderAmount: '0.1',
       orderModel: 'ORDER',
       payCurrency: 'USD',
-      sign: 'TEST000001',
       tgModel: 'MINIAPP',
       userId: telegramUserData?.id,
     };
@@ -29,7 +38,10 @@ export default function TonWallet(props: FlexProps) {
     const sign = Object.entries(resSign)
       .map(([key, value]) => `${key}=${value}`)
       .join('&');
-    console.log('sign', sign);
+
+    const encryptedSign = await encryptSHA(sign);
+    console.log('encryptedSign', encryptedSign);
+
     const responseAeon = await fetch(
       'https://sbx-crypto-payment-api.aeon.xyz/open/api/tg/payment/V2',
       {
@@ -40,7 +52,7 @@ export default function TonWallet(props: FlexProps) {
         },
         body: JSON.stringify({
           ...resSign,
-          sign,
+          sign: encryptedSign,
         }),
       },
     );
