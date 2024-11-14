@@ -53,7 +53,8 @@ export const loadAsset = (asset: AssetConfig) => {
 
         audio.oncanplaythrough = onCompleted;
         audio.onerror = onCompleted;
-        audio.load(); // must load in mobile iOS (ref: https://stackoverflow.com/questions/49792768/js-html5-audio-why-is-canplaythrough-not-fired-on-ios-safari)
+        // [iOS issue] Must load audio explicitly (ref: https://stackoverflow.com/questions/49792768/js-html5-audio-why-is-canplaythrough-not-fired-on-ios-safari)
+        audio.load();
         return;
       }
 

@@ -20,7 +20,6 @@ import RewardDialog from 'components/Home/Main/ShakeChest/RewardDialog';
 import { useAppContext } from 'context/app';
 import { ChestRewardData, ChestRewardType } from 'types/chest';
 import { UserRewardType } from 'types/user';
-import { formatNumber } from 'utils/format/number';
 
 type QuestProps = BoxProps;
 
@@ -183,7 +182,7 @@ export default function Quest({ ...props }: QuestProps) {
   const renderDailyReward = () => {
     return (
       <Flex direction="column">
-        <Heading size="4">Daily</Heading>
+        <Heading size="4">Daily tasks</Heading>
 
         <Flex
           justify="between"
@@ -229,7 +228,7 @@ export default function Quest({ ...props }: QuestProps) {
   const renderJoinChannel = () => {
     return (
       <Flex direction="column">
-        <Heading size="4">Tasks</Heading>
+        <Heading size="4">Basic Tasks</Heading>
 
         <Flex
           justify="between"
@@ -277,6 +276,17 @@ export default function Quest({ ...props }: QuestProps) {
     );
   };
 
+  const renderPartnerTasks = () => {
+    return (
+      <Flex direction="column">
+        <Heading size="4">Partner Tasks</Heading>
+        <Text size="3" mt="2">
+          Coming soon!
+        </Text>
+      </Flex>
+    );
+  };  
+
   return (
     <Box
       className="space-y-4 mt-2"
@@ -299,6 +309,12 @@ export default function Quest({ ...props }: QuestProps) {
         size="4"
       />
       {renderJoinChannel()}
+
+      <Separator
+        my="3"
+        size="4"
+      />
+      {renderPartnerTasks()}
 
       <RewardDialog
         open={!!chestReward}

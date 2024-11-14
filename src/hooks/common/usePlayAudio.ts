@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 export function usePlayAudio(
   src?: string,
-  { defaultPlay }: { defaultPlay?: boolean } = {},
+  { defaultPlay, loop }: { defaultPlay?: boolean; loop?: boolean } = {},
 ) {
   const audioRef = useRef<HTMLAudioElement>(new Audio(src));
   const [isPlaying, setIsPlaying] = useState(defaultPlay ?? false);
@@ -28,7 +28,7 @@ export function usePlayAudio(
     return () => {
       audioRef.current.pause();
     };
-  }, [defaultPlay, src]);
+  }, [defaultPlay, src, loop]);
 
-  return { isPlaying, changePlayAudio };
+  return { isPlaying, changePlayAudio, audioRef };
 }

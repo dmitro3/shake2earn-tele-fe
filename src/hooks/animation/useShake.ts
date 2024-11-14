@@ -6,18 +6,19 @@ interface UseShakeProps extends Partial<DeviceMotionOptions> {
   timeout?: number;
   onShake?: (data: { shaking: boolean; event?: DeviceMotionEvent }) => void;
   deviceMotion?: DeviceMotion;
+  onDebugShakeListener?: (event: any) => void;
 }
 
 export default function useShake({
-  deviceMotion,
   threshold,
   duration,
   timeout = 500,
   onShake,
+  onDebugShakeListener,
 }: UseShakeProps = {}) {
   const shakeTimeoutRef = useRef<NodeJS.Timeout>();
   const shakeRef = useRef<DeviceMotion>(
-    deviceMotion ?? new DeviceMotion({ threshold, duration }),
+    new DeviceMotion({ threshold, duration }),
   );
   const [isShaking, setIsShaking] = useState(false);
 
@@ -52,6 +53,20 @@ export default function useShake({
   useEffect(() => {
     setIsShaking(false);
   }, [onShake, timeout]);
+
+  useEffect(() => {
+    if (!DeviceMotion.isDeviceSupported) {
+      return;
+    }
+
+    const shakeInstance = shakeRef.current;
+    if (onDebugShakeListener) {
+      shakeInstance.addDebugListener(onDebugShakeListener);
+      return () => {
+        shakeInstance.removeListener(onDebugShakeListener);
+      };
+    }
+  }, [onDebugShakeListener]);
 
   const onStartListenShake = useCallback(() => {
     if (!DeviceMotion.isDeviceSupported) {

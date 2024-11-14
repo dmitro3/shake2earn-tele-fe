@@ -1,4 +1,5 @@
 // Ref: https://stackoverflow.com/questions/70544832/detect-shake-event-with-javascript-with-all-major-browsers-devices-ios-androi
+import { DebouncedFunc, throttle } from 'lodash-es';
 
 export type DeviceMotionEventListener = (event: DeviceMotionEvent) => void;
 export type DeviceMotionOptions = {
@@ -15,7 +16,7 @@ export type deviceMotionApprovalStatus =
       error: string;
     };
 
-const defaultOptions: DeviceMotionOptions = { threshold: 10, duration: 250 };
+const defaultOptions: DeviceMotionOptions = { threshold: 8, duration: 200 };
 
 function getMaxAcceleration(event: DeviceMotionEvent): number {
   let max = 0;
@@ -30,17 +31,21 @@ function getMaxAcceleration(event: DeviceMotionEvent): number {
 
 export class DeviceMotion extends EventTarget {
   #threshold: DeviceMotionOptions['threshold'];
-  #duration: DeviceMotionOptions['duration'];
   #approved?: deviceMotionApprovalStatus;
-  #timeStamp: number;
   #listeners: DeviceMotionEventListener[] = [];
+  #throttledRunListeners: DebouncedFunc<(event: DeviceMotionEvent) => void>;
+  // Debug
+  #debugListeners: DeviceMotionEventListener[] = [];
 
   constructor(options?: Partial<DeviceMotionOptions>) {
     super();
     const { threshold, duration } = { ...options, ...defaultOptions };
     this.#threshold = threshold;
-    this.#duration = duration;
-    this.#timeStamp = -Infinity;
+
+    this.#throttledRunListeners = throttle((event: DeviceMotionEvent) => {
+      this.#listeners.forEach((listener) => listener(event));
+      this.#debugListeners.forEach((listener) => listener(event));
+    }, duration);
   }
 
   static get isDeviceSupported(): boolean {
@@ -85,17 +90,12 @@ export class DeviceMotion extends EventTarget {
   }
 
   #handleDeviceMotion = (event: DeviceMotionEvent): void => {
-    const diff = event.timeStamp - this.#timeStamp;
     const accel = getMaxAcceleration(event);
-    if (diff < this.#duration) return;
-    if (accel < this.#threshold) return;
-    this.#timeStamp = event.timeStamp;
-    this.#runListeners(event);
+    if (accel < this.#threshold) {
+      return;
+    }
+    this.#throttledRunListeners(event);
   };
-
-  #runListeners(event: DeviceMotionEvent): void {
-    this.#listeners.forEach((listener) => listener(event));
-  }
 
   addListener(callback: DeviceMotionEventListener | null): void {
     if (callback) {
@@ -124,5 +124,21 @@ export class DeviceMotion extends EventTarget {
 
   stop(): void {
     window.removeEventListener('devicemotion', this.#handleDeviceMotion);
+  }
+
+  addDebugListener(callback: DeviceMotionEventListener | null): void {
+    if (callback) {
+      this.#debugListeners.push(callback);
+    }
+  }
+
+  removeDebugListener(callback: DeviceMotionEventListener | null): void {
+    if (!callback) {
+      return;
+    }
+    const index = this.#debugListeners.indexOf(callback);
+    if (index !== -1) {
+      this.#debugListeners.splice(index, 1);
+    }
   }
 }

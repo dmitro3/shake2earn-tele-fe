@@ -13,6 +13,7 @@ import { useAppContext } from 'context/app';
 import useShake from 'hooks/animation/useShake';
 import { ChestRewardData, ChestRewardType } from 'types/chest';
 import { UserRewardType } from 'types/user';
+import { vibrate } from 'utils/device/vibrate';
 
 import RewardDialog from './RewardDialog';
 import TreasureChest from './TreasureChest';
@@ -38,11 +39,13 @@ export default function ShakeChest({
 
   const [shakeTurnTimeLeft, setShakeTurnTimeLeft] = useState(0);
   const [loadingTurn, setLoadingTurn] = useState(false);
+  const [debugShakeEvent, setDebugShakeEvent] = useState<any>(null);
 
   const [isChestOpened, setIsChestOpened] = useState(false);
   const [chestReward, setChestReward] = useState<ChestRewardData | null>(null);
 
   const shakingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const showRewardTimeout = useRef<NodeJS.Timeout | null>(null);
   const turnTimeLeftInterval = useRef<NodeJS.Timeout | null>(null);
 
   const noTurnLeft = data.turn === 0;
@@ -116,7 +119,7 @@ export default function ShakeChest({
   const onShakingTreasureChest = useCallback(
     ({ shaking }: { shaking: boolean }) => {
       // Opening: skip
-      if (isChestOpened) {
+      if (showRewardTimeout.current) {
         return;
       }
       // not shakng: reset timeout
@@ -134,21 +137,23 @@ export default function ShakeChest({
       shakingTimeoutRef.current = setTimeout(() => {
         // Open chest and vibrate device
         setIsChestOpened(true);
-        navigator.vibrate(SHOW_REWARD_DELAY_MS);
+        vibrate(SHOW_REWARD_DELAY_MS);
         // Show reward
         shakingTimeoutRef.current = null;
-        setTimeout(() => {
+        showRewardTimeout.current = setTimeout(() => {
           const reward = getRandomReward(chestRewardConfigs);
           onShakedSuccess(reward);
+          showRewardTimeout.current = null;
         }, SHOW_REWARD_DELAY_MS);
       }, chestConfig.shakeThreshold * 1000);
     },
-    [chestConfig.shakeThreshold, isChestOpened, onShakedSuccess],
+    [chestConfig.shakeThreshold, onShakedSuccess],
   );
 
   const { isShaking, onStartListenShake, onStopListenShake } = useShake({
     onShake: isInShakeTurn ? onShakingTreasureChest : undefined,
-    timeout: 500,
+    timeout: 600,
+    onDebugShakeListener: setDebugShakeEvent,
   });
 
   const onCloseRewardDialog = () => {
@@ -180,7 +185,7 @@ export default function ShakeChest({
             onClick={onStartShakeTurn}
             loading={loadingTurn}
           >
-            Shake
+            Play
           </Button>
 
           <Badge
@@ -248,6 +253,46 @@ export default function ShakeChest({
       align="center"
       {...props}
     >
+      {/* <Flex
+        className="bg-whiteA-12"
+        direction="column"
+        gap="1"
+      >
+        <Text size="1">{`Shaking timeout${shakingTimeoutRef.current}`}</Text>
+        <Text size="1">{`Show reward timeout${showRewardTimeout.current}`}</Text>
+        <Text size="1">{`Opening: ${isChestOpened}`}</Text>
+        <Text size="1">{`Reward: ${JSON.stringify(chestReward)}`}</Text>
+        {debugShakeEvent?.acceleration ? (
+          <Flex>
+            <Text
+              size="1"
+              color={
+                Math.abs(debugShakeEvent.acceleration.x) >= 8
+                  ? 'amber'
+                  : undefined
+              }
+            >{`X: ${debugShakeEvent.acceleration.x.toFixed(2)}`}</Text>
+            <Text
+              size="1"
+              color={
+                Math.abs(debugShakeEvent.acceleration.y) >= 8
+                  ? 'amber'
+                  : undefined
+              }
+            >{`Y: ${debugShakeEvent.acceleration.y.toFixed(2)}`}</Text>
+            <Text
+              size="1"
+              color={
+                Math.abs(debugShakeEvent.acceleration.z) >= 8
+                  ? 'amber'
+                  : undefined
+              }
+            >{`Z: ${debugShakeEvent.acceleration.z.toFixed(2)}`}</Text>
+          </Flex>
+        ) : (
+          <Text size="1">No event</Text>
+        )}
+      </Flex> */}
       <Flex
         maxWidth="296px"
         maxHeight="220px"
