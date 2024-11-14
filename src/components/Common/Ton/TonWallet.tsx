@@ -1,5 +1,6 @@
 import { Box, Button, Flex, FlexProps } from '@radix-ui/themes';
 import { CHAIN, TonConnectButton } from '@tonconnect/ui-react';
+import config from 'configs/env';
 
 import { useAppContext } from 'context/app';
 import { useTonConnect } from 'hooks/ton/useTonConnect';
@@ -12,8 +13,9 @@ export default function TonWallet(props: FlexProps) {
 
   const handleAeonPayment = async () => {
     const resSign = {
-      appId: '6fdbaac29eb94bc6b12345ad705e9293',
+      appId: config.aeonAppId,
       callbackURL: 'https://crypto-payment-sbx.aeon.cc/crypto/bot/cpCallback',
+      redirectURL: 'https://shake2earn.blockey.co/',
       expiredTime: '999999',
       merchantOrderNo: '17243134568514',
       orderAmount: '0.1',
