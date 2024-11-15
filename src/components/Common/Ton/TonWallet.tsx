@@ -13,6 +13,12 @@ export default function TonWallet(props: FlexProps) {
   const { telegramUserData } = useAppContext();
   const { network } = useTonConnect();
 
+  function generateRandomNumber(length) {
+    const min = Math.pow(10, length - 1); // Minimum value with the desired length
+    const max = Math.pow(10, length) - 1; // Maximum value with the desired length
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
   function sortObjectKeys(obj: any, secretKey: string) {
     const keysToFilter = [
       'orderModel',
@@ -56,11 +62,10 @@ export default function TonWallet(props: FlexProps) {
   const handleAeonPayment = async () => {
     const resSign = {
       appId: config.aeonAppId,
-      callbackURL: 'https://crypto-payment-sbx.aeon.cc/crypto/bot/cpCallback',
-      redirectURL: 'https://shake2earn.blockey.co/',
-      expiredTime: '999999',
-      merchantOrderNo: '17243134568514',
-      orderAmount: '0.1',
+      redirectURL: 'https://t.me/PirateTreasureBot/join?startapp',
+      expiredTime: '100',
+      merchantOrderNo: generateRandomNumber(14),
+      orderAmount: '1',
       orderModel: 'ORDER',
       payCurrency: 'USD',
       tgModel: 'MINIAPP',
@@ -69,10 +74,10 @@ export default function TonWallet(props: FlexProps) {
     const secret = config.key;
 
     const signContent = sortObjectKeys(resSign, secret);
-    console.log('signContent:', signContent);
+    // console.log('signContent:', signContent);
 
     const signature = hashWithSHA512(signContent);
-    console.log('Signature:', signature);
+    // console.log('Signature:', signature);
 
     const responseAeon = await fetch(
       'https://sbx-crypto-payment-api.aeon.xyz/open/api/tg/payment/V2',
