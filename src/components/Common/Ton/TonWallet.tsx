@@ -10,7 +10,7 @@ import { useTonConnect } from 'hooks/ton/useTonConnect';
 type TonWalletProps = FlexProps;
 
 export default function TonWallet(props: FlexProps) {
-  const { telegramUserData } = useAppContext();
+  const { userData } = useAppContext();
   const { network } = useTonConnect();
 
   function generateRandomNumber(length: number) {
@@ -69,7 +69,7 @@ export default function TonWallet(props: FlexProps) {
       orderModel: 'ORDER',
       payCurrency: 'USD',
       tgModel: 'MINIAPP',
-      userId: telegramUserData?.id,
+      userId: userData?.telegramId,
     };
     const secret = config.key;
 
