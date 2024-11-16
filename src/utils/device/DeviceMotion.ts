@@ -16,7 +16,7 @@ export type deviceMotionApprovalStatus =
       error: string;
     };
 
-const defaultOptions: DeviceMotionOptions = { threshold: 8, duration: 200 };
+const defaultOptions: DeviceMotionOptions = { threshold: 10, duration: 250 };
 
 function getMaxAcceleration(event: DeviceMotionEvent): number {
   let max = 0;
